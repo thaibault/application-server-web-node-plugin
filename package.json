@@ -1,0 +1,78 @@
+{
+  "name": "serverwebnodeplugin",
+  "version": "1.0.3",
+  "description": "A generic extendable application and file server for webNode.",
+  "documentationWebsite": {
+    "name": "serverWebNodePlugin",
+    "trackingCode": "TODO"
+  },
+  "homepage": "http://torben.website/serverWebNodePlugin",
+  "license": "CC-BY-3.0",
+  "main": "index.compiled.js",
+  "keywords": [
+    "web",
+    "backend",
+    "application",
+    "server"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/thaibault/serverWebNodePlugin.git"
+  },
+  "dependencies": {
+    "weboptimizer": "latest",
+    "web-node": "latest"
+  },
+  "devDependencies": {
+    "documentation-website": "latest",
+    "qunit-cli": "latest",
+    "source-map-support": "latest"
+  },
+  "scripts": {
+    "build": "webOptimizer build",
+    "buildDLL": "webOptimizer buildDLL",
+    "clear": "webOptimizer clear && rm --force log.txt &>/dev/null",
+    "document": "webOptimizer document",
+    "lint": "webOptimizer typeCheck && webOptimizer lint",
+    "prepublish": "npm run build",
+    "serve": "webNode",
+    "start": "npm run serve",
+    "test": "webOptimizer test",
+    "update": "npm version patch && npm publish",
+    "updateDocumentation": "documentationWebsite --log-level info",
+    "watch": "webOptimizer build --watch",
+    "watchDLL": "webOptimizer buildDLL --watch"
+  },
+  "webNode": {
+    "server": {
+      "application": {
+        "rootPath": {
+          "__evaluate__": "currentPath"
+        },
+        "options": {},
+        "port": 8080,
+        "hostName": "127.0.0.1"
+      }
+    }
+  },
+  "webOptimizer": {
+    "injection": {
+      "external": {
+        "implicit": {
+          "pattern": {
+            "exclude": {
+              "__append__": {
+                "__evaluate__": "/^clientnode\\/test(?:\\.compiled)?(?:\\.js)?$/"
+              }
+            }
+          }
+        }
+      }
+    },
+    "module": {
+      "aliases": {
+        "clientnode/test$": "clientnode/test.compiled"
+      }
+    }
+  }
+}
