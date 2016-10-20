@@ -22,14 +22,12 @@ try {
 } catch (error) {}
 import configuration from 'web-node/configurator'
 
-import Index from './index'
+import Server from './index'
 // endregion
 QUnit.module('index')
 QUnit.load()
-QUnit.test('preLoadService', (assert:Object):void => {
-    assert.deepEqual(
-        Index.preLoadServices({}, configuration, configuration), {})
-})
+QUnit.test('preLoadService', (assert:Object):void => assert.deepEqual(
+    Server.preLoadService({}, [], configuration, configuration), {}))
 // region vim modline
 // vim: set tabstop=4 shiftwidth=4 expandtab:
 // vim: foldmethod=marker foldmarker=region,endregion:
