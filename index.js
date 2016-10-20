@@ -17,14 +17,15 @@
     See http://creativecommons.org/licenses/by/3.0/deed.de
     endregion
 */
-// region  imports
+// region imports
 import {createServer} from 'http'
+import {IncomingMessage, ServerResponse} from 'http'
 // NOTE: Only needed for debugging this file.
 try {
     require('source-map-support/register')
 } catch (error) {}
 import WebNodeHelper from 'web-node/helper'
-import type {Services} from 'web-node/type'
+import type {Configuration, Services} from 'web-node/type'
 // endregion
 // region plugins/classes
 /**
@@ -35,14 +36,18 @@ export default class Server {
     /**
      * Appends an application server to the web node services.
      * @param services - An object with stored service instances.
+     * @param plugins - Topological sorted list of plugins.
+     * @param configuration - Mutable by plugins extended configuration object.
+     * @param baseConfiguration - Immutable base configuration which will be
+     * extended by each plugin configuration.
      * @returns Given and extended object of services.
      */
     static preLoadService(
-        services:Services, baseConfiguration:Configuration,
-        configuration:Configuration
+        services:Services, plugins:Array<Plugin>,
+        baseConfiguration:Configuration, configuration:Configuration
     ):Services {
         services.server = createServer(async (
-            request:Object, response:Object
+            request:IncomingMessage, response:ServerResponse
         ):Promise<any> => {
             request = await WebNodeHelper.callPluginStack(
                 'request', plugins, baseConfiguration, configuration, request,
