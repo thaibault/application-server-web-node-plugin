@@ -15,15 +15,21 @@
     endregion
 */
 // region imports
-import registerTest from 'clientnode/test'
+import * as QUnit from 'qunit-cli'
+// NOTE: Only needed for debugging this file.
+try {
+    module.require('source-map-support/register')
+} catch (error) {}
+import configuration from 'web-node/configurator'
+
+import Index from './index'
 // endregion
-registerTest(function(roundType:string):void {
-    require('./index')
-    this.test('postInitialize', (assert:Object):void => {
-        // TODO
-        assert.ok(true)
-    })
-}, ['plain'])
+QUnit.module('index')
+QUnit.load()
+QUnit.test('preLoadService', (assert:Object):void => {
+    assert.deepEqual(
+        Index.preLoadServices({}, configuration, configuration), {})
+})
 // region vim modline
 // vim: set tabstop=4 shiftwidth=4 expandtab:
 // vim: foldmethod=marker foldmarker=region,endregion:
