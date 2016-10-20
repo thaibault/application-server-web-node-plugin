@@ -23,8 +23,8 @@ import {createServer} from 'http'
 try {
     require('source-map-support/register')
 } catch (error) {}
-import WebNodeHelper from 'webnode/helper'
-import type {Services} from 'webnode/type'
+import WebNodeHelper from 'web-node/helper'
+import type {Services} from 'web-node/type'
 // endregion
 // region plugins/classes
 /**

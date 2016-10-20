@@ -16,7 +16,7 @@
     endregion
 */
 // region  imports
-import {IncomingMessage, ServerResponse} from 'server'
+import {IncomingMessage, ServerResponse} from 'http'
 // endregion
 /**
  * Dummy plugin interface implementing all available hooks.
