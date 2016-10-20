@@ -18,7 +18,7 @@
     endregion
 */
 // region  imports
-import {createServer, Server} from 'http'
+import {createServer} from 'http'
 import PouchDB from 'pouchdb'
 // NOTE: Only needed for debugging this file.
 try {
@@ -37,7 +37,9 @@ export default class Server {
      * @param services - An object with stored service instances.
      * @returns Given and extended object of services.
      */
-    static postInitialize(services:Object):Object {
+    static postInitialize(services:{[key:string]:Object}):{
+        [key:string]:Object
+    } {
         services.server = createServer(async (
             request:Object, response:Object
         ):Promise<any> => {

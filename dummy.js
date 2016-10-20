@@ -21,7 +21,7 @@ import {IncomingMessage, ServerResponse} from 'server'
 /**
  * Dummy plugin interface implementing all available hooks.
  */
-exports default class Dummy {
+export default class Dummy {
     /* eslint-disable no-unused-vars */
     /**
      * Hook to run an each request. After running this hook returned request
