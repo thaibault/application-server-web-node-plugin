@@ -19,12 +19,12 @@
 */
 // region  imports
 import {createServer} from 'http'
-import PouchDB from 'pouchdb'
 // NOTE: Only needed for debugging this file.
 try {
     require('source-map-support/register')
 } catch (error) {}
 import WebNodeHelper from 'webnode/helper'
+import type {Services} from 'webnode/type'
 // endregion
 // region plugins/classes
 /**
@@ -37,9 +37,10 @@ export default class Server {
      * @param services - An object with stored service instances.
      * @returns Given and extended object of services.
      */
-    static postInitialize(services:{[key:string]:Object}):{
-        [key:string]:Object
-    } {
+    static preLoadService(
+        services:Services, baseConfiguration:Configuration,
+        configuration:Configuration
+    ):Services {
         services.server = createServer(async (
             request:Object, response:Object
         ):Promise<any> => {
