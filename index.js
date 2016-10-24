@@ -46,6 +46,7 @@ export default class Server {
         services:Services, plugins:Array<Plugin>,
         baseConfiguration:Configuration, configuration:Configuration
     ):Services {
+        // IgnoreTypeCheck
         services.server = createServer(async (
             request:IncomingMessage, response:ServerResponse
         ):Promise<any> => {
