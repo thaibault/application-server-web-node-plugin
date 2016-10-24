@@ -24,7 +24,7 @@ import {IncomingMessage, ServerResponse} from 'http'
 try {
     require('source-map-support/register')
 } catch (error) {}
-import WebNodeHelper from 'web-node/helper'
+import WebNodePluginAPI from 'web-node/pluginAPI'
 import type {Configuration, Services} from 'web-node/type'
 // endregion
 // region plugins/classes
@@ -49,7 +49,7 @@ export default class Server {
         services.server = createServer(async (
             request:IncomingMessage, response:ServerResponse
         ):Promise<any> => {
-            request = await WebNodeHelper.callStack(
+            request = await WebNodePluginAPI.callStack(
                 'request', plugins, baseConfiguration, configuration, request,
                 response)
             response.end()
