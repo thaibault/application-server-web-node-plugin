@@ -49,7 +49,7 @@ export default class Server {
         services.server = createServer(async (
             request:IncomingMessage, response:ServerResponse
         ):Promise<any> => {
-            request = await WebNodeHelper.callPluginStack(
+            request = await WebNodeHelper.callStack(
                 'request', plugins, baseConfiguration, configuration, request,
                 response)
             response.end()
