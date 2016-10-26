@@ -18,13 +18,12 @@
     endregion
 */
 // region imports
-import {createServer} from 'http'
-import {IncomingMessage, ServerResponse} from 'http'
+import {createServer, IncomingMessage, ServerResponse} from 'http'
 // NOTE: Only needed for debugging this file.
 try {
     require('source-map-support/register')
 } catch (error) {}
-import WebNodePluginAPI from 'web-node/pluginAPI'
+import WebNodePluginAPI from 'web-node/pluginAPI.compiled'
 import type {Configuration, Services} from 'web-node/type'
 // endregion
 // region plugins/classes
@@ -44,6 +43,7 @@ export default class Server {
         services:Services, plugins:Array<Plugin>,
         configuration:Configuration
     ):Services {
+        const autoLaunch:boolean = !services.hasOwnProperty('server')
         // IgnoreTypeCheck
         services.server = createServer(async (
             request:IncomingMessage, response:ServerResponse
@@ -51,9 +51,12 @@ export default class Server {
             request = await WebNodePluginAPI.callStack(
                 'request', plugins, configuration, request, response)
             response.end()
-        }).listen(
-            configuration.server.application.port,
-            configuration.server.application.hostName)
+        })
+        if (autoLaunch)
+            setTimeout(():void => services.server.listen(
+                configuration.server.application.port,
+                configuration.server.application.hostName
+            ), 0)
         return services
     }
 }

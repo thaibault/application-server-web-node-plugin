@@ -20,14 +20,15 @@ import * as QUnit from 'qunit-cli'
 try {
     module.require('source-map-support/register')
 } catch (error) {}
-import configuration from 'web-node/configurator'
+import configuration from 'web-node/configurator.compiled'
 
 import Server from './index'
 // endregion
 QUnit.module('index')
 QUnit.load()
-QUnit.test('preLoadService', (assert:Object):void => assert.deepEqual(
-    Server.preLoadService({}, [], configuration, configuration), {}))
+QUnit.test('preLoadService', (assert:Object):void => assert.ok(
+    Server.preLoadService({server: {}}, [], configuration).hasOwnProperty(
+        'server')))
 // region vim modline
 // vim: set tabstop=4 shiftwidth=4 expandtab:
 // vim: foldmethod=marker foldmarker=region,endregion:
