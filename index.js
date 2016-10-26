@@ -38,21 +38,18 @@ export default class Server {
      * @param services - An object with stored service instances.
      * @param plugins - Topological sorted list of plugins.
      * @param configuration - Mutable by plugins extended configuration object.
-     * @param baseConfiguration - Immutable base configuration which will be
-     * extended by each plugin configuration.
      * @returns Given and extended object of services.
      */
     static preLoadService(
         services:Services, plugins:Array<Plugin>,
-        baseConfiguration:Configuration, configuration:Configuration
+        configuration:Configuration
     ):Services {
         // IgnoreTypeCheck
         services.server = createServer(async (
             request:IncomingMessage, response:ServerResponse
         ):Promise<any> => {
             request = await WebNodePluginAPI.callStack(
-                'request', plugins, baseConfiguration, configuration, request,
-                response)
+                'request', plugins, configuration, request, response)
             response.end()
         }).listen(
             configuration.server.application.port,
