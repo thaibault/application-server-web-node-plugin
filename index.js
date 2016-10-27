@@ -42,10 +42,8 @@ export default class Server {
     static async exit(
         services:Services, plugins:Array<Plugin>, configuration:Configuration
     ):Services {
-        if ('close' in services.server)
-            return new Promise((resolve:Function):void =>
-                services.server.close(():void => resolve(services)))
-        return services
+        return new Promise((resolve:Function):void =>
+            services.server.close(():void => resolve(services)))
     }
     /**
      * Appends an application server to the web node services.
