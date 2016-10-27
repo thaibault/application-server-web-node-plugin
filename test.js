@@ -21,14 +21,28 @@ try {
     module.require('source-map-support/register')
 } catch (error) {}
 import configuration from 'web-node/configurator.compiled'
+import type {Services} from 'web-node/type'
 
-import Server from './index'
+import Index from './index'
 // endregion
 QUnit.module('index')
 QUnit.load()
+// region tests
+QUnit.test('exit', async (assert:Object):Promise<void> => {
+    let testValue:boolean = false
+    const services:Services = {server: {close: (callback:Function):void => {
+        testValue = true
+        callback()
+    }}}
+    try {
+    assert.deepEqual(await Index.exit(services, [], configuration), services)
+    } catch (error) {console.error(error)}
+    assert.ok(testValue)
+})
 QUnit.test('preLoadService', (assert:Object):void => assert.ok(
-    Server.preLoadService({server: {}}, [], configuration).hasOwnProperty(
+    Index.preLoadService({server: {}}, [], configuration).hasOwnProperty(
         'server')))
+// endregion
 // region vim modline
 // vim: set tabstop=4 shiftwidth=4 expandtab:
 // vim: foldmethod=marker foldmarker=region,endregion:
