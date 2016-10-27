@@ -33,6 +33,21 @@ import type {Configuration, Services} from 'web-node/type'
  */
 export default class Server {
     /**
+     * Application will be closed soon.
+     * @param services - An object with stored service instances.
+     * @param plugins - Topological sorted list of plugins.
+     * @param configuration - Mutable by plugins extended configuration object.
+     * @returns Given object of services.
+     */
+    static async exit(
+        services:Services, plugins:Array<Plugin>, configuration:Configuration
+    ):Services {
+        if ('close' in services.server)
+            return new Promise((resolve:Function):void =>
+                services.server.close(():void => resolve(services)))
+        return services
+    }
+    /**
      * Appends an application server to the web node services.
      * @param services - An object with stored service instances.
      * @param plugins - Topological sorted list of plugins.
@@ -53,10 +68,16 @@ export default class Server {
             response.end()
         })
         if (autoLaunch)
-            setTimeout(():void => services.server.listen(
-                configuration.server.application.port,
-                configuration.server.application.hostName
-            ), 0)
+            setTimeout(():void => {
+                const parameter:Array<any> = []
+                if (configuration.server.application.hostName)
+                    parameter.push(configuration.server.application.hostName)
+                parameter.push(():void => console.error(
+                    'Starting application server to listen on port "' +
+                    `${configuration.server.application.port}".`))
+                services.server.listen(
+                    configuration.server.application.port, ...parameter)
+            }, 0)
         return services
     }
 }
