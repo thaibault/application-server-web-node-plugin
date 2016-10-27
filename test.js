@@ -34,13 +34,11 @@ QUnit.test('exit', async (assert:Object):Promise<void> => {
         testValue = true
         callback()
     }}}
-    try {
     assert.deepEqual(await Index.exit(services, [], configuration), services)
-    } catch (error) {console.error(error)}
     assert.ok(testValue)
 })
 QUnit.test('preLoadService', (assert:Object):void => assert.ok(
-    Index.preLoadService({server: {}}, [], configuration).hasOwnProperty(
+    Index.preLoadService({server: {}}, configuration, []).hasOwnProperty(
         'server')))
 // endregion
 // region vim modline
