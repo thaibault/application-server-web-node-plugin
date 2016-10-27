@@ -35,26 +35,21 @@ export default class Server {
     /**
      * Application will be closed soon.
      * @param services - An object with stored service instances.
-     * @param plugins - Topological sorted list of plugins.
-     * @param configuration - Mutable by plugins extended configuration object.
      * @returns Given object of services.
      */
-    static async exit(
-        services:Services, plugins:Array<Plugin>, configuration:Configuration
-    ):Services {
+    static async exit(services:Services):Services {
         return new Promise((resolve:Function):void =>
             services.server.close(():void => resolve(services)))
     }
     /**
      * Appends an application server to the web node services.
      * @param services - An object with stored service instances.
-     * @param plugins - Topological sorted list of plugins.
      * @param configuration - Mutable by plugins extended configuration object.
+     * @param plugins - Topological sorted list of plugins.
      * @returns Given and extended object of services.
      */
     static preLoadService(
-        services:Services, plugins:Array<Plugin>,
-        configuration:Configuration
+        services:Services, configuration:Configuration, plugins:Array<Plugin>
     ):Services {
         const autoLaunch:boolean = !services.hasOwnProperty('server')
         // IgnoreTypeCheck
