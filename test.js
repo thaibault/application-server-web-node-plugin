@@ -35,6 +35,7 @@ QUnit.test('exit', async (assert:Object):Promise<void> => {
         callback()
     }}}
     assert.deepEqual(await Index.exit(services, [], configuration), services)
+    assert.deepEqual(services, {})
     assert.ok(testValue)
 })
 QUnit.test('preLoadService', (assert:Object):void => assert.ok(

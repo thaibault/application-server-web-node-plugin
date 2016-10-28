@@ -39,7 +39,10 @@ export default class Server {
      */
     static async exit(services:Services):Services {
         return new Promise((resolve:Function):void =>
-            services.server.close(():void => resolve(services)))
+            services.server.close(():void => {
+                delete services.server
+                resolve(services)
+            }))
     }
     /**
      * Appends an application server to the web node services.
