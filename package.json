@@ -20,8 +20,8 @@
     "url": "https://github.com/thaibault/serverWebNodePlugin.git"
   },
   "dependencies": {
-    "weboptimizer": "latest",
-    "web-node": "latest"
+    "web-node": "latest",
+    "weboptimizer": "latest"
   },
   "devDependencies": {
     "documentation-website": "latest",
