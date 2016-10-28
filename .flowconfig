@@ -15,11 +15,6 @@
 [options]
 esproposal.class_static_fields=enable
 
-module.name_mapper='^\./index\.compiled$' -> './index'
-module.name_mapper='^web-node/configurator\.compiled$' -> 'web-node/configurator'
-module.name_mapper='^web-node/pluginAPI\.compiled$' -> 'web-node/pluginAPI'
-module.name_mapper='^script!qunitjs$' -> 'qunitjs'
-
 module.file_ext=.js
 module.file_ext=.compiled.js
 module.file_ext=.json
