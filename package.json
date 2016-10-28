@@ -54,5 +54,13 @@
         "hostName": "127.0.0.1"
       }
     }
+  },
+  "webOptimizer": {
+    "module": {
+      "aliases": {
+        "web-node/configurator$": "web-node/configurator.compiled",
+        "web-node/pluginAPI$": "web-node/pluginAPI.compiled"
+      }
+    }
   }
 }

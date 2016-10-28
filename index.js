@@ -23,7 +23,7 @@ import {createServer, IncomingMessage, ServerResponse} from 'http'
 try {
     require('source-map-support/register')
 } catch (error) {}
-import WebNodePluginAPI from 'web-node/pluginAPI.compiled'
+import WebNodePluginAPI from 'web-node/pluginAPI'
 import type {Configuration, Services} from 'web-node/type'
 // endregion
 // region plugins/classes
