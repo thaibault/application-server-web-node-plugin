@@ -51,7 +51,7 @@
         },
         "options": {},
         "port": 8080,
-        "hostName": "localhost"
+        "hostName": "127.0.0.1"
       },
       "globalHTTPBasicAuthentication": "",
       "hostNamePrefix": "",
