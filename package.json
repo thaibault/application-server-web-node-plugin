@@ -55,7 +55,8 @@
       },
       "globalHTTPBasicAuthentication": "",
       "hostNamePrefix": "",
-      "hostNamePattern": ".+"
+      "hostNamePattern": ".+",
+      "redirects": {}
     }
   },
   "webOptimizer": {
