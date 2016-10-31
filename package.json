@@ -55,7 +55,8 @@
       },
       "globalHTTPBasicAuthentication": {
         "login": "admin",
-        "password": "admin"
+        "password": "admin",
+        "salt": "admin"
       },
       "hostNamePrefix": "",
       "hostNamePattern": ".+",
