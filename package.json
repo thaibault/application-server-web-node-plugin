@@ -56,6 +56,7 @@
       "globalHTTPBasicAuthentication": "",
       "hostNamePrefix": "",
       "hostNamePattern": ".+",
+      "httpBasicAuthenticationCancelRedirectHTMLContent": "<html><head><meta charset=\"utf-8\" /><title>authenticationRedirect</title><meta http-equiv=\"refresh\" content=\"0; URL={1}\" /><script type=\"text/javascript\">window.location.href = '{1}';</script></head><body></body></html>",
       "redirects": {}
     }
   },
