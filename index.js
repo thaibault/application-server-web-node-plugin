@@ -24,7 +24,7 @@ try {
     require('source-map-support/register')
 } catch (error) {}
 import WebNodePluginAPI from 'web-node/pluginAPI'
-import type {Configuration, Services} from 'web-node/type'
+import type {Configuration, Plugin, Services} from 'web-node/type'
 // endregion
 // region plugins/classes
 /**
