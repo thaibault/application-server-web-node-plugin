@@ -1,6 +1,6 @@
 {
   "name": "serverwebnodeplugin",
-  "version": "1.0.32",
+  "version": "1.0.33",
   "description": "A generic extendable application and file server for webNode.",
   "documentationWebsite": {
     "name": "serverWebNodePlugin",
