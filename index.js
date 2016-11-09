@@ -37,7 +37,7 @@ export default class Server {
      * @param services - An object with stored service instances.
      * @returns Given object of services.
      */
-    static async exit(services:Services):Services {
+    static async shouldExit(services:Services):Services {
         return new Promise((resolve:Function):void =>
             services.server.close(():void => {
                 delete services.server
