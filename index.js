@@ -79,7 +79,7 @@ export default class Server {
     static async loadService(
         servicePromises:{[key:string]:Promise<Object>}, services:Services,
         configuration:Configuration
-    ):Promise<?Promise<HTTPServer>> {
+    ):Promise<?{promise:Promise<HTTPServer>}> {
         if (services.hasOwnProperty('server'))
             return await new Promise((
                 resolve:Function, reject:Function
@@ -91,7 +91,8 @@ export default class Server {
                     console.log(
                         'Starting application server to listen on port "' +
                         `${configuration.server.application.port}".`)
-                    resolve(new Promise(():HTTPServer => services.server))
+                    resolve({promise: new Promise(():HTTPServer =>
+                        services.server)})
                 })
                 try {
                     services.server.listen(
