@@ -44,8 +44,8 @@ QUnit.test('shouldExit', async (assert:Object):Promise<void> => {
     assert.deepEqual(services, {})
     assert.ok(testValue)
 })
-QUnit.test('loadService', async (assert:Object):void => assert.strictEqual(
-    await Index.loadService({}, {}), null))
+QUnit.test('loadService', async (assert:Object):Promise<void> =>
+    assert.strictEqual(await Index.loadService({}, {}, configuration), null))
 QUnit.test('preLoadService', (assert:Object):void => assert.ok(
     Index.preLoadService({server: {}}, configuration, []) instanceof Server))
 // endregion
