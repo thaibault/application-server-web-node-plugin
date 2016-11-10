@@ -47,7 +47,8 @@ QUnit.test('shouldExit', async (assert:Object):Promise<void> => {
 QUnit.test('loadService', async (assert:Object):Promise<void> =>
     assert.strictEqual(await Index.loadService({}, {}, configuration), null))
 QUnit.test('preLoadService', (assert:Object):void => assert.ok(
-    Index.preLoadService({server: {}}, configuration, []) instanceof Server))
+    Index.preLoadService({server: {}}, configuration, [
+    ]).server instanceof Server))
 // endregion
 // region vim modline
 // vim: set tabstop=4 shiftwidth=4 expandtab:
