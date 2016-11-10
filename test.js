@@ -28,7 +28,7 @@ import Index from './index'
 QUnit.module('index')
 QUnit.load()
 // region tests
-QUnit.test('exit', async (assert:Object):Promise<void> => {
+QUnit.test('shouldExit', async (assert:Object):Promise<void> => {
     let testValue:boolean = false
     const services:Services = {server: {close: (callback:Function):void => {
         testValue = true
@@ -36,13 +36,15 @@ QUnit.test('exit', async (assert:Object):Promise<void> => {
     }}}
     try {
         assert.deepEqual(
-            await Index.exit(services, [], configuration), services)
+            await Index.shouldExit(services, [], configuration), services)
     } catch (error) {
         console.error(error)
     }
     assert.deepEqual(services, {})
     assert.ok(testValue)
 })
+QUnit.test('loadService', async (assert:Object):void => assert.strictEqual(
+    await Index.loadService({}, {}), null))
 QUnit.test('preLoadService', (assert:Object):void => assert.ok(
     Index.preLoadService({server: {}}, configuration, []).hasOwnProperty(
         'server')))

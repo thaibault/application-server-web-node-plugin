@@ -54,7 +54,6 @@ export default class Server {
     static preLoadService(
         services:Services, configuration:Configuration, plugins:Array<Plugin>
     ):Services {
-        const autoLaunch:boolean = !services.hasOwnProperty('server')
         // IgnoreTypeCheck
         services.server = createServer(async (
             request:IncomingMessage, response:ServerResponse
@@ -63,18 +62,39 @@ export default class Server {
                 'request', plugins, configuration, request, response)
             response.end()
         })
-        if (autoLaunch)
-            setTimeout(():void => {
+        return services
+    }
+    /**
+     * Start database's child process and return a Promise which observes this
+     * service.
+     * @param servicePromises - An object with stored service promise
+     * instances.
+     * @param services - An object with stored service instances.
+     * @param configuration - Mutable by plugins extended configuration object.
+     * @returns A promise which correspond to the plugin specific continues
+     * service.
+     */
+    static async loadService(
+        servicePromises:{[key:string]:Promise<Object>}, services:Services,
+        configuration:Configuration
+    ):Promise<?Promise<Object>> {
+        if (services.hasOwnProperty('server'))
+            return Promise((resolve:Function, reject:Function):void => {
                 const parameter:Array<any> = []
                 if (configuration.server.application.hostName)
                     parameter.push(configuration.server.application.hostName)
                 parameter.push(():void => console.error(
                     'Starting application server to listen on port "' +
                     `${configuration.server.application.port}".`))
-                services.server.listen(
-                    configuration.server.application.port, ...parameter)
-            }, 0)
-        return services
+                try {
+                    services.server.listen(
+                        configuration.server.application.port, ...parameter)
+                } catch (error) {
+                    reject(error)
+                }
+                resolve(services.server)
+            })
+        return null
     }
 }
 // endregion
