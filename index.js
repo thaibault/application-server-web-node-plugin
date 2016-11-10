@@ -18,7 +18,9 @@
     endregion
 */
 // region imports
-import {createServer, IncomingMessage, ServerResponse} from 'http'
+import {
+    createServer, IncomingMessage, Server as HTTPServer, ServerResponse
+} from 'http'
 // NOTE: Only needed for debugging this file.
 try {
     require('source-map-support/register')
@@ -77,22 +79,26 @@ export default class Server {
     static async loadService(
         servicePromises:{[key:string]:Promise<Object>}, services:Services,
         configuration:Configuration
-    ):Promise<?Promise<Object>> {
+    ):Promise<?Promise<HTTPServer>> {
         if (services.hasOwnProperty('server'))
-            return Promise((resolve:Function, reject:Function):void => {
+            return await new Promise((
+                resolve:Function, reject:Function
+            ):void => {
                 const parameter:Array<any> = []
                 if (configuration.server.application.hostName)
                     parameter.push(configuration.server.application.hostName)
-                parameter.push(():void => console.error(
-                    'Starting application server to listen on port "' +
-                    `${configuration.server.application.port}".`))
+                parameter.push(():void => {
+                    console.log(
+                        'Starting application server to listen on port "' +
+                        `${configuration.server.application.port}".`)
+                    resolve(new Promise(():HTTPServer => services.server))
+                })
                 try {
                     services.server.listen(
                         configuration.server.application.port, ...parameter)
                 } catch (error) {
                     reject(error)
                 }
-                resolve(services.server)
             })
         return null
     }

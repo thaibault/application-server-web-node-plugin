@@ -15,6 +15,7 @@
     endregion
 */
 // region imports
+import {Server} from 'http'
 import * as QUnit from 'qunit-cli'
 // NOTE: Only needed for debugging this file.
 try {
@@ -46,8 +47,7 @@ QUnit.test('shouldExit', async (assert:Object):Promise<void> => {
 QUnit.test('loadService', async (assert:Object):void => assert.strictEqual(
     await Index.loadService({}, {}), null))
 QUnit.test('preLoadService', (assert:Object):void => assert.ok(
-    Index.preLoadService({server: {}}, configuration, []).hasOwnProperty(
-        'server')))
+    Index.preLoadService({server: {}}, configuration, []) instanceof Server))
 // endregion
 // region vim modline
 // vim: set tabstop=4 shiftwidth=4 expandtab:
