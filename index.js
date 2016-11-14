@@ -81,7 +81,7 @@ export default class Server {
         configuration:Configuration
     ):Promise<?{promise:Promise<HTTPServer>}> {
         if (services.hasOwnProperty('server'))
-            return {name: 'server', promise: await new Promise((
+            return await new Promise((
                 resolve:Function, reject:Function
             ):void => {
                 const parameter:Array<any> = []
@@ -91,8 +91,10 @@ export default class Server {
                     console.log(
                         'Starting application server to listen on port "' +
                         `${configuration.server.application.port}".`)
-                    resolve({promise: new Promise(():HTTPServer =>
-                        services.server)})
+                    resolve({
+                        name: 'server',
+                        promise: new Promise(():HTTPServer => services.server)
+                    })
                 })
                 try {
                     services.server.listen(
@@ -100,7 +102,7 @@ export default class Server {
                 } catch (error) {
                     reject(error)
                 }
-            })}
+            })
         return null
     }
 }
