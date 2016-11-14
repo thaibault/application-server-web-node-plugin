@@ -31,10 +31,12 @@ QUnit.load()
 // region tests
 QUnit.test('shouldExit', async (assert:Object):Promise<void> => {
     let testValue:boolean = false
-    const services:Services = {server: {close: (callback:Function):void => {
+    const services:Services = {server: {instance: {close: (
+        callback:Function
+    ):void => {
         testValue = true
         callback()
-    }}}
+    }}}}
     try {
         assert.deepEqual(
             await Index.shouldExit(services, [], configuration), services)
@@ -47,8 +49,8 @@ QUnit.test('shouldExit', async (assert:Object):Promise<void> => {
 QUnit.test('loadService', async (assert:Object):Promise<void> =>
     assert.strictEqual(await Index.loadService({}, {}, configuration), null))
 QUnit.test('preLoadService', (assert:Object):void => assert.ok(
-    Index.preLoadService({server: {}}, configuration, [
-    ]).server instanceof Server))
+    Index.preLoadService({}, configuration, [
+    ]).server.instance instanceof Server))
 // endregion
 // region vim modline
 // vim: set tabstop=4 shiftwidth=4 expandtab:

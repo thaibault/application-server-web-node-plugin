@@ -21,6 +21,7 @@
 import {
     createServer, IncomingMessage, Server as HTTPServer, ServerResponse
 } from 'http'
+import {Socket} from 'net'
 // NOTE: Only needed for debugging this file.
 try {
     require('source-map-support/register')
@@ -40,11 +41,14 @@ export default class Server {
      * @returns Given object of services.
      */
     static async shouldExit(services:Services):Services {
-        return new Promise((resolve:Function):void =>
-            services.server.close(():void => {
+        return new Promise((resolve:Function):void => {
+            services.server.instance.close(():void => {
                 delete services.server
                 resolve(services)
-            }))
+            })
+            for (const socket of services.server.sockets)
+                socket.destroy()
+        })
     }
     /**
      * Appends an application server to the web node services.
@@ -56,13 +60,23 @@ export default class Server {
     static preLoadService(
         services:Services, configuration:Configuration, plugins:Array<Plugin>
     ):Services {
-        // IgnoreTypeCheck
-        services.server = createServer(async (
-            request:IncomingMessage, response:ServerResponse
-        ):Promise<any> => {
-            request = await WebNodePluginAPI.callStack(
-                'request', plugins, configuration, request, response)
-            response.end()
+        services.server = {
+            // IgnoreTypeCheck
+            instance: createServer(async (
+                request:IncomingMessage, response:ServerResponse
+            ):Promise<any> => {
+                request = await WebNodePluginAPI.callStack(
+                    'request', plugins, configuration, request, response)
+                response.end()
+            }),
+            sockets: []
+        }
+        services.server.instance.on('connection', (socket:Socket):void => {
+            services.server.sockets.push(socket)
+            socket.on('close', ():Array<Socket> =>
+                services.server.sockets.splice(services.server.sockets.indexOf(
+                    socket
+                ), 1))
         })
         return services
     }
@@ -93,11 +107,14 @@ export default class Server {
                         `${configuration.server.application.port}".`)
                     resolve({
                         name: 'server',
-                        promise: new Promise(():HTTPServer => services.server)
+                        promise: new Promise(():{
+                            instance:HTTPServer;
+                            sockets:Array<Socket>;
+                        } => services.server)
                     })
                 })
                 try {
-                    services.server.listen(
+                    services.server.instance.listen(
                         configuration.server.application.port, ...parameter)
                 } catch (error) {
                     reject(error)
