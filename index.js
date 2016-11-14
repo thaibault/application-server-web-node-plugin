@@ -81,7 +81,7 @@ export default class Server {
         configuration:Configuration
     ):Promise<?{promise:Promise<HTTPServer>}> {
         if (services.hasOwnProperty('server'))
-            return await new Promise((
+            return {name: 'server', promise: await new Promise((
                 resolve:Function, reject:Function
             ):void => {
                 const parameter:Array<any> = []
@@ -100,7 +100,7 @@ export default class Server {
                 } catch (error) {
                     reject(error)
                 }
-            })
+            })}
         return null
     }
 }
