@@ -101,7 +101,7 @@ export default class Server {
                 if (configuration.server.application.hostName)
                     parameter.push(configuration.server.application.hostName)
                 parameter.push(():void => {
-                    console.log(
+                    console.info(
                         'Starting application server to listen on port "' +
                         `${configuration.server.application.port}".`)
                     resolve({
