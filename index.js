@@ -65,7 +65,7 @@ export default class Server {
                 request:IncomingMessage, response:ServerResponse
             ):any => {
                 request = await WebNodePluginAPI.callStack(
-                    'request', plugins, configuration, request, response,
+                    'serverRequest', plugins, configuration, request, response,
                     services)
                 response.end()
             }),
