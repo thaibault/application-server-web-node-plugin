@@ -27,7 +27,9 @@ try {
     require('source-map-support/register')
 } catch (error) {}
 import WebNodePluginAPI from 'web-node/pluginAPI'
-import type {Configuration, Plugin, Services} from 'web-node/type'
+import type {
+    Configuration, Plugin, ServicePromises, Services
+} from 'web-node/type'
 // endregion
 // region plugins/classes
 /**
@@ -91,7 +93,7 @@ export default class Server {
      * service.
      */
     static async loadService(
-        servicePromises:{[key:string]:Promise<Object>}, services:Services,
+        servicePromises:ServicePromises, services:Services,
         configuration:Configuration
     ):Promise<?{promise:Promise<HTTPServer>}> {
         if (services.hasOwnProperty('server'))
