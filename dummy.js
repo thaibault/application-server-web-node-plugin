@@ -31,7 +31,7 @@ export default class Dummy {
      * client.
      * @returns Request object to finishe.
      */
-    static request(
+    static serverRequest(
         request:IncomingMessage, response:ServerResponse
     ):IncomingMessage {
         return request
