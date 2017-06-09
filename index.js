@@ -92,8 +92,9 @@ export default class Server {
         services.server = {
             instance: createServer(async (
                 request:IncomingMessage, response:ServerResponse
-            ):any => {
-                request = await WebNodePluginAPI.callStack(
+            // IgnoreTypeCheck
+            ):Promise<void> => {
+                await WebNodePluginAPI.callStack(
                     'serverRequest', plugins, configuration, request, response,
                     services)
                 response.end()
