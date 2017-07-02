@@ -28,6 +28,12 @@ import Index from './index'
 // endregion
 registerTest(async function():Promise<void> {
     // region tests
+    this.test('loadService', async (assert:Object):Promise<void> =>
+        assert.strictEqual(
+            await Index.loadService({}, {}, configuration), null))
+    this.test('preLoadService', (assert:Object):void => assert.ok(
+        Index.preLoadService({}, configuration, [
+        ]).server.instance instanceof Server))
     this.test('shouldExit', async (assert:Object):Promise<void> => {
         let testValue:boolean = false
         const services:Services = {server: {instance: {close: (
@@ -37,20 +43,13 @@ registerTest(async function():Promise<void> {
             callback()
         }}}}
         try {
-            assert.deepEqual(
-                await Index.shouldExit(services, [], configuration), services)
+            assert.deepEqual(await Index.shouldExit(services), services)
         } catch (error) {
             console.error(error)
         }
         assert.deepEqual(services, {})
         assert.ok(testValue)
     })
-    this.test('loadService', async (assert:Object):Promise<void> =>
-        assert.strictEqual(
-            await Index.loadService({}, {}, configuration), null))
-    this.test('preLoadService', (assert:Object):void => assert.ok(
-        Index.preLoadService({}, configuration, [
-        ]).server.instance instanceof Server))
     // endregion
 }, ['plain'])
 // region vim modline

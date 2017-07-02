@@ -27,7 +27,9 @@ try {
     require('source-map-support/register')
 } catch (error) {}
 import WebNodePluginAPI from 'web-node/pluginAPI'
-import type {Configuration, Plugin, Services} from 'web-node/type'
+import type {
+    Configuration, Plugin, ServicePromises, Services
+} from 'web-node/type'
 // endregion
 // region plugins/classes
 /**
@@ -35,51 +37,6 @@ import type {Configuration, Plugin, Services} from 'web-node/type'
  * an event.
  */
 export default class Server {
-    /**
-     * Application will be closed soon.
-     * @param services - An object with stored service instances.
-     * @returns Given object of services.
-     */
-    static async shouldExit(services:Services):Services {
-        return new Promise((resolve:Function):void => {
-            services.server.instance.close(():void => {
-                delete services.server
-                resolve(services)
-            })
-            for (const socket of services.server.sockets)
-                socket.destroy()
-        })
-    }
-    /**
-     * Appends an application server to the web node services.
-     * @param services - An object with stored service instances.
-     * @param configuration - Mutable by plugins extended configuration object.
-     * @param plugins - Topological sorted list of plugins.
-     * @returns Given and extended object of services.
-     */
-    static preLoadService(
-        services:Services, configuration:Configuration, plugins:Array<Plugin>
-    ):Services {
-        services.server = {
-            instance: createServer(async (
-                request:IncomingMessage, response:ServerResponse
-            ):any => {
-                request = await WebNodePluginAPI.callStack(
-                    'serverRequest', plugins, configuration, request, response,
-                    services)
-                response.end()
-            }),
-            sockets: []
-        }
-        services.server.instance.on('connection', (socket:Socket):void => {
-            services.server.sockets.push(socket)
-            socket.on('close', ():Array<Socket> =>
-                services.server.sockets.splice(services.server.sockets.indexOf(
-                    socket
-                ), 1))
-        })
-        return services
-    }
     /**
      * Start database's child process and return a Promise which observes this
      * service.
@@ -91,7 +48,7 @@ export default class Server {
      * service.
      */
     static async loadService(
-        servicePromises:{[key:string]:Promise<Object>}, services:Services,
+        servicePromises:ServicePromises, services:Services,
         configuration:Configuration
     ):Promise<?{promise:Promise<HTTPServer>}> {
         if (services.hasOwnProperty('server'))
@@ -121,6 +78,52 @@ export default class Server {
                 }
             })
         return null
+    }
+    /**
+     * Appends an application server to the web node services.
+     * @param services - An object with stored service instances.
+     * @param configuration - Mutable by plugins extended configuration object.
+     * @param plugins - Topological sorted list of plugins.
+     * @returns Given and extended object of services.
+     */
+    static preLoadService(
+        services:Services, configuration:Configuration, plugins:Array<Plugin>
+    ):Services {
+        services.server = {
+            instance: createServer(async (
+                request:IncomingMessage, response:ServerResponse
+            // IgnoreTypeCheck
+            ):Promise<void> => {
+                await WebNodePluginAPI.callStack(
+                    'serverRequest', plugins, configuration, request, response,
+                    services)
+                response.end()
+            }),
+            sockets: []
+        }
+        services.server.instance.on('connection', (socket:Socket):void => {
+            services.server.sockets.push(socket)
+            socket.on('close', ():Array<Socket> =>
+                services.server.sockets.splice(services.server.sockets.indexOf(
+                    socket
+                ), 1))
+        })
+        return services
+    }
+    /**
+     * Application will be closed soon.
+     * @param services - An object with stored service instances.
+     * @returns Given object of services.
+     */
+    static async shouldExit(services:Services):Services {
+        return new Promise((resolve:Function):void => {
+            services.server.instance.close(():void => {
+                delete services.server
+                resolve(services)
+            })
+            for (const socket of services.server.sockets)
+                socket.destroy()
+        })
     }
 }
 // endregion
