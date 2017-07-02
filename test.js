@@ -43,8 +43,7 @@ registerTest(async function():Promise<void> {
             callback()
         }}}}
         try {
-            assert.deepEqual(
-                await Index.shouldExit(services, [], configuration), services)
+            assert.deepEqual(await Index.shouldExit(services), services)
         } catch (error) {
             console.error(error)
         }
