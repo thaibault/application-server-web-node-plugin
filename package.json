@@ -39,6 +39,7 @@
   },
   "devDependencies": {
     "babel-eslint": "^7.2.3",
+    "clientnode": "^1.0.226",
     "documentation-website": "^1.0.61",
     "eslint": "^4.2.0",
     "eslint-config-google": "^0.9.1",
