@@ -35,6 +35,7 @@
     "watch:dll": "webOptimizer build:dll --watch"
   },
   "peerDependencies": {
+    "babel-runtime": "*",
     "web-node": "*"
   },
   "devDependencies": {
