@@ -41,7 +41,7 @@
   "devDependencies": {
     "babel-eslint": "^8.0.1",
     "clientnode": "^1.0.251",
-    "documentation-website": "^1.0.66",
+    "documentation-website": "^1.0.73",
     "eslint": "^4.9.0",
     "eslint-config-google": "^0.9.1",
     "eslint-plugin-flowtype": "^2.36.0",
