@@ -36,7 +36,7 @@ import type {
  * Launches an application server und triggers all some pluginable hooks on
  * an event.
  */
-export default class Server {
+export class Server {
     /**
      * Start database's child process and return a Promise which observes this
      * service.
@@ -126,6 +126,7 @@ export default class Server {
         })
     }
 }
+export default Server
 // endregion
 // region vim modline
 // vim: set tabstop=4 shiftwidth=4 expandtab:
