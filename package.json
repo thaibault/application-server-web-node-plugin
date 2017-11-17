@@ -39,13 +39,13 @@
     "web-node": "*"
   },
   "devDependencies": {
-    "babel-eslint": "^8.0.1",
-    "clientnode": "^1.0.251",
-    "documentation-website": "^1.0.73",
-    "eslint": "^4.9.0",
+    "babel-eslint": "^8.0.2",
+    "clientnode": "^1.0.281",
+    "documentation-website": "^1.0.76",
+    "eslint": "^4.11.0",
     "eslint-config-google": "^0.9.1",
     "eslint-plugin-flowtype": "^2.36.0",
-    "eslint-plugin-jsdoc": "^3.1.1",
+    "eslint-plugin-jsdoc": "^3.2.0",
     "flow-bin": "^0.58.0",
     "jsdoc": "^3.5.2",
     "qunit": "^2.4.1",
