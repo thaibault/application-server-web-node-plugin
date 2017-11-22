@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: index.compiled.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: index.compiled.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
+var serverwebnodeplugin =
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, {
+/******/ 				configurable: false,
+/******/ 				enumerable: true,
+/******/ 				get: getter
+/******/ 			});
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module &amp;&amp; module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = 1);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ (function(module, exports) {
+
+module.exports = __WEBPACK_EXTERNAL_MODULE_0__;
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(2);
+module.exports = __webpack_require__(3);
+
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+// #!/usr/bin/env node
+// -*- coding: utf-8 -*-
+/** @module dummy *//* !
+    region header
+    Copyright Torben Sickert (info["~at~"]torben.website) 16.12.2012
+
+    License
+    -------
+
+    This library written by Torben Sickert stand under a creative commons
+    naming 3.0 unported license.
+    See http://creativecommons.org/licenses/by/3.0/deed.de
+    endregion
+*/// region  imports
+exports.__esModule=true;exports.Dummy=undefined;var _http=__webpack_require__(0);// endregion
+/**
+ * Dummy plugin interface implementing all available hooks.
+ */class Dummy{/* eslint-disable no-unused-vars *//**
+     * Hook to run an each request. After running this hook returned request
+     * will be finished.
+     * @param request - Request which comes from client.
+     * @param response - Response object to use to perform a response to
+     * client.
+     * @returns Request object to finishe.
+     */static serverRequest(request,response){return request}/* eslint-enable no-unused-vars */}exports.Dummy=Dummy;exports.default=Dummy;// region vim modline
+// vim: set tabstop=4 shiftwidth=4 expandtab:
+// vim: foldmethod=marker foldmarker=region,endregion:
+// endregion
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+// #!/usr/bin/env node
+// -*- coding: utf-8 -*-
+/** @module serverWebNodePlugin *//* !
+    region header
+    [Project page](http://torben.website/serverWebNodePlugin)
+
+    Copyright Torben Sickert (info["~at~"]torben.website) 16.12.2012
+
+    License
+    -------
+
+    This library written by Torben Sickert stand under a creative commons
+    naming 3.0 unported license.
+    See http://creativecommons.org/licenses/by/3.0/deed.de
+    endregion
+*/// region imports
+exports.__esModule=true;exports.Server=undefined;var _promise=__webpack_require__(4);var _promise2=_interopRequireDefault(_promise);var _asyncToGenerator2=__webpack_require__(5);var _asyncToGenerator3=_interopRequireDefault(_asyncToGenerator2);var _http=__webpack_require__(0);var _net=__webpack_require__(6);var _pluginAPI=__webpack_require__(7);var _pluginAPI2=_interopRequireDefault(_pluginAPI);function _interopRequireDefault(obj){return obj&amp;&amp;obj.__esModule?obj:{default:obj}}// NOTE: Only needed for debugging this file.
+try{__webpack_require__(8)}catch(error){}// endregion
+// region plugins/classes
+/**
+ * Launches an application server und triggers all some pluginable hooks on
+ * an event.
+ */class Server{/**
+     * Start database's child process and return a Promise which observes this
+     * service.
+     * @param servicePromises - An object with stored service promise
+     * instances.
+     * @param services - An object with stored service instances.
+     * @param configuration - Mutable by plugins extended configuration object.
+     * @returns A promise which correspond to the plugin specific continues
+     * service.
+     */static loadService(servicePromises,services,configuration){return(0,_asyncToGenerator3.default)(function*(){if(services.hasOwnProperty('server'))return yield new _promise2.default(function(resolve,reject){const parameter=[];if(configuration.server.application.hostName)parameter.push(configuration.server.application.hostName);parameter.push(function(){console.info('Starting application server to listen on port "'+`${configuration.server.application.port}".`);resolve({name:'server',promise:new _promise2.default(function(){return services.server})})});try{services.server.instance.listen(configuration.server.application.port,...parameter)}catch(error){reject(error)}});return null})()}/**
+     * Appends an application server to the web node services.
+     * @param services - An object with stored service instances.
+     * @param configuration - Mutable by plugins extended configuration object.
+     * @param plugins - Topological sorted list of plugins.
+     * @returns Given and extended object of services.
+     */static preLoadService(services,configuration,plugins){services.server={instance:(0,_http.createServer)((()=>{var _ref=(0,_asyncToGenerator3.default)(function*(request,response){yield _pluginAPI2.default.callStack('serverRequest',plugins,configuration,request,response,services);response.end()});return function(_x,_x2){return _ref.apply(this,arguments)}})()),sockets:[]};services.server.instance.on('connection',socket=>{services.server.sockets.push(socket);socket.on('close',()=>services.server.sockets.splice(services.server.sockets.indexOf(socket),1))});return services}/**
+     * Application will be closed soon.
+     * @param services - An object with stored service instances.
+     * @returns Given object of services.
+     */static shouldExit(services){return(0,_asyncToGenerator3.default)(function*(){return new _promise2.default(function(resolve){services.server.instance.close(function(){delete services.server;resolve(services)});for(const socket of services.server.sockets)socket.destroy()})})()}}exports.Server=Server;exports.default=Server;// endregion
+// region vim modline
+// vim: set tabstop=4 shiftwidth=4 expandtab:
+// vim: foldmethod=marker foldmarker=region,endregion:
+// endregion
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports) {
+
+module.exports = __WEBPACK_EXTERNAL_MODULE_4__;
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports) {
+
+module.exports = __WEBPACK_EXTERNAL_MODULE_5__;
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports) {
+
+module.exports = __WEBPACK_EXTERNAL_MODULE_6__;
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports) {
+
+module.exports = __WEBPACK_EXTERNAL_MODULE_7__;
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports) {
+
+if(typeof __WEBPACK_EXTERNAL_MODULE_8__ === 'undefined') {var e = new Error("Cannot find module \"source-map-support/register\""); e.code = 'MODULE_NOT_FOUND'; throw e;}
+module.exports = __WEBPACK_EXTERNAL_MODULE_8__;
+
+/***/ })
+/******/ ]);</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-dummy.html">dummy</a></li><li><a href="module-serverWebNodePlugin.html">serverWebNodePlugin</a></li></ul><h3>Classes</h3><ul><li><a href="module-dummy-Dummy.html">Dummy</a></li><li><a href="module-serverWebNodePlugin-Server.html">Server</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed Nov 22 2017 19:34:37 GMT+0100 (CET)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
