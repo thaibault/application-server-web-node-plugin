@@ -22,10 +22,6 @@ import {
     createServer, IncomingMessage, Server as HTTPServer, ServerResponse
 } from 'http'
 import {Socket} from 'net'
-// NOTE: Only needed for debugging this file.
-try {
-    require('source-map-support/register')
-} catch (error) {}
 import WebNodePluginAPI from 'web-node/pluginAPI'
 import type {
     Configuration, Plugin, ServicePromises, Services
