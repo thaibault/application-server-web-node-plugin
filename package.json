@@ -40,9 +40,9 @@
   },
   "devDependencies": {
     "babel-eslint": "^8.2.2",
-    "clientnode": "^3.0.30",
+    "clientnode": "^3.0.32",
     "coveralls": "^3.0.0",
-    "documentation-website": "^1.0.119",
+    "documentation-website": "^1.0.120",
     "eslint": "^4.19.1",
     "eslint-config-google": "^0.9.1",
     "eslint-plugin-flowtype": "^2.46.1",
@@ -51,8 +51,8 @@
     "jsdoc": "^3.5.2",
     "nyc": "^11.6.0",
     "qunit": "^2.6.0",
-    "web-node": "^1.0.174",
-    "weboptimizer": "^2.0.84",
+    "web-node": "^1.0.175",
+    "weboptimizer": "^2.0.87",
     "webpack": "^4.4.1",
     "webpack-cli": "^2.0.13",
     "webpack-dev-server": "^3.1.1"
