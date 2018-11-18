@@ -101,8 +101,13 @@ export class Server {
             // IgnoreTypeCheck
             ):Promise<void> => {
                 await WebNodePluginAPI.callStack(
-                    'serverRequest', plugins, configuration, request, response,
-                    services)
+                    'serverRequest',
+                    plugins,
+                    configuration,
+                    request,
+                    response,
+                    services
+                )
                 response.end()
             }),
             sockets: []
@@ -114,8 +119,18 @@ export class Server {
                     socket
                 ), 1))
         })
-        services.server.instance.on('stream', (stream:Object):void => {
+        services.server.instance.on('stream', async (
+            stream:Object, headers:Array<Object>
+        ):void => {
             services.server.streams.push(stream)
+            await WebNodePluginAPI.callStack(
+                'serverStream',
+                plugins,
+                configuration,
+                stream,
+                headers,
+                services
+            )
             stream.on('close', ():Array<Object> =>
                 services.server.streams.splice(services.server.streams.indexOf(
                     stream
