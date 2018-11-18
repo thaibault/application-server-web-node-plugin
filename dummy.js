@@ -24,7 +24,7 @@ import {IncomingMessage, ServerResponse} from 'http'
 export class Dummy {
     /* eslint-disable no-unused-vars */
     /**
-     * Hook to run an each request. After running this hook returned request
+     * Hook to run on each request. After running this hook returned request
      * will be finished.
      * @param request - Request which comes from client.
      * @param response - Response object to use to perform a response to
@@ -35,6 +35,15 @@ export class Dummy {
         request:IncomingMessage, response:ServerResponse
     ):IncomingMessage {
         return request
+    }
+    /**
+     * Hook to run on stream.
+     * @param stream - Current stream object.
+     * @param headers - Current headers.
+     * @returns Current Stream.
+     */
+    static serverStream(stream:Object, headers:Object):Object {
+        return stream
     }
     /* eslint-enable no-unused-vars */
 }
