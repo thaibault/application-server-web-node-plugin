@@ -65,8 +65,9 @@ export class Server {
                     resolve({
                         name: 'server',
                         promise: new Promise(():{
-                            instance:HTTPServer;
+                            instance:Object;
                             sockets:Array<Socket>;
+                            streams:Array<Object>;
                         } => services.server)
                     })
                 })
@@ -113,6 +114,13 @@ export class Server {
                     socket
                 ), 1))
         })
+        services.server.instance.on('stream', (stream:Object):void => {
+            services.server.streams.push(stream)
+            stream.on('close', ():Array<Object> =>
+                services.server.streams.splice(services.server.streams.indexOf(
+                    stream
+                ), 1))
+        })
         return services
     }
     /**
@@ -126,8 +134,11 @@ export class Server {
                 delete services.server
                 resolve(services)
             })
-            for (const socket of services.server.sockets)
-                socket.destroy()
+            for (const connections of [
+                services.server.sockets, services.server.streams
+            ])
+                for (const socket of connections)
+                    socket.destroy()
         })
     }
 }
