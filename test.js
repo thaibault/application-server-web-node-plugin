@@ -16,7 +16,6 @@
 */
 // region imports
 import registerTest from 'clientnode/test'
-import {Server} from 'http'
 import configuration from 'web-node/configurator'
 import type {Services} from 'web-node/type'
 
@@ -29,7 +28,7 @@ registerTest(async function():Promise<void> {
             await Index.loadService({}, {}, configuration), null))
     this.test('preLoadService', (assert:Object):void => assert.ok(
         Index.preLoadService({}, configuration, [
-        ]).server.instance instanceof Server))
+        ]).server.instance instanceof Object))
     this.test('shouldExit', async (assert:Object):Promise<void> => {
         let testValue:boolean = false
         const services:Services = {server: {instance: {close: (

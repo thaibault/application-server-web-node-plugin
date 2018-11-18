@@ -19,8 +19,12 @@
 */
 // region imports
 import {
-    createServer, IncomingMessage, Server as HTTPServer, ServerResponse
-} from 'http'
+    createServer,
+    createSecureServer,
+    IncomingMessage,
+    Server as HTTPServer,
+    ServerResponse
+} from 'http2'
 import {Socket} from 'net'
 import WebNodePluginAPI from 'web-node/pluginAPI'
 import type {
@@ -86,7 +90,12 @@ export class Server {
         services:Services, configuration:Configuration, plugins:Array<Plugin>
     ):Services {
         services.server = {
-            instance: createServer(async (
+            instance: (
+                (
+                    configuration.server.options.cert &&
+                    configuration.server.options.key
+                ) ? createSecureServer : createServer
+            )(configuration.server.options, async (
                 request:IncomingMessage, response:ServerResponse
             // IgnoreTypeCheck
             ):Promise<void> => {
