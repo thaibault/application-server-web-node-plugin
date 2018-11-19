@@ -18,8 +18,8 @@
     endregion
 */
 // region imports
+import {createServer} from 'http'
 import {
-    createServer,
     createSecureServer,
     IncomingMessage,
     Server as HTTPServer,
@@ -90,26 +90,27 @@ export class Server {
     static preLoadService(
         services:Services, configuration:Configuration, plugins:Array<Plugin>
     ):Services {
+        const onIncomingMessage:Function = async (
+            request:IncomingMessage, response:ServerResponse
+        // IgnoreTypeCheck
+        ):Promise<void> => {
+            await WebNodePluginAPI.callStack(
+                'serverRequest',
+                plugins,
+                configuration,
+                request,
+                response,
+                services
+            )
+            response.end()
+        }
         services.server = {
             instance: (
-                (
-                    configuration.server.options.cert &&
-                    configuration.server.options.key
-                ) ? createSecureServer : createServer
-            )(configuration.server.options, async (
-                request:IncomingMessage, response:ServerResponse
-            // IgnoreTypeCheck
-            ):Promise<void> => {
-                await WebNodePluginAPI.callStack(
-                    'serverRequest',
-                    plugins,
-                    configuration,
-                    request,
-                    response,
-                    services
-                )
-                response.end()
-            }),
+                configuration.server.options.cert &&
+                configuration.server.options.key
+            ) ? createSecureServer(
+                    configuration.server.options, onIncomingMessage
+                ) : createServer(onIncomingMessage),
             sockets: []
         }
         services.server.instance.on('connection', (socket:Socket):void => {
@@ -121,7 +122,7 @@ export class Server {
         })
         services.server.instance.on('stream', async (
             stream:Object, headers:Array<Object>
-        ):void => {
+        ):Promise<void> => {
             services.server.streams.push(stream)
             await WebNodePluginAPI.callStack(
                 'serverStream',
