@@ -48,7 +48,8 @@ export class Server {
      * service.
      */
     static async loadService(
-        servicePromises:ServicePromises, services:Services,
+        servicePromises:ServicePromises,
+        services:Services,
         configuration:Configuration
     ):Promise<?{promise:Promise<HTTPServer>}> {
         if (services.hasOwnProperty('server'))
@@ -108,17 +109,18 @@ export class Server {
             instance: (
                 configuration.server.options.cert &&
                 configuration.server.options.key
-            ) ? createSecureServer(
-                    configuration.server.options, onIncomingMessage
-                ) : createServer(onIncomingMessage),
+            ) ?
+                createSecureServer(
+                    configuration.server.options, onIncomingMessage) :
+                createServer(onIncomingMessage),
             sockets: []
         }
         services.server.instance.on('connection', (socket:Socket):void => {
             services.server.sockets.push(socket)
             socket.on('close', ():Array<Socket> =>
-                services.server.sockets.splice(services.server.sockets.indexOf(
-                    socket
-                ), 1))
+                services.server.sockets.splice(
+                    services.server.sockets.indexOf(socket), 1)
+            )
         })
         services.server.instance.on('stream', async (
             stream:Object, headers:Array<Object>
@@ -133,9 +135,9 @@ export class Server {
                 services
             )
             stream.on('close', ():Array<Object> =>
-                services.server.streams.splice(services.server.streams.indexOf(
-                    stream
-                ), 1))
+                services.server.streams.splice(
+                    services.server.streams.indexOf(stream), 1)
+            )
         })
         return services
     }
