@@ -155,8 +155,9 @@ export class Server {
             for (const connections of [
                 services.server.sockets, services.server.streams
             ])
-                for (const socket of connections)
-                    socket.destroy()
+                if (Array.isArray(connections))
+                    for (const socket of connections)
+                        socket.destroy()
         })
     }
 }
