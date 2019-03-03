@@ -26,7 +26,7 @@ import {
     ServerResponse
 } from 'http2'
 import {Socket} from 'net'
-import WebNodePluginAPI from 'web-node/pluginAPI'
+import {PluginAPI} from 'web-node'
 import type {
     Configuration, Plugin, ServicePromises, Services
 } from 'web-node/type'
@@ -94,7 +94,7 @@ export class Server {
             request:IncomingMessage, response:ServerResponse
         // IgnoreTypeCheck
         ):Promise<void> => {
-            await WebNodePluginAPI.callStack(
+            await PluginAPI.callStack(
                 'serverRequest',
                 plugins,
                 configuration,
@@ -124,7 +124,7 @@ export class Server {
             stream:Object, headers:Array<Object>
         ):Promise<void> => {
             services.server.streams.push(stream)
-            await WebNodePluginAPI.callStack(
+            await PluginAPI.callStack(
                 'serverStream',
                 plugins,
                 configuration,
