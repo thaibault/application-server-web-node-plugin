@@ -84,6 +84,7 @@
       "staticResponses": {}
     }
   },
+  "sideEffects": false,
   "webOptimizer": {
     "targetTechnology": "node"
   }
