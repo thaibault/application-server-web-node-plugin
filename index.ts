@@ -1,4 +1,3 @@
-// @flow
 // #!/usr/bin/env node
 // -*- coding: utf-8 -*-
 /** @module serverWebNodePlugin */
@@ -18,18 +17,21 @@
     endregion
 */
 // region imports
-import {createServer} from 'http'
 import {
+    createServer,
     createSecureServer,
-    IncomingMessage,
-    Server as HTTPServer,
-    ServerResponse
+    Http2ServerResponse as HTTPServerResponse,
+    Http2ServerRequest as HTTPServerRequest,
+    Http2Stream as HTTPStream,
+    OutgoingHttpHeaders as OutgoingHTTPHeaders
 } from 'http2'
 import {Socket} from 'net'
 import {PluginAPI} from 'web-node'
-import type {
-    Configuration, Plugin, ServicePromises, Services
-} from 'web-node/type'
+import {Configuration, Plugin} from 'web-node/type'
+
+import {
+    HTTPServer, ServerService, ServerServicePromises, ServerServices
+} from './type'
 // endregion
 // region plugins/classes
 /**
@@ -48,10 +50,10 @@ export class Server {
      * service.
      */
     static async loadService(
-        servicePromises:ServicePromises,
-        services:Services,
+        servicePromises:ServerServicePromises,
+        services:ServerServices,
         configuration:Configuration
-    ):Promise<?{promise:Promise<HTTPServer>}> {
+    ):Promise<null|ServerService> {
         if (services.hasOwnProperty('server'))
             return await new Promise((
                 resolve:Function, reject:Function
@@ -62,19 +64,19 @@ export class Server {
                 parameter.push(():void => {
                     console.info(
                         'Starting application server to listen on port "' +
-                        `${configuration.server.application.port}".`)
+                        `${configuration.server.application.port}".`
+                    )
                     resolve({
                         name: 'server',
-                        promise: new Promise(():{
-                            instance:Object;
-                            sockets:Array<Socket>;
-                            streams:Array<Object>;
-                        } => services.server)
+                        promise: new Promise(():ServerServices['server'] =>
+                            services.server
+                        )
                     })
                 })
                 try {
                     services.server.instance.listen(
-                        configuration.server.application.port, ...parameter)
+                        configuration.server.application.port, ...parameter
+                    )
                 } catch (error) {
                     reject(error)
                 }
@@ -89,11 +91,12 @@ export class Server {
      * @returns Given and extended object of services.
      */
     static preLoadService(
-        services:Services, configuration:Configuration, plugins:Array<Plugin>
-    ):Services {
-        const onIncomingMessage:Function = async (
-            request:IncomingMessage, response:ServerResponse
-        // IgnoreTypeCheck
+        services:ServerServices,
+        configuration:Configuration,
+        plugins:Array<Plugin>
+    ):ServerServices {
+        const onIncomingMessage = async (
+            request:HTTPServerRequest, response:HTTPServerResponse
         ):Promise<void> => {
             await PluginAPI.callStack(
                 'serverRequest',
@@ -111,34 +114,42 @@ export class Server {
                 configuration.server.options.key
             ) ?
                 createSecureServer(
-                    configuration.server.options, onIncomingMessage) :
+                    configuration.server.options, onIncomingMessage
+                ) :
                 createServer(onIncomingMessage),
+            streams: [],
             sockets: []
         }
         services.server.instance.on('connection', (socket:Socket):void => {
             services.server.sockets.push(socket)
             socket.on('close', ():Array<Socket> =>
                 services.server.sockets.splice(
-                    services.server.sockets.indexOf(socket), 1)
+                    services.server.sockets.indexOf(socket), 1
+                )
             )
         })
-        services.server.instance.on('stream', async (
-            stream:Object, headers:Array<Object>
-        ):Promise<void> => {
-            services.server.streams.push(stream)
-            await PluginAPI.callStack(
-                'serverStream',
-                plugins,
-                configuration,
-                stream,
-                headers,
-                services
-            )
-            stream.on('close', ():Array<Object> =>
-                services.server.streams.splice(
-                    services.server.streams.indexOf(stream), 1)
-            )
-        })
+        services.server.instance.on(
+            'stream',
+            async (
+                stream:HTTPStream,
+                headers:OutgoingHTTPHeaders
+            ):Promise<void> => {
+                services.server.streams.push(stream)
+                await PluginAPI.callStack(
+                    'serverStream',
+                    plugins,
+                    configuration,
+                    stream,
+                    headers,
+                    services
+                )
+                stream.on('close', ():Array<HTTPStream> =>
+                    services.server.streams.splice(
+                        services.server.streams.indexOf(stream), 1
+                    )
+                )
+            }
+        )
         return services
     }
     /**
@@ -146,7 +157,7 @@ export class Server {
      * @param services - An object with stored service instances.
      * @returns Given object of services.
      */
-    static async shouldExit(services:Services):Services {
+    static async shouldExit(services:ServerServices):Promise<ServerServices> {
         return new Promise((resolve:Function):void => {
             services.server.instance.close(():void => {
                 delete services.server
@@ -156,8 +167,8 @@ export class Server {
                 services.server.sockets, services.server.streams
             ])
                 if (Array.isArray(connections))
-                    for (const socket of connections)
-                        socket.destroy()
+                    for (const connection of connections)
+                        connection.destroy()
         })
     }
 }
