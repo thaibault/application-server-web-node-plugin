@@ -1,4 +1,3 @@
-// @flow
 // #!/usr/bin/env node
 // -*- coding: utf-8 -*-
 /** @module serverWebNodePlugin */
@@ -21,15 +20,13 @@
 import {createServer} from 'http'
 import {
     createSecureServer,
-    IncomingMessage,
-    Server as HTTPServer,
-    ServerResponse
+    Http2ServerResponse as HTTPServerResponse,
+    Http2ServerRequest as HTTPServerRequest,
+    Http2Server as HTTPServer
 } from 'http2'
 import {Socket} from 'net'
 import {PluginAPI} from 'web-node'
-import type {
-    Configuration, Plugin, ServicePromises, Services
-} from 'web-node/type'
+import {Configuration, Plugin, ServicePromises, Services} from 'web-node/type'
 // endregion
 // region plugins/classes
 /**
@@ -51,7 +48,7 @@ export class Server {
         servicePromises:ServicePromises,
         services:Services,
         configuration:Configuration
-    ):Promise<?{promise:Promise<HTTPServer>}> {
+    ):Promise<{name:string;promise:Promise<HTTPServer>}|null> {
         if (services.hasOwnProperty('server'))
             return await new Promise((
                 resolve:Function, reject:Function
@@ -62,7 +59,8 @@ export class Server {
                 parameter.push(():void => {
                     console.info(
                         'Starting application server to listen on port "' +
-                        `${configuration.server.application.port}".`)
+                        `${configuration.server.application.port}".`
+                    )
                     resolve({
                         name: 'server',
                         promise: new Promise(():{
@@ -74,7 +72,8 @@ export class Server {
                 })
                 try {
                     services.server.instance.listen(
-                        configuration.server.application.port, ...parameter)
+                        configuration.server.application.port, ...parameter
+                    )
                 } catch (error) {
                     reject(error)
                 }
@@ -92,8 +91,7 @@ export class Server {
         services:Services, configuration:Configuration, plugins:Array<Plugin>
     ):Services {
         const onIncomingMessage:Function = async (
-            request:IncomingMessage, response:ServerResponse
-        // IgnoreTypeCheck
+            request:HTTPServerRequest, response:HTTPServerResponse
         ):Promise<void> => {
             await PluginAPI.callStack(
                 'serverRequest',
@@ -111,7 +109,8 @@ export class Server {
                 configuration.server.options.key
             ) ?
                 createSecureServer(
-                    configuration.server.options, onIncomingMessage) :
+                    configuration.server.options, onIncomingMessage
+                ) :
                 createServer(onIncomingMessage),
             sockets: []
         }
@@ -122,23 +121,24 @@ export class Server {
                     services.server.sockets.indexOf(socket), 1)
             )
         })
-        services.server.instance.on('stream', async (
-            stream:Object, headers:Array<Object>
-        ):Promise<void> => {
-            services.server.streams.push(stream)
-            await PluginAPI.callStack(
-                'serverStream',
-                plugins,
-                configuration,
-                stream,
-                headers,
-                services
-            )
-            stream.on('close', ():Array<Object> =>
-                services.server.streams.splice(
-                    services.server.streams.indexOf(stream), 1)
-            )
-        })
+        services.server.instance.on(
+            'stream',
+            async (stream:Object, headers:Array<Object>):Promise<void> => {
+                services.server.streams.push(stream)
+                await PluginAPI.callStack(
+                    'serverStream',
+                    plugins,
+                    configuration,
+                    stream,
+                    headers,
+                    services
+                )
+                stream.on('close', ():Array<Object> =>
+                    services.server.streams.splice(
+                        services.server.streams.indexOf(stream), 1)
+                )
+            }
+        )
         return services
     }
     /**
