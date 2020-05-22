@@ -1,6 +1,6 @@
 {
   "name": "serverwebnodeplugin",
-  "version": "1.0.205",
+  "version": "1.0.206",
   "license": "CC-BY-3.0",
   "description": "A generic extendable application and file server for webNode.",
   "homepage": "https://torben.website/serverWebNodePlugin",
@@ -14,7 +14,10 @@
     "application",
     "server"
   ],
-  "files": ["index.ts", "type.ts"],
+  "files": [
+    "index.ts",
+    "type.ts"
+  ],
   "main": "index.js",
   "repository": {
     "type": "git",
