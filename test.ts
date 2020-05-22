@@ -18,28 +18,42 @@ import Tools from 'clientnode'
 import {configuration} from 'web-node'
 
 import Index from './index'
-import {HTTPServer, ServerServices} from './type'
+import {HTTPServer, ServerServicePromises, ServerServices} from './type'
 // endregion
-describe('server', async ():Promise<void> => {
+describe('server', ():void => {
     // region tests
-    test('loadService', async ():Promise<void> =>
+    test('loadService', async ():Promise<void> => {
         expect(await Index.loadService(
-            {server: new Promise(Tools.noop)},
-            {server: {instance: {} as HTTPServer, sockets: [], streams: []}},
+            {} as ServerServicePromises,
+            {} as ServerServices,
             configuration
         )).toBeNull()
-    )
+        const promise:Promise<HTTPServer> = new Promise(Tools.noop) as Promise<HTTPServer>
+        expect(await Index.loadService(
+            {server: promise},
+            {server: {
+                instance: {
+                    listen: (
+                        port:number, host:string, started:Function
+                    ):void => started()
+                } as unknown as HTTPServer,
+                sockets: [],
+                streams: []
+            }},
+            configuration
+        )).toStrictEqual({name: 'server', promise})
+    })
     test('preLoadService', ():void =>
         expect(Index.preLoadService(
             {server: {instance: {} as HTTPServer, sockets: [], streams: []}},
             configuration,
             []
-        ).server.instance).toBeInstanceOf(Object)
+        ).server.instance).toHaveProperty('listen')
     )
     test('shouldExit', async ():Promise<void> => {
         let testValue:boolean = false
         const services:ServerServices = {server: {
-            instance: {close: (callback:Function|undefined):void => {
+            instance: {close: (callback:Function):void => {
                 testValue = true
                 callback()
             }},
