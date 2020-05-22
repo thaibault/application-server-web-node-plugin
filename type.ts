@@ -17,7 +17,10 @@
 import {
     Http2SecureServer as HTTPSecureServer,
     Http2Server as HttpServer,
-    Http2Stream as HTTPStream
+    Http2ServerResponse as HTTPServerResponse,
+    Http2ServerRequest as HTTPServerRequest,
+    Http2Stream as HTTPStream,
+    OutgoingHttpHeaders as OutgoingHTTPHeaders
 } from 'http2'
 import {Socket} from 'net'
 import {Service, Services, ServicePromises} from 'web-node/type'
@@ -35,6 +38,26 @@ export type ServerServices = Services & {server:{
 }}
 export type ServerServicePromises = ServicePromises & {
     server:Promise<HTTPServer>;
+}
+export interface ServerPlugin {
+    /**
+     * Hook to run on each request. After running this hook returned request
+     * will be finished.
+     * @param request - Request which comes from client.
+     * @param response - Response object to use to perform a response to
+     * client.
+     * @returns Request object to finish.
+     */
+    serverRequest(
+        request:HTTPServerRequest, response:HTTPServerResponse
+    ):HTTPServerRequest
+    /**
+     * Hook to run on stream.
+     * @param stream - Current stream object.
+     * @param headers - Current headers.
+     * @returns Current Stream.
+     */
+    serverStream(stream:HTTPStream, headers:OutgoingHTTPHeaders):HTTPStream
 }
 // endregion
 // region vim modline

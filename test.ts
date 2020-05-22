@@ -53,10 +53,12 @@ describe('server', ():void => {
     test('shouldExit', async ():Promise<void> => {
         let testValue:boolean = false
         const services:ServerServices = {server: {
-            instance: {close: (callback:Function):void => {
+            instance: {close: (callback:Function|undefined):HTTPServer => {
                 testValue = true
-                callback()
-            }},
+                if (callback)
+                    callback()
+                return {} as HTTPServer
+            }} as HTTPServer,
             sockets: [],
             streams: []
         }}

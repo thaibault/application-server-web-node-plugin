@@ -132,7 +132,7 @@ export class Server {
             'stream',
             async (
                 stream:HTTPStream,
-                headers:Array<OutgoingHTTPHeaders>
+                headers:OutgoingHTTPHeaders
             ):Promise<void> => {
                 services.server.streams.push(stream)
                 await PluginAPI.callStack(
