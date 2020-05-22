@@ -14,8 +14,11 @@
     See https://creativecommons.org/licenses/by/3.0/deed.de
     endregion
 */
-// region  imports
-import {IncomingMessage, ServerResponse} from 'http'
+// region imports
+import {
+    Http2ServerResponse as HTTPServerResponse,
+    Http2ServerRequest as HTTPServerRequest
+} from 'http2'
 // endregion
 /**
  * Dummy plugin interface implementing all available hooks.
@@ -31,7 +34,7 @@ export class Dummy {
      * @returns Request object to finishe.
      */
     static serverRequest(
-        request:IncomingMessage, response:ServerResponse
+        request:HTTPServerRequest, response:HTTPServerResponse
     ):IncomingMessage {
         return request
     }

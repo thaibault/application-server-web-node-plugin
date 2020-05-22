@@ -1,4 +1,3 @@
-// @flow
 // #!/usr/bin/env node
 // -*- coding: utf-8 -*-
 'use strict'
@@ -17,19 +16,20 @@
 // region imports
 import registerTest from 'clientnode/test'
 import {configuration} from 'web-node'
-import type {Services} from 'web-node/type'
+import {Services} from 'web-node/type'
 
 import Index from './index'
 // endregion
-registerTest(async function():Promise<void> {
+describe('server', async ():Promise<void> => {
     // region tests
-    this.test('loadService', async (assert:Object):Promise<void> =>
-        assert.strictEqual(
-            await Index.loadService({}, {}, configuration), null))
-    this.test('preLoadService', (assert:Object):void => assert.ok(
-        Index.preLoadService({}, configuration, [
-        ]).server.instance instanceof Object))
-    this.test('shouldExit', async (assert:Object):Promise<void> => {
+    test('loadService', async ():Promise<void> =>
+        expect(await Index.loadService({}, {}, configuration)).toBeNull()
+    )
+    test('preLoadService', ():void =>
+        expect(Index.preLoadService({}, configuration, []).server.instance)
+            .toBeInstanceOf(Object)
+    )
+    test('shouldExit', async ():Promise<void> => {
         let testValue:boolean = false
         const services:Services = {server: {instance: {close: (
             callback:Function
@@ -38,15 +38,15 @@ registerTest(async function():Promise<void> {
             callback()
         }}}}
         try {
-            assert.deepEqual(await Index.shouldExit(services), services)
+            expect(await Index.shouldExit(services)).toStrictEqual(services)
         } catch (error) {
             console.error(error)
         }
-        assert.deepEqual(services, {})
-        assert.ok(testValue)
+        expect(services).toStrictEqual({})
+        expect(testValue).toStrictEqual(true)
     })
     // endregion
-}, 'plain')
+})
 // region vim modline
 // vim: set tabstop=4 shiftwidth=4 expandtab:
 // vim: foldmethod=marker foldmarker=region,endregion:
