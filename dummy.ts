@@ -35,7 +35,7 @@ export class Dummy {
      */
     static serverRequest(
         request:HTTPServerRequest, response:HTTPServerResponse
-    ):IncomingMessage {
+    ):HTTPServerRequest {
         return request
     }
     /**

@@ -14,29 +14,38 @@
     endregion
 */
 // region imports
-import registerTest from 'clientnode/test'
+import Tools from 'clientnode'
 import {configuration} from 'web-node'
-import {Services} from 'web-node/type'
 
 import Index from './index'
+import {HTTPServer, ServerServices} from './type'
 // endregion
 describe('server', async ():Promise<void> => {
     // region tests
     test('loadService', async ():Promise<void> =>
-        expect(await Index.loadService({}, {}, configuration)).toBeNull()
+        expect(await Index.loadService(
+            {server: new Promise(Tools.noop)},
+            {server: {instance: {} as HTTPServer, sockets: [], streams: []}},
+            configuration
+        )).toBeNull()
     )
     test('preLoadService', ():void =>
-        expect(Index.preLoadService({}, configuration, []).server.instance)
-            .toBeInstanceOf(Object)
+        expect(Index.preLoadService(
+            {server: {instance: {} as HTTPServer, sockets: [], streams: []}},
+            configuration,
+            []
+        ).server.instance).toBeInstanceOf(Object)
     )
     test('shouldExit', async ():Promise<void> => {
         let testValue:boolean = false
-        const services:Services = {server: {instance: {close: (
-            callback:Function
-        ):void => {
-            testValue = true
-            callback()
-        }}}}
+        const services:ServerServices = {server: {
+            instance: {close: (callback:Function|undefined):void => {
+                testValue = true
+                callback()
+            }},
+            sockets: [],
+            streams: []
+        }}
         try {
             expect(await Index.shouldExit(services)).toStrictEqual(services)
         } catch (error) {

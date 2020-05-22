@@ -14,7 +14,7 @@
     "application",
     "server"
   ],
-  "files": ["index.ts"],
+  "files": ["index.ts", "type.ts"],
   "main": "index.js",
   "repository": {
     "type": "git",
