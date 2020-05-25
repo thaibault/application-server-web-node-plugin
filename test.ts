@@ -18,17 +18,18 @@ import Tools from 'clientnode'
 import {configuration} from 'web-node'
 
 import Index from './index'
-import {HTTPServer, ServerServicePromises, ServerServices} from './type'
+import {Configuration, HTTPServer, ServicePromises, Services} from './type'
 // endregion
 describe('server', ():void => {
     // region tests
     test('loadService', async ():Promise<void> => {
         expect(await Index.loadService(
-            {} as ServerServicePromises,
-            {} as ServerServices,
-            configuration
+            {} as ServicePromises,
+            {} as Services,
+            configuration as Configuration
         )).toBeNull()
-        const promise:Promise<HTTPServer> = new Promise(Tools.noop) as Promise<HTTPServer>
+        const promise:Promise<HTTPServer> =
+            new Promise(Tools.noop) as Promise<HTTPServer>
         expect(await Index.loadService(
             {server: promise},
             {server: {
@@ -40,19 +41,19 @@ describe('server', ():void => {
                 sockets: [],
                 streams: []
             }},
-            configuration
+            configuration as Configuration
         )).toStrictEqual({name: 'server', promise})
     })
     test('preLoadService', ():void =>
         expect(Index.preLoadService(
             {server: {instance: {} as HTTPServer, sockets: [], streams: []}},
-            configuration,
+            configuration as Configuration,
             []
         ).server.instance).toHaveProperty('listen')
     )
     test('shouldExit', async ():Promise<void> => {
         let testValue:boolean = false
-        const services:ServerServices = {server: {
+        const services:Services = {server: {
             instance: {close: (callback:Function|undefined):HTTPServer => {
                 testValue = true
                 if (callback)

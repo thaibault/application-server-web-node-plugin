@@ -69,7 +69,6 @@
         "rootPath": {
           "__evaluate__": "currentPath"
         },
-        "options": {},
         "port": 8080,
         "hostName": "127.0.0.1"
       },
@@ -85,9 +84,7 @@
       "options": {
         "allowHTTP1": true
       },
-      "redirects": {},
-      "dynamicPathPrefix": "api",
-      "staticResponses": {}
+      "dynamicPathPrefix": "api"
     }
   },
   "sideEffects": false,

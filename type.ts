@@ -20,26 +20,53 @@ import {
     Http2ServerResponse as HTTPServerResponse,
     Http2ServerRequest as HTTPServerRequest,
     Http2Stream as HTTPStream,
-    OutgoingHttpHeaders as OutgoingHTTPHeaders
+    OutgoingHttpHeaders as OutgoingHTTPHeaders,
+    SecureServerOptions
 } from 'http2'
 import {Socket} from 'net'
-import {PluginHandler, Service, Services, ServicePromises} from 'web-node/type'
+import {
+    Configuration as BaseConfiguration,
+    PluginHandler as BasePluginHandler,
+    Service as BaseService,
+    Services as BaseServices,
+    ServicePromises as BaseServicePromises
+} from 'web-node/type'
 // endregion
 // region exports
+export type Configuration = BaseConfiguration & {
+    server:{
+        application:{
+            rootPath:string;
+            port:number;
+            hostName:string;
+        };
+        authentication:{
+            login:string;
+            password:string;
+            salt:string;
+            staticAssets:boolean;
+        };
+        dynamicPathPrefix:string;
+        hostNamePrefix:string;
+        hostNamePattern:string;
+        httpBasicAuthenticationCancelRedirectHTMLContent:string;
+        options:SecureServerOptions;
+    }
+}
 export type HTTPServer = HttpServer|HTTPSecureServer
-export type ServerService = Service & {
+export type Service = BaseService & {
     name:'server';
     promise:Promise<HTTPServer>;
 }
-export type ServerServices = Services & {server:{
+export type Services = BaseServices & {server:{
     instance:HTTPServer;
     streams:Array<HTTPStream>;
     sockets:Array<Socket>;
 }}
-export type ServerServicePromises = ServicePromises & {
+export type ServicePromises = BaseServicePromises & {
     server:Promise<HTTPServer>;
 }
-export interface ServerPluginHandler extends PluginHandler {
+export interface PluginHandler extends BasePluginHandler {
     /**
      * Hook to run on each request. After running this hook returned request
      * will be finished.

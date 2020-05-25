@@ -27,10 +27,10 @@ import {
 } from 'http2'
 import {Socket} from 'net'
 import {PluginAPI} from 'web-node'
-import {Configuration, Plugin} from 'web-node/type'
+import {Plugin} from 'web-node/type'
 
 import {
-    HTTPServer, ServerService, ServerServicePromises, ServerServices
+    Configuration, HTTPServer, Service, ServicePromises, Services
 } from './type'
 // endregion
 // region plugins/classes
@@ -50,10 +50,10 @@ export class Server {
      * service.
      */
     static async loadService(
-        servicePromises:ServerServicePromises,
-        services:ServerServices,
+        servicePromises:ServicePromises,
+        services:Services,
         configuration:Configuration
-    ):Promise<null|ServerService> {
+    ):Promise<null|Service> {
         if (services.hasOwnProperty('server'))
             return await new Promise((
                 resolve:Function, reject:Function
@@ -68,7 +68,7 @@ export class Server {
                     )
                     resolve({
                         name: 'server',
-                        promise: new Promise(():ServerServices['server'] =>
+                        promise: new Promise(():Services['server'] =>
                             services.server
                         )
                     })
@@ -91,10 +91,8 @@ export class Server {
      * @returns Given and extended object of services.
      */
     static preLoadService(
-        services:ServerServices,
-        configuration:Configuration,
-        plugins:Array<Plugin>
-    ):ServerServices {
+        services:Services, configuration:Configuration, plugins:Array<Plugin>
+    ):Services {
         const onIncomingMessage = async (
             request:HTTPServerRequest, response:HTTPServerResponse
         ):Promise<void> => {
@@ -157,7 +155,7 @@ export class Server {
      * @param services - An object with stored service instances.
      * @returns Given object of services.
      */
-    static async shouldExit(services:ServerServices):Promise<ServerServices> {
+    static async shouldExit(services:Services):Promise<Services> {
         return new Promise((resolve:Function):void => {
             services.server.instance.close(():void => {
                 delete services.server
