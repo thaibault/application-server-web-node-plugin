@@ -27,7 +27,7 @@ import {
 } from 'http2'
 import {Socket} from 'net'
 import {PluginAPI} from 'web-node'
-import {Plugin} from 'web-node/type'
+import {Plugin, PluginHandler} from 'web-node/type'
 
 import {
     Configuration, HTTPServer, Service, ServicePromises, Services
@@ -38,7 +38,7 @@ import {
  * Launches an application server und triggers all some pluginable hooks on
  * an event.
  */
-export class Server {
+export class Server implements PluginHandler {
     /**
      * Start database's child process and return a Promise which observes this
      * service.
