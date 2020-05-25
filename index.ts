@@ -92,7 +92,7 @@ export class Server implements PluginHandler {
      */
     static preLoadService(
         services:Services, configuration:Configuration, plugins:Array<Plugin>
-    ):Services {
+    ):Promise<Services> {
         const onIncomingMessage = async (
             request:HTTPServerRequest, response:HTTPServerResponse
         ):Promise<void> => {
@@ -148,7 +148,7 @@ export class Server implements PluginHandler {
                 )
             }
         )
-        return services
+        return Promise.resolve(services)
     }
     /**
      * Application will be closed soon.
