@@ -23,7 +23,7 @@ import {
     OutgoingHttpHeaders as OutgoingHTTPHeaders
 } from 'http2'
 import {Socket} from 'net'
-import {Service, Services, ServicePromises} from 'web-node/type'
+import {PluginHandler, Service, Services, ServicePromises} from 'web-node/type'
 // endregion
 // region exports
 export type HTTPServer = HttpServer|HTTPSecureServer
@@ -39,7 +39,7 @@ export type ServerServices = Services & {server:{
 export type ServerServicePromises = ServicePromises & {
     server:Promise<HTTPServer>;
 }
-export interface ServerPlugin {
+export interface ServerPluginHandler extends PluginHandler {
     /**
      * Hook to run on each request. After running this hook returned request
      * will be finished.
@@ -48,7 +48,7 @@ export interface ServerPlugin {
      * client.
      * @returns Request object to finish.
      */
-    serverRequest(
+    serverRequest?(
         request:HTTPServerRequest, response:HTTPServerResponse
     ):HTTPServerRequest
     /**
@@ -57,7 +57,7 @@ export interface ServerPlugin {
      * @param headers - Current headers.
      * @returns Current Stream.
      */
-    serverStream(stream:HTTPStream, headers:OutgoingHTTPHeaders):HTTPStream
+    serverStream?(stream:HTTPStream, headers:OutgoingHTTPHeaders):HTTPStream
 }
 // endregion
 // region vim modline
