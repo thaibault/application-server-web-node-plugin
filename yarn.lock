@@ -3041,9 +3041,9 @@ cli-width@^2.0.0:
   integrity sha512-GRMWDxpOB6Dgk2E5Uo+3eEBvtOOlimMmpbFiKuLFnQzYDavtLFY3K5ona41jgN/WdRZtG7utuVSVTL4HbZHGkw==
 
 clientnode@*:
-  version "3.0.440"
-  resolved "https://registry.yarnpkg.com/clientnode/-/clientnode-3.0.440.tgz#21bc696649172d1948fed388c64b0335767477dc"
-  integrity sha512-BIJYPUi8+mr0n9KY6Tmb5mR5gIClxO/iR/4WbEo16Xei1s/RYwD1I5Z395bc86NJTncsKX8RwxVyCyBS4whE3w==
+  version "3.0.441"
+  resolved "https://registry.yarnpkg.com/clientnode/-/clientnode-3.0.441.tgz#2ead1ced7c87a8194fa3f3bb53f6d23ecf8cf703"
+  integrity sha512-rJYacFKpcLVKthOWmHY8fZNCGNjdYOPcH32tjdEaYcyIcs7GjcxzRoT0Mn4L1j+x7fNb47J4yOhdu98JRrcjGQ==
 
 cliui@^5.0.0:
   version "5.0.0"
@@ -8888,9 +8888,9 @@ wbuf@^1.1.0, wbuf@^1.7.3:
     minimalistic-assert "^1.0.0"
 
 web-node@*:
-  version "1.0.326"
-  resolved "https://registry.yarnpkg.com/web-node/-/web-node-1.0.326.tgz#5fa707f3b435202186770138d293e406eb40e032"
-  integrity sha512-gSBzE/j1+wqUSKc4RjEGQv0o4VmnyRerHc+iBi8IgfrinZ7EWBWuKsUiU7lF/jA7p0NM35083OhLnhLO+NSoVA==
+  version "1.0.327"
+  resolved "https://registry.yarnpkg.com/web-node/-/web-node-1.0.327.tgz#a52e22e5a1f9cadaa8fe68dfe00f822e15bdbfa9"
+  integrity sha512-GUJGevzqgAQnSwGzzXkqEhuOrN7N+sIPAvo/Jmx8VFT9LYg3/cgAoFnhwqljFJZZhGc00gX7Y+06NAylwuo8Xg==
   dependencies:
     clientnode "*"
 
@@ -8905,9 +8905,9 @@ webidl-conversions@^6.0.0:
   integrity sha512-qBIvFLGiBpLjfwmYAaHPXsn+ho5xZnGvyGvsarywGNc8VyQJUMHJ8OBKGGrPER0okBeMDaan4mNBlgBROxuI8w==
 
 weboptimizer@*:
-  version "2.0.661"
-  resolved "https://registry.yarnpkg.com/weboptimizer/-/weboptimizer-2.0.661.tgz#9c8e323b9954f7795e5c96a4f31e1d72d111f064"
-  integrity sha512-QvLKvFWL3wvJy2a5ryJd4w9ji0YXS52ivEs4tmccazviquVvXoobfJd+R9wBouZqL2+m06yZLfFrUMNMC61Ltg==
+  version "2.0.663"
+  resolved "https://registry.yarnpkg.com/weboptimizer/-/weboptimizer-2.0.663.tgz#cc487d4cc7b8bac74e3561ce35c12d2a3b6cc6c3"
+  integrity sha512-aWhK6UTXX6r+QspqBAKZ3YF7rMCwa4+TartY0bC/D13ZBFsPx+WDXFLQ/dws2q+66obBaO9ertfwE59+8lcfnQ==
   dependencies:
     "@babel/core" "*"
     "@babel/plugin-proposal-class-properties" "*"
