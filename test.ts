@@ -44,12 +44,18 @@ describe('server', ():void => {
             configuration as Configuration
         )).toStrictEqual({name: 'server', promise})
     })
-    test('preLoadService', ():void =>
-        expect(Index.preLoadService(
-            {server: {instance: {} as HTTPServer, sockets: [], streams: []}},
-            configuration as Configuration,
-            []
-        ).server.instance).toHaveProperty('listen')
+    test('preLoadService', async ():Promise<void> =>
+        expect(
+            (
+                await Index.preLoadService(
+                    {server: {
+                        instance: {} as HTTPServer, sockets: [], streams: []
+                    }},
+                    configuration as Configuration,
+                    []
+                )
+            ).server.instance
+        ).toHaveProperty('listen')
     )
     test('shouldExit', async ():Promise<void> => {
         let testValue:boolean = false
