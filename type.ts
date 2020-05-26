@@ -77,14 +77,16 @@ export interface PluginHandler extends BasePluginHandler {
      */
     serverRequest?(
         request:HTTPServerRequest, response:HTTPServerResponse
-    ):HTTPServerRequest
+    ):Promise<HTTPServerRequest>
     /**
      * Hook to run on stream.
      * @param stream - Current stream object.
      * @param headers - Current headers.
      * @returns Current Stream.
      */
-    serverStream?(stream:HTTPStream, headers:OutgoingHTTPHeaders):HTTPStream
+    serverStream?(
+        stream:HTTPStream, headers:OutgoingHTTPHeaders
+    ):Promise<HTTPStream>
 }
 // endregion
 // region vim modline
