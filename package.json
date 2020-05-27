@@ -1,6 +1,6 @@
 {
   "name": "serverwebnodeplugin",
-  "version": "1.0.211",
+  "version": "1.0.212",
   "license": "CC-BY-3.0",
   "description": "A generic extendable application and file server for webNode.",
   "homepage": "https://torben.website/serverWebNodePlugin",
@@ -64,7 +64,7 @@
     "clientnode": "*",
     "web-node": "*"
   },
-  "sideEffects": true,
+  "sideEffects": false,
   "webNode": {
     "server": {
       "application": {
@@ -89,7 +89,6 @@
       "dynamicPathPrefix": "api"
     }
   },
-  "sideEffects": false,
   "webOptimizer": {
     "targetTechnology": "node"
   }
