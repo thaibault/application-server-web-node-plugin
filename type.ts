@@ -73,18 +73,32 @@ export interface PluginHandler extends BasePluginHandler {
      * @param request - Request which comes from client.
      * @param response - Response object to use to perform a response to
      * client.
+     * @param configuration - Configuration object extended by each plugin
+     * specific configuration.
+     * @param plugins - Topological sorted list of plugins.
      * @returns Request object to finish.
      */
     serverRequest?(
-        request:HTTPServerRequest, response:HTTPServerResponse
-    ):HTTPServerRequest
+        request:HTTPServerRequest,
+        response:HTTPServerResponse,
+        configuration:Configuration,
+        plugins:Array<Plugin>
+    ):Promise<HTTPServerRequest>
     /**
      * Hook to run on stream.
      * @param stream - Current stream object.
      * @param headers - Current headers.
+     * @param configuration - Configuration object extended by each plugin
+     * specific configuration.
+     * @param plugins - Topological sorted list of plugins.
      * @returns Current Stream.
      */
-    serverStream?(stream:HTTPStream, headers:OutgoingHTTPHeaders):HTTPStream
+    serverStream?(
+        stream:HTTPStream,
+        headers:OutgoingHTTPHeaders,
+        configuration:Configuration,
+        plugins:Array<Plugin>
+    ):Promise<HTTPStream>
 }
 // endregion
 // region vim modline

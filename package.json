@@ -29,7 +29,7 @@
     "check:types": "webOptimizer check:types",
     "clear": "webOptimizer clear",
     "document": "webOptimizer document",
-    "lint": "webOptimizer check:type; webOptimizer lint",
+    "lint": "webOptimizer lint",
     "prepare": "yarn build",
     "report:coverage": "nyc report --reporter=text-lcov | coveralls",
     "serve": "yarn build && webNode",
@@ -38,10 +38,6 @@
     "update": "yarn version --patch && yarn publish",
     "update:documentation": "documentationWebsite --log-level info",
     "watch": "webOptimizer build --watch"
-  },
-  "peerDependencies": {
-    "@babel/runtime": "*",
-    "web-node": "*"
   },
   "devDependencies": {
     "@types/jest": "*",
@@ -63,6 +59,12 @@
     "webpack-cli": "*",
     "webpack-dev-server": "*"
   },
+  "peerDependencies": {
+    "@babel/runtime": "*",
+    "clientnode": "*",
+    "web-node": "*"
+  },
+  "sideEffects": true,
   "webNode": {
     "server": {
       "application": {
