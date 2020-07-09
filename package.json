@@ -1,11 +1,11 @@
 {
-  "name": "serverwebnodeplugin",
+  "name": "application-server-web-node-plugin",
   "version": "1.0.222",
   "license": "CC-BY-3.0",
   "description": "A generic extendable application and file server for webNode.",
-  "homepage": "https://torben.website/serverWebNodePlugin",
+  "homepage": "https://torben.website/application-server-web-node-plugin",
   "documentationWebsite": {
-    "name": "serverWebNodePlugin",
+    "name": "application-server-web-node-plugin",
     "trackingCode": "UA-40192634-24"
   },
   "keywords": [
@@ -21,23 +21,23 @@
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/thaibault/serverWebNodePlugin.git"
+    "url": "https://github.com/thaibault/application-server-web-node-plugin.git"
   },
   "scripts": {
-    "build": "webOptimizer build",
+    "build": "weboptimizer build",
     "check": "yarn check:types; yarn lint",
-    "check:types": "webOptimizer check:types",
-    "clear": "webOptimizer clear",
-    "document": "webOptimizer document",
-    "lint": "webOptimizer lint",
+    "check:types": "weboptimizer check:types",
+    "clear": "weboptimizer clear",
+    "document": "weboptimizer document",
+    "lint": "weboptimizer lint",
     "prepare": "yarn build",
     "report:coverage": "nyc report --reporter=text-lcov | coveralls",
     "serve": "yarn build && webNode",
     "start": "yarn serve",
-    "test": "webOptimizer test",
+    "test": "weboptimizer test",
     "update": "yarn version --patch && yarn publish",
     "update:documentation": "documentationWebsite --log-level info",
-    "watch": "webOptimizer build --watch"
+    "watch": "weboptimizer build --watch"
   },
   "devDependencies": {
     "@types/jest": "*",
@@ -66,27 +66,25 @@
   },
   "sideEffects": false,
   "webNode": {
-    "server": {
-      "application": {
-        "rootPath": {
-          "__evaluate__": "currentPath"
-        },
-        "port": 8080,
-        "hostName": "127.0.0.1"
-      },
+    "applicationServer": {
       "authentication": {
         "login": "admin",
         "password": "admin",
         "salt": "admin",
         "staticAssets": true
       },
+      "dynamicPathPrefix": "api",
+      "hostName": "127.0.0.1",
       "hostNamePrefix": "",
       "hostNamePattern": ".+",
       "httpBasicAuthenticationCancelRedirectHTMLContent": "<html><head><meta charset=\"utf-8\" /><title>authenticationRedirect</title><meta http-equiv=\"refresh\" content=\"0; URL={1}\" /><script type=\"text/javascript\">window.location.href = '{1}';</script></head><body></body></html>",
-      "options": {
+      "nodeServerOptions": {
         "allowHTTP1": true
       },
-      "dynamicPathPrefix": "api"
+      "port": 8080,
+      "rootPath": {
+        "__evaluate__": "currentPath"
+      }
     }
   },
   "webOptimizer": {

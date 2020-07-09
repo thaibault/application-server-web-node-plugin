@@ -1,10 +1,10 @@
 // #!/usr/bin/env node
 // -*- coding: utf-8 -*-
-/** @module serverWebNodePlugin */
+/** @module application-server-web-node-plugin */
 'use strict'
 /* !
     region header
-    [Project page](https://torben.website/serverWebNodePlugin)
+    [Project page](https://torben.website/application-server-web-node-plugin)
 
     Copyright Torben Sickert (info["~at~"]torben.website) 16.12.2012
 
@@ -38,7 +38,7 @@ import {
  * Launches an application server und triggers all some pluginable hooks on
  * an event.
  */
-export class Server implements PluginHandler {
+export class ApplicationServer implements PluginHandler {
     /**
      * Start database's child process and return a Promise which observes this
      * service.
@@ -54,28 +54,28 @@ export class Server implements PluginHandler {
         services:Services,
         configuration:Configuration
     ):Promise<null|Service> {
-        if (services.hasOwnProperty('server'))
+        if (services.hasOwnProperty('applicationServer'))
             return await new Promise((
                 resolve:Function, reject:Function
             ):void => {
                 const parameter:Array<any> = []
-                if (configuration.server.application.hostName)
-                    parameter.push(configuration.server.application.hostName)
+                if (configuration.applicationServer.hostName)
+                    parameter.push(configuration.applicationServer.hostName)
                 parameter.push(():void => {
                     console.info(
                         'Starting application server to listen on port "' +
-                        `${configuration.server.application.port}".`
+                        `${configuration.applicationServer.port}".`
                     )
                     resolve({
-                        name: 'server',
+                        name: 'application-server',
                         promise: new Promise(():Services['server'] =>
-                            services.server
+                            services.applicationServer
                         )
                     })
                 })
                 try {
-                    services.server.instance.listen(
-                        configuration.server.application.port, ...parameter
+                    services.applicationServer.instance.listen(
+                        configuration.applicationServer.port, ...parameter
                     )
                 } catch (error) {
                     reject(error)
@@ -97,7 +97,7 @@ export class Server implements PluginHandler {
             request:HTTPServerRequest, response:HTTPServerResponse
         ):Promise<void> => {
             await PluginAPI.callStack(
-                'serverRequest',
+                'applicationServerRequest',
                 plugins,
                 configuration,
                 request,
@@ -106,35 +106,37 @@ export class Server implements PluginHandler {
             )
             response.end()
         }
-        services.server = {
+        services.applicationServer = {
             instance: (
-                configuration.server.options.cert &&
-                configuration.server.options.key
+                configuration.applicationServer.nodeServerOptions.cert &&
+                configuration.applicationServer.nodeServerOptions.key
             ) ?
                 createSecureServer(
-                    configuration.server.options, onIncomingMessage
+                    configuration.applicationServer.nodeServerOptions,
+                    onIncomingMessage
                 ) :
                 createServer(onIncomingMessage),
             streams: [],
             sockets: []
         }
-        services.server.instance.on('connection', (socket:Socket):void => {
-            services.server.sockets.push(socket)
-            socket.on('close', ():Array<Socket> =>
-                services.server.sockets.splice(
-                    services.server.sockets.indexOf(socket), 1
+        services.applicationServer.instance.on(
+            'connection',
+            (socket:Socket):void => {
+                services.applicationServer.sockets.push(socket)
+                socket.on('close', ():Array<Socket> =>
+                    services.applicationServer.sockets.splice(
+                        services.applicationServer.sockets.indexOf(socket), 1
+                    )
                 )
-            )
         })
-        services.server.instance.on(
+        services.applicationServer.instance.on(
             'stream',
             async (
-                stream:HTTPStream,
-                headers:OutgoingHTTPHeaders
+                stream:HTTPStream, headers:OutgoingHTTPHeaders
             ):Promise<void> => {
-                services.server.streams.push(stream)
+                services.applicationServer.streams.push(stream)
                 await PluginAPI.callStack(
-                    'serverStream',
+                    'applicationServerStream',
                     plugins,
                     configuration,
                     stream,
@@ -142,8 +144,8 @@ export class Server implements PluginHandler {
                     services
                 )
                 stream.on('close', ():Array<HTTPStream> =>
-                    services.server.streams.splice(
-                        services.server.streams.indexOf(stream), 1
+                    services.applicationServer.streams.splice(
+                        services.applicationServer.streams.indexOf(stream), 1
                     )
                 )
             }
@@ -157,12 +159,13 @@ export class Server implements PluginHandler {
      */
     static async shouldExit(services:Services):Promise<Services> {
         return new Promise((resolve:Function):void => {
-            services.server.instance.close(():void => {
-                delete services.server
+            services.applicationServer.instance.close(():void => {
+                delete services.applicationServer
                 resolve(services)
             })
             for (const connections of [
-                services.server.sockets, services.server.streams
+                services.applicationServer.sockets,
+                services.applicationServer.streams
             ])
                 if (Array.isArray(connections))
                     for (const connection of connections)
@@ -170,7 +173,7 @@ export class Server implements PluginHandler {
         })
     }
 }
-export default Server
+export default ApplicationServer
 // endregion
 // region vim modline
 // vim: set tabstop=4 shiftwidth=4 expandtab:

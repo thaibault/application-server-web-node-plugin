@@ -34,12 +34,7 @@ import {
 // endregion
 // region exports
 export type Configuration = BaseConfiguration & {
-    server:{
-        application:{
-            rootPath:string;
-            port:number;
-            hostName:string;
-        };
+    applicationServer:{
         authentication:{
             login:string;
             password:string;
@@ -47,24 +42,27 @@ export type Configuration = BaseConfiguration & {
             staticAssets:boolean;
         };
         dynamicPathPrefix:string;
+        hostName:string;
         hostNamePrefix:string;
         hostNamePattern:string;
         httpBasicAuthenticationCancelRedirectHTMLContent:string;
-        options:SecureServerOptions;
+        nodeServerOptions:SecureServerOptions;
+        port:number;
+        rootPath:string;
     }
 }
 export type HTTPServer = HttpServer|HTTPSecureServer
 export type Service = BaseService & {
-    name:'server';
+    name:'application-server';
     promise:Promise<HTTPServer>;
 }
-export type Services = BaseServices & {server:{
+export type Services = BaseServices & {applicationServer:{
     instance:HTTPServer;
     streams:Array<HTTPStream>;
     sockets:Array<Socket>;
 }}
 export type ServicePromises = BaseServicePromises & {
-    server:Promise<HTTPServer>;
+    applicationServer:Promise<HTTPServer>;
 }
 export interface PluginHandler extends BasePluginHandler {
     /**
@@ -78,7 +76,7 @@ export interface PluginHandler extends BasePluginHandler {
      * @param plugins - Topological sorted list of plugins.
      * @returns Request object to finish.
      */
-    serverRequest?(
+    applicationServerRequest?(
         request:HTTPServerRequest,
         response:HTTPServerResponse,
         configuration:Configuration,
@@ -93,7 +91,7 @@ export interface PluginHandler extends BasePluginHandler {
      * @param plugins - Topological sorted list of plugins.
      * @returns Current Stream.
      */
-    serverStream?(
+    applicationServerStream?(
         stream:HTTPStream,
         headers:OutgoingHTTPHeaders,
         configuration:Configuration,
