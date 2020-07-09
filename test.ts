@@ -20,7 +20,7 @@ import {configuration} from 'web-node'
 import Index from './index'
 import {Configuration, HTTPServer, ServicePromises, Services} from './type'
 // endregion
-describe('server', ():void => {
+describe('application-server', ():void => {
     // region tests
     test('loadService', async ():Promise<void> => {
         expect(await Index.loadService(
@@ -31,8 +31,8 @@ describe('server', ():void => {
         const promise:Promise<HTTPServer> =
             new Promise(Tools.noop) as Promise<HTTPServer>
         expect(await Index.loadService(
-            {server: promise},
-            {server: {
+            {applicationServer: promise},
+            {applicationServer: {
                 instance: {
                     listen: (
                         port:number, host:string, started:Function
@@ -42,24 +42,24 @@ describe('server', ():void => {
                 streams: []
             }},
             configuration as Configuration
-        )).toStrictEqual({name: 'server', promise})
+        )).toStrictEqual({name: 'application-server', promise})
     })
     test('preLoadService', async ():Promise<void> =>
         expect(
             (
                 await Index.preLoadService(
-                    {server: {
+                    {applicationServer: {
                         instance: {} as HTTPServer, sockets: [], streams: []
                     }},
                     configuration as Configuration,
                     []
                 )
-            ).server.instance
+            ).applicationServer.instance
         ).toHaveProperty('listen')
     )
     test('shouldExit', async ():Promise<void> => {
         let testValue:boolean = false
-        const services:Services = {server: {
+        const services:Services = {applicationServer: {
             instance: {close: (callback:Function|undefined):HTTPServer => {
                 testValue = true
                 if (callback)
