@@ -160,7 +160,9 @@ export class ApplicationServer implements PluginHandler {
     static async shouldExit(services:Services):Promise<Services> {
         return new Promise((resolve:Function):void => {
             services.applicationServer.instance.close(():void => {
-                delete services.applicationServer
+                delete (services as {
+                    applicationServer?:Services['applicationServer']
+                }).applicationServer
                 resolve(services)
             })
             for (const connections of [

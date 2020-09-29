@@ -36,33 +36,33 @@ import {
 export type Configuration = BaseConfiguration & {
     applicationServer:{
         authentication:{
-            login:string;
-            password:string;
-            salt:string;
-            staticAssets:boolean;
-        };
-        dynamicPathPrefix:string;
-        hostName:string;
-        hostNamePrefix:string;
-        hostNamePattern:string;
-        httpBasicAuthenticationCancelRedirectHTMLContent:string;
-        nodeServerOptions:SecureServerOptions;
-        port:number;
-        rootPath:string;
+            login:string
+            password:string
+            salt:string
+            staticAssets:boolean
+        }
+        dynamicPathPrefix:string
+        hostName:string
+        hostNamePrefix:string
+        hostNamePattern:string
+        httpBasicAuthenticationCancelRedirectHTMLContent:string
+        nodeServerOptions:SecureServerOptions
+        port:number
+        rootPath:string
     }
 }
 export type HTTPServer = HttpServer|HTTPSecureServer
 export type Service = BaseService & {
-    name:'application-server';
-    promise:Promise<HTTPServer>;
+    name:'application-server'
+    promise:Promise<HTTPServer>
 }
 export type Services = BaseServices & {applicationServer:{
-    instance:HTTPServer;
-    streams:Array<HTTPStream>;
-    sockets:Array<Socket>;
+    instance:HTTPServer
+    streams:Array<HTTPStream>
+    sockets:Array<Socket>
 }}
 export type ServicePromises = BaseServicePromises & {
-    applicationServer:Promise<HTTPServer>;
+    applicationServer:Promise<HTTPServer>
 }
 export interface PluginHandler extends BasePluginHandler {
     /**
