@@ -1,6 +1,6 @@
 {
   "name": "application-server-web-node-plugin",
-  "version": "1.0.229",
+  "version": "1.0.230",
   "license": "CC-BY-3.0",
   "description": "A generic extendable application and file server for webNode.",
   "homepage": "https://torben.website/application-server-web-node-plugin",
