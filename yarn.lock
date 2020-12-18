@@ -7023,9 +7023,9 @@ watchpack@^2.0.0:
     graceful-fs "^4.1.2"
 
 web-node@*:
-  version "1.0.359"
-  resolved "https://registry.yarnpkg.com/web-node/-/web-node-1.0.359.tgz#a1d58d923d1a899ece514ad25382283aa7de2153"
-  integrity sha512-O8C/Gk+2nfCOekr7wxAFZ20WdwOcff7DjEqLEUxlzeZKR1xnU12Gy+j5VYjVDR630KEh/8YWYCe/J6HHSlAWHA==
+  version "1.0.360"
+  resolved "https://registry.yarnpkg.com/web-node/-/web-node-1.0.360.tgz#6e994aefb93148e8369299916e06c75f2d3c94f9"
+  integrity sha512-WW/jqKi+2fOrUCH/J71c9MvzZIjPwAfeun99qWDK2c0PFlgUwr93jrk6mh3dG4LKRS5fnOeO5UrXz3s6x4GCwg==
 
 webidl-conversions@^5.0.0:
   version "5.0.0"
