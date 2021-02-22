@@ -62,6 +62,9 @@
     "clientnode": "*",
     "web-node": "*"
   },
+  "resolutions": {
+    "@types/webpack": "https://registry.yarnpkg.com/@favware/skip-dependency/-/skip-dependency-1.1.0.tgz"
+  },
   "sideEffects": false,
   "webNode": {
     "applicationServer": {
@@ -90,5 +93,8 @@
       "boilerplate": "node",
       "payload": "node"
     }
+  },
+  "dependencies": {
+    "@types/webpack": "https://registry.yarnpkg.com/@favware/skip-dependency/-/skip-dependency-1.1.0.tgz"
   }
 }
