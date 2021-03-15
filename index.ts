@@ -165,10 +165,11 @@ export class ApplicationServer implements PluginHandler {
                 }).applicationServer
                 resolve(services)
             })
+
             for (const connections of [
                 services.applicationServer.sockets,
                 services.applicationServer.streams
-            ])
+            ] as const)
                 if (Array.isArray(connections))
                     for (const connection of connections)
                         connection.destroy()
