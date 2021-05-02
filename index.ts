@@ -165,6 +165,7 @@ export class ApplicationServer implements PluginHandler {
                 }).applicationServer
                 resolve(services)
             })
+
             for (const connections of [
                 services.applicationServer.sockets,
                 services.applicationServer.streams
