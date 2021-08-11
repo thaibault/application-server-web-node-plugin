@@ -15,10 +15,10 @@
     "server"
   ],
   "files": [
-    "index.ts",
-    "type.ts"
+    "index.d.ts",
+    "index.js",
+    "type.d.ts"
   ],
-  "main": "index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/thaibault/application-server-web-node-plugin.git"
