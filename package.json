@@ -42,7 +42,6 @@
   "devDependencies": {
     "@types/jest": "*",
     "@babel/eslint-parser": "*",
-    "@types/loader-utils": "*",
     "@types/node": "*",
     "@types/workbox-webpack-plugin": "*",
     "@typescript-eslint/eslint-plugin": "*",
