@@ -33,8 +33,8 @@ import {
 } from 'web-node/type'
 // endregion
 // region exports
-export type Configuration<PluginConfigurationType = {}> = BaseConfiguration<
-    {
+export type Configuration<PluginConfigurationType = {}> =
+    BaseConfiguration<{
         applicationServer:{
             authentication:{
                 login:string
@@ -51,9 +51,8 @@ export type Configuration<PluginConfigurationType = {}> = BaseConfiguration<
             port:number
             rootPath:string
         }
-    } &
+    }> &
     PluginConfigurationType
->
 
 export type HTTPServer = HttpServer|HTTPSecureServer
 
@@ -61,16 +60,18 @@ export interface Service extends BaseService {
     name:'application-server'
     promise:Promise<HTTPServer>
 }
-export interface Services extends BaseServices {
-    applicationServer:{
-        instance:HTTPServer
-        streams:Array<HTTPStream>
-        sockets:Array<Socket>
-    }
-}
-export interface ServicePromises extends BaseServicePromises {
-    applicationServer:Promise<HTTPServer>
-}
+export type Services<PluginServiceType = {}> =
+    BaseServices<{
+        applicationServer:{
+            instance:HTTPServer
+            streams:Array<HTTPStream>
+            sockets:Array<Socket>
+        }
+    }> &
+    PluginServiceType
+export type ServicePromises<PluginServicePromiseType = {}> =
+    BaseServicePromises<{applicationServer:Promise<HTTPServer>}> &
+    PluginServicePromiseType
 
 export interface PluginHandler extends BasePluginHandler {
     /**
