@@ -33,7 +33,7 @@ import {
 } from 'web-node/type'
 // endregion
 // region exports
-export interface Configuration extends BaseConfiguration {
+export type Configuration = BaseConfiguration<{
     applicationServer:{
         authentication:{
             login:string
@@ -50,8 +50,10 @@ export interface Configuration extends BaseConfiguration {
         port:number
         rootPath:string
     }
-}
+}>
+
 export type HTTPServer = HttpServer|HTTPSecureServer
+
 export interface Service extends BaseService {
     name:'application-server'
     promise:Promise<HTTPServer>
@@ -66,16 +68,19 @@ export interface Services extends BaseServices {
 export interface ServicePromises extends BaseServicePromises {
     applicationServer:Promise<HTTPServer>
 }
+
 export interface PluginHandler extends BasePluginHandler {
     /**
      * Hook to run on each request. After running this hook returned request
      * will be finished.
+     *
      * @param request - Request which comes from client.
      * @param response - Response object to use to perform a response to
      * client.
      * @param configuration - Configuration object extended by each plugin
      * specific configuration.
      * @param plugins - Topological sorted list of plugins.
+     *
      * @returns Request object to finish.
      */
     applicationServerRequest?(
@@ -86,11 +91,13 @@ export interface PluginHandler extends BasePluginHandler {
     ):Promise<HTTPServerRequest>
     /**
      * Hook to run on stream.
+     *
      * @param stream - Current stream object.
      * @param headers - Current headers.
      * @param configuration - Configuration object extended by each plugin
      * specific configuration.
      * @param plugins - Topological sorted list of plugins.
+     *
      * @returns Current Stream.
      */
     applicationServerStream?(
