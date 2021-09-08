@@ -33,24 +33,27 @@ import {
 } from 'web-node/type'
 // endregion
 // region exports
-export type Configuration = BaseConfiguration<{
-    applicationServer:{
-        authentication:{
-            login:string
-            password:string
-            salt:string
-            staticAssets:boolean
+export type Configuration<PluginConfigurationType = {}> = BaseConfiguration<
+    {
+        applicationServer:{
+            authentication:{
+                login:string
+                password:string
+                salt:string
+                staticAssets:boolean
+            }
+            dynamicPathPrefix:string
+            hostName:string
+            hostNamePrefix:string
+            hostNamePattern:string
+            httpBasicAuthenticationCancelRedirectHTMLContent:string
+            nodeServerOptions:SecureServerOptions
+            port:number
+            rootPath:string
         }
-        dynamicPathPrefix:string
-        hostName:string
-        hostNamePrefix:string
-        hostNamePattern:string
-        httpBasicAuthenticationCancelRedirectHTMLContent:string
-        nodeServerOptions:SecureServerOptions
-        port:number
-        rootPath:string
-    }
-}>
+    } &
+    PluginConfigurationType
+>
 
 export type HTTPServer = HttpServer|HTTPSecureServer
 
