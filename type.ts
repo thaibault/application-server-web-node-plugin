@@ -77,7 +77,6 @@ export interface PluginHandler extends BasePluginHandler {
     /**
      * Hook to run on each request. After running this hook returned request
      * will be finished.
-     *
      * @param request - Request which comes from client.
      * @param response - Response object to use to perform a response to
      * client.
@@ -88,14 +87,13 @@ export interface PluginHandler extends BasePluginHandler {
      * @returns Request object to finish.
      */
     applicationServerRequest?(
-        request:HTTPServerRequest,
-        response:HTTPServerResponse,
-        configuration:Configuration,
-        plugins:Array<Plugin>
+        _request:HTTPServerRequest,
+        _response:HTTPServerResponse,
+        _configuration:Configuration,
+        _plugins:Array<Plugin>
     ):Promise<HTTPServerRequest>
     /**
      * Hook to run on stream.
-     *
      * @param stream - Current stream object.
      * @param headers - Current headers.
      * @param configuration - Configuration object extended by each plugin
@@ -105,10 +103,10 @@ export interface PluginHandler extends BasePluginHandler {
      * @returns Current Stream.
      */
     applicationServerStream?(
-        stream:HTTPStream,
-        headers:OutgoingHTTPHeaders,
-        configuration:Configuration,
-        plugins:Array<Plugin>
+        _stream:HTTPStream,
+        _headers:OutgoingHTTPHeaders,
+        _configuration:Configuration,
+        _plugins:Array<Plugin>
     ):Promise<HTTPStream>
 }
 // endregion
