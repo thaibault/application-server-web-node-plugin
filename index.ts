@@ -29,9 +29,7 @@ import {Socket} from 'net'
 import {PluginAPI} from 'web-node'
 import {Plugin, PluginHandler} from 'web-node/type'
 
-import {
-    Configuration, HTTPServer, Service, ServicePromises, Services
-} from './type'
+import {Configuration, Service, ServicePromises, Services} from './type'
 // endregion
 // region plugins/classes
 /**
@@ -42,7 +40,6 @@ export class ApplicationServer implements PluginHandler {
     /**
      * Start database's child process and return a Promise which observes this
      * service.
-     *
      * @param servicePromises - An object with stored service promise
      * instances.
      * @param services - An object with stored service instances.
@@ -56,9 +53,11 @@ export class ApplicationServer implements PluginHandler {
         services:Services,
         configuration:Configuration
     ):Promise<null|Service> {
-        if (services.hasOwnProperty('applicationServer'))
-            return await new Promise((
-                resolve:Function, reject:Function
+        if (Object.prototype.hasOwnProperty.call(
+            services, 'applicationServer'
+        ))
+            return await new Promise<Service>((
+                resolve:(_value:Service) => void, reject:(_reason:Error) => void
             ):void => {
                 const parameters:Array<any> = []
                 if (configuration.applicationServer.hostName)
@@ -89,7 +88,6 @@ export class ApplicationServer implements PluginHandler {
     }
     /**
      * Appends an application server to the web node services.
-     *
      * @param services - An object with stored service instances.
      * @param configuration - Mutable by plugins extended configuration object.
      * @param plugins - Topological sorted list of plugins.
@@ -138,7 +136,8 @@ export class ApplicationServer implements PluginHandler {
                         services.applicationServer.sockets.indexOf(socket), 1
                     )
                 )
-        })
+            }
+        )
 
         services.applicationServer.instance.on(
             'stream',
@@ -168,7 +167,6 @@ export class ApplicationServer implements PluginHandler {
     }
     /**
      * Application will be closed soon.
-     *
      * @param services - An object with stored service instances.
      *
      * @returns Given object of services.

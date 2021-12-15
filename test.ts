@@ -28,8 +28,9 @@ describe('application-server', ():void => {
             {} as Services,
             configuration as Configuration
         )).toBeNull()
-        const promise:Promise<HTTPServer> =
-            new Promise(Tools.noop) as Promise<HTTPServer>
+
+        const promise:Promise<HTTPServer> = new Promise(Tools.noop)
+
         expect(await Index.loadService(
             {applicationServer: promise},
             {applicationServer: {
@@ -58,7 +59,7 @@ describe('application-server', ():void => {
         ).toHaveProperty('listen')
     )
     test('shouldExit', async ():Promise<void> => {
-        let testValue:boolean = false
+        let testValue = false
         const services:Services = {applicationServer: {
             instance: {close: (callback:Function|undefined):HTTPServer => {
                 testValue = true
