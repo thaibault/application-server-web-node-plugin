@@ -80,7 +80,7 @@ export class ApplicationServer implements PluginHandler {
                         configuration.applicationServer.port, ...parameters
                     )
                 } catch (error) {
-                    reject(error)
+                    reject(error as Error)
                 }
             })
 
