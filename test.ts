@@ -15,7 +15,7 @@
 */
 // region imports
 import Tools from 'clientnode'
-import {configuration} from 'web-node'
+import {configuration, PluginAPI} from 'web-node'
 
 import Index from './index'
 import {Configuration, HTTPServer, ServicePromises, Services} from './type'
@@ -43,7 +43,7 @@ describe('application-server', ():void => {
                 streams: []
             }},
             configuration as Configuration
-        )).toStrictEqual({name: 'application-server', promise})
+        )).toStrictEqual({name: 'applicationServer', promise})
     })
     test('preLoadService', async ():Promise<void> =>
         expect(
@@ -53,7 +53,8 @@ describe('application-server', ():void => {
                         instance: {} as HTTPServer, sockets: [], streams: []
                     }},
                     configuration as Configuration,
-                    []
+                    [],
+                    PluginAPI
                 )
             ).applicationServer.instance
         ).toHaveProperty('listen')

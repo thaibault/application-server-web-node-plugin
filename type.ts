@@ -24,6 +24,7 @@ import {
     SecureServerOptions
 } from 'http2'
 import {Socket} from 'net'
+import {PluginAPI} from 'web-node'
 import {
     Configuration as BaseConfiguration,
     PluginHandler as BasePluginHandler,
@@ -57,7 +58,7 @@ export type Configuration<PluginConfigurationType = {}> =
 export type HTTPServer = HttpServer|HTTPSecureServer
 
 export interface Service extends BaseService {
-    name:'application-server'
+    name:'applicationServer'
     promise:Promise<HTTPServer>
 }
 export type Services<PluginServiceType = {}> =
@@ -77,12 +78,13 @@ export interface PluginHandler extends BasePluginHandler {
     /**
      * Hook to run on each request. After running this hook returned request
      * will be finished.
-     * @param request - Request which comes from client.
-     * @param response - Response object to use to perform a response to
+     * @param _request - Request which comes from client.
+     * @param _response - Response object to use to perform a response to
      * client.
-     * @param configuration - Configuration object extended by each plugin
+     * @param _configuration - Configuration object extended by each plugin
      * specific configuration.
-     * @param plugins - Topological sorted list of plugins.
+     * @param _plugins - Topological sorted list of plugins.
+     * @param _pluginAPI - Plugin api reference.
      *
      * @returns Request object to finish.
      */
@@ -90,15 +92,17 @@ export interface PluginHandler extends BasePluginHandler {
         _request:HTTPServerRequest,
         _response:HTTPServerResponse,
         _configuration:Configuration,
-        _plugins:Array<Plugin>
+        _plugins:Array<Plugin>,
+        _pluginAPI:typeof PluginAPI
     ):Promise<HTTPServerRequest>
     /**
      * Hook to run on stream.
-     * @param stream - Current stream object.
-     * @param headers - Current headers.
-     * @param configuration - Configuration object extended by each plugin
+     * @param _stream - Current stream object.
+     * @param _headers - Current headers.
+     * @param _configuration - Configuration object extended by each plugin
      * specific configuration.
-     * @param plugins - Topological sorted list of plugins.
+     * @param _plugins - Topological sorted list of plugins.
+     * @param _pluginAPI - Plugin api reference.
      *
      * @returns Current Stream.
      */
@@ -106,7 +110,8 @@ export interface PluginHandler extends BasePluginHandler {
         _stream:HTTPStream,
         _headers:OutgoingHTTPHeaders,
         _configuration:Configuration,
-        _plugins:Array<Plugin>
+        _plugins:Array<Plugin>,
+        _pluginAPI:typeof PluginAPI
     ):Promise<HTTPStream>
 }
 // endregion
