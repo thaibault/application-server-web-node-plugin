@@ -17,6 +17,8 @@
     endregion
 */
 // region imports
+// NOTE: http2 compatibility mode does work for unencrypted connections yet.
+import {createServer as createHTTP1Server} from 'http'
 import {
     createServer,
     createSecureServer,
@@ -68,7 +70,7 @@ export class ApplicationServer implements PluginHandler {
                         `${configuration.applicationServer.port}".`
                     )
                     resolve({
-                        name: 'application-server',
+                        name: 'applicationServer',
                         promise: new Promise(():Services['server'] =>
                             services.applicationServer
                         )
@@ -91,16 +93,20 @@ export class ApplicationServer implements PluginHandler {
      * @param services - An object with stored service instances.
      * @param configuration - Mutable by plugins extended configuration object.
      * @param plugins - Topological sorted list of plugins.
+     * @param pluginAPI - Plugin api reference.
      *
      * @returns Given and extended object of services.
      */
     static preLoadService(
-        services:Services, configuration:Configuration, plugins:Array<Plugin>
+        services:Services,
+        configuration:Configuration,
+        plugins:Array<Plugin>,
+        pluginAPI:typeof PluginAPI
     ):Promise<Services> {
-        const onIncomingMessage = async (
+        const onIncomingMessage = (
             request:HTTPServerRequest, response:HTTPServerResponse
-        ):Promise<void> => {
-            await PluginAPI.callStack(
+        ):void => {
+            void pluginAPI.callStack(
                 'applicationServerRequest',
                 plugins,
                 configuration,
@@ -108,8 +114,7 @@ export class ApplicationServer implements PluginHandler {
                 response,
                 services
             )
-
-            response.end()
+                .then(() => response.end())
         }
 
         services.applicationServer = {
@@ -121,7 +126,10 @@ export class ApplicationServer implements PluginHandler {
                     configuration.applicationServer.nodeServerOptions,
                     onIncomingMessage
                 ) :
-                createServer(onIncomingMessage),
+                // NOTE: See import notice.
+                (createHTTP1Server as unknown as typeof createServer)(
+                    onIncomingMessage
+                ),
             streams: [],
             sockets: []
         }
@@ -141,12 +149,10 @@ export class ApplicationServer implements PluginHandler {
 
         services.applicationServer.instance.on(
             'stream',
-            async (
-                stream:HTTPStream, headers:OutgoingHTTPHeaders
-            ):Promise<void> => {
+            (stream:HTTPStream, headers:OutgoingHTTPHeaders):void => {
                 services.applicationServer.streams.push(stream)
 
-                await PluginAPI.callStack(
+                void pluginAPI.callStack(
                     'applicationServerStream',
                     plugins,
                     configuration,

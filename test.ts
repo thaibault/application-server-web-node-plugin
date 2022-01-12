@@ -43,7 +43,7 @@ describe('application-server', ():void => {
                 streams: []
             }},
             configuration as Configuration
-        )).toStrictEqual({name: 'application-server', promise})
+        )).toStrictEqual({name: 'applicationServer', promise})
     })
     test('preLoadService', async ():Promise<void> =>
         expect(
