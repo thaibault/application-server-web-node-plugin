@@ -2779,9 +2779,9 @@ cli-table3@^0.5.0:
     colors "^1.1.2"
 
 clientnode@*:
-  version "3.0.863"
-  resolved "https://registry.yarnpkg.com/clientnode/-/clientnode-3.0.863.tgz#0f5619535d525cbf86700cd162b9cbc38ad4dbd7"
-  integrity sha512-T5YE4AZ0V7V20UKgtImtWJohYHcEXYJ3rTosshZFm8RXMIY5EVK235BjTJGIUpRXnBob6BvYgVPkA/Wq+huI0A==
+  version "3.0.865"
+  resolved "https://registry.yarnpkg.com/clientnode/-/clientnode-3.0.865.tgz#ee6b1e3120ad995ab8f36c64ce4f10c0aef952fa"
+  integrity sha512-uPFZZbHDdQJKSgwmjLiVvMsZum8021USnMI9FkR70kYHS1pTF1Lgjc8sGrCQbt1ydID8AQnEyDuld2+aYWZLwQ==
   dependencies:
     "@types/webpack" "https://registry.yarnpkg.com/@favware/skip-dependency/-/skip-dependency-1.1.1.tgz"
 
@@ -3128,9 +3128,9 @@ ejs@*:
     jake "^10.6.1"
 
 electron-to-chromium@^1.3.47, electron-to-chromium@^1.4.17:
-  version "1.4.43"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.43.tgz#665c0cd8d5e7cce0ba78d90a514c8c813ca3bdbe"
-  integrity sha512-PO3kEfcxPrti/4STbXvCkNIF4fgWvCKl2508e6UI7KomCDffpIfeBZLXsh5DK/XGsjUw3kwq6WEsi0MJTlGAdg==
+  version "1.4.45"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.45.tgz#cf1144091d6683cbd45a231954a745f02fb24598"
+  integrity sha512-czF9eYVuOmlY/vxyMQz2rGlNSjZpxNQYBe1gmQv7al171qOIhgyO9k7D5AKlgeTCSPKk+LHhj5ZyIdmEub9oNg==
 
 emittery@^0.8.1:
   version "0.8.1"
@@ -5940,9 +5940,9 @@ watchpack@^2.3.1:
     graceful-fs "^4.1.2"
 
 web-node@*:
-  version "1.0.414"
-  resolved "https://registry.yarnpkg.com/web-node/-/web-node-1.0.414.tgz#abe2e1da50fb6d53d2c1052ab0bad5da1e77ec01"
-  integrity sha512-aT1rxLkPXAc8vao1boF9wCt30b4+C373EI3xg1rSBah2J5Jpoz5qB/8Wm1Th/249GhM2x1+cejXAS0a9KXADwQ==
+  version "1.0.415"
+  resolved "https://registry.yarnpkg.com/web-node/-/web-node-1.0.415.tgz#6eae9bad0835590c8cf876a61979f94348efe653"
+  integrity sha512-v6epzJve5ifqxeWBBQncGPFl6eeefexr5AZ9q9Cn0pS74AKDpMm9D1/SEW2IpT70VYHTO2PEpY777QgciRTWnA==
   dependencies:
     "@types/webpack" "https://registry.yarnpkg.com/@favware/skip-dependency/-/skip-dependency-1.1.1.tgz"
 
@@ -5957,9 +5957,9 @@ webidl-conversions@^6.1.0:
   integrity sha512-qBIvFLGiBpLjfwmYAaHPXsn+ho5xZnGvyGvsarywGNc8VyQJUMHJ8OBKGGrPER0okBeMDaan4mNBlgBROxuI8w==
 
 weboptimizer@*:
-  version "2.0.1114"
-  resolved "https://registry.yarnpkg.com/weboptimizer/-/weboptimizer-2.0.1114.tgz#5df812aefe19a9f127a6a0382ed5d9bd3b0b24d8"
-  integrity sha512-JWkauGAtm8nd2Uqv0e847nj0KxCw5kJCQ/UMP8N2fQGR4/7hF6PA49E6Mx96FWyoRp6lcc6pzH3yo1EBMtMLAg==
+  version "2.0.1116"
+  resolved "https://registry.yarnpkg.com/weboptimizer/-/weboptimizer-2.0.1116.tgz#062c49ec4e0267ab135eedcbc4d60e43e9cb0d0b"
+  integrity sha512-YbCb9q6W6F4DfzwJBalMusvS6axcMcmkDbhmjYK8ANzr4WIm4bxaZVWjME+p0mCXhGjtXpKTlkeJhalSGYScIA==
   dependencies:
     "@babel/core" "*"
     "@babel/plugin-proposal-decorators" "*"
