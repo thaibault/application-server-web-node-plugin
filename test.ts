@@ -66,16 +66,19 @@ describe('application-server', ():void => {
                 testValue = true
                 if (callback)
                     callback()
+
                 return {} as HTTPServer
             }} as HTTPServer,
             sockets: [],
             streams: []
         }}
+
         try {
             expect(await Index.shouldExit(services)).toStrictEqual(services)
         } catch (error) {
             console.error(error)
         }
+
         expect(services).toStrictEqual({})
         expect(testValue).toStrictEqual(true)
     })
