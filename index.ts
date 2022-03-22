@@ -59,9 +59,9 @@ export class ApplicationServer implements PluginHandler {
             services, 'applicationServer'
         ))
             return await new Promise<Service>((
-                resolve:(_value:Service) => void, reject:(_reason:Error) => void
+                resolve:(value:Service) => void, reject:(_reason:Error) => void
             ):void => {
-                const parameters:Array<any> = []
+                const parameters:Array<unknown> = []
                 if (configuration.applicationServer.hostName)
                     parameters.push(configuration.applicationServer.hostName)
                 parameters.push(():void => {
@@ -79,9 +79,11 @@ export class ApplicationServer implements PluginHandler {
 
                 try {
                     services.applicationServer.instance.listen(
-                        configuration.applicationServer.port, ...parameters
+                        configuration.applicationServer.port,
+                        ...parameters as [() => void]
                     )
                 } catch (error) {
+                    // eslint-disable-next-line prefer-promise-reject-errors
                     reject(error as Error)
                 }
             })
@@ -178,7 +180,9 @@ export class ApplicationServer implements PluginHandler {
      * @returns Given object of services.
      */
     static async shouldExit(services:Services):Promise<Services> {
-        return new Promise((resolve:Function):void => {
+        return new Promise<Services>((
+            resolve:(services:Services) => void
+        ):void => {
             services.applicationServer.instance.close(():void => {
                 delete (services as {
                     applicationServer?:Services['applicationServer']

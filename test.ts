@@ -36,7 +36,7 @@ describe('application-server', ():void => {
             {applicationServer: {
                 instance: {
                     listen: (
-                        port:number, host:string, started:Function
+                        port:number, host:string, started:() => void
                     ):void => started()
                 } as unknown as HTTPServer,
                 sockets: [],
@@ -62,7 +62,7 @@ describe('application-server', ():void => {
     test('shouldExit', async ():Promise<void> => {
         let testValue = false
         const services:Services = {applicationServer: {
-            instance: {close: (callback:Function|undefined):HTTPServer => {
+            instance: {close: (callback:(() => void)|undefined):HTTPServer => {
                 testValue = true
                 if (callback)
                     callback()
