@@ -1,6 +1,6 @@
 {
   "name": "application-server-web-node-plugin",
-  "version": "1.0.290",
+  "version": "1.0.291",
   "license": "CC-BY-3.0",
   "description": "A generic extendable application and file server for webNode.",
   "keywords": [
@@ -14,7 +14,6 @@
     "email": "info@torben.website",
     "url": "https://github.com/thaibault/application-server-web-node-plugin/issues"
   },
-  "license": "CC-BY-3.0",
   "author": {
     "name": "Torben Sickert",
     "email": "info@torben.website",
