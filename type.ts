@@ -14,6 +14,7 @@
     endregion
 */
 // region imports
+import {Mapping} from 'clientnode/type'
 import {
     Http2SecureServer as HTTPSecureServer,
     Http2Server as HttpServer,
@@ -34,7 +35,7 @@ import {
 } from 'web-node/type'
 // endregion
 // region exports
-export type Configuration<PluginConfigurationType = {}> =
+export type Configuration<PluginConfigurationType = Mapping<unknown>> =
     BaseConfiguration<{
         applicationServer:{
             authentication:{
@@ -61,7 +62,7 @@ export interface Service extends BaseService {
     name:'applicationServer'
     promise:Promise<HTTPServer>
 }
-export type Services<PluginServiceType = {}> =
+export type Services<PluginServiceType = Mapping<unknown>> =
     BaseServices<{
         applicationServer:{
             instance:HTTPServer
@@ -70,7 +71,7 @@ export type Services<PluginServiceType = {}> =
         }
     }> &
     PluginServiceType
-export type ServicePromises<PluginServicePromiseType = {}> =
+export type ServicePromises<PluginServicePromiseType = Mapping<unknown>> =
     BaseServicePromises<{applicationServer:Promise<HTTPServer>}> &
     PluginServicePromiseType
 
