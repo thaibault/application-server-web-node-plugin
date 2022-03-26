@@ -24,7 +24,7 @@ describe('application-server', ():void => {
     // region tests
     test('loadService', async ():Promise<void> => {
         expect(await Index.loadService(
-            {},
+            {} as ServicePromises,
             {} as Services,
             configuration as Configuration
         )).toBeNull()
