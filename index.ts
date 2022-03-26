@@ -51,7 +51,7 @@ export class ApplicationServer implements PluginHandler {
      * service.
      */
     static async loadService(
-        servicePromises:ServicePromises,
+        servicePromises:Omit<ServicePromises, 'applicationServer'>,
         services:Services,
         configuration:Configuration
     ):Promise<null|Service> {
