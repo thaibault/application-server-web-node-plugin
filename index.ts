@@ -42,19 +42,11 @@ export class ApplicationServer implements PluginHandler {
     /**
      * Start database's child process and return a Promise which observes this
      * service.
-     * @param servicePromises - An object with stored service promise
-     * instances.
-     * @param services - An object with stored service instances.
-     * @param configuration - Mutable by plugins extended configuration object.
      *
      * @returns A promise which correspond to the plugin specific continues
      * service.
      */
-    static async loadService(
-        servicePromises:ServicePromises,
-        services:Services,
-        configuration:Configuration
-    ):Promise<null|Service> {
+    static async loadService({configuration, services}):Promise<null|Service> {
         if (Object.prototype.hasOwnProperty.call(
             services, 'applicationServer'
         ))
@@ -99,34 +91,33 @@ export class ApplicationServer implements PluginHandler {
      *
      * @returns Given and extended object of services.
      */
-    static preLoadService(
-        services:Services,
-        configuration:Configuration,
-        plugins:Array<Plugin>,
-        pluginAPI:typeof PluginAPI
-    ):Promise<Services> {
+    static preLoadService(state:ServicesState):Promise<void> {
+        const {
+            configuration: {applicationServer: configuration},
+            services: {applicationServer}
+        } = state
+
         const onIncomingMessage = (
             request:HTTPServerRequest, response:HTTPServerResponse
         ):void => {
-            void pluginAPI.callStack(
-                'applicationServerRequest',
-                plugins,
-                configuration,
-                request,
-                response,
-                services
-            )
+            void pluginAPI.callStack<ServicesState<{
+                request:HTTPServerRequest
+                response:HTTPServerResponse
+            }>>({
+                ...state,
+                data: {response, request},
+                hook: 'applicationServerRequest'
+            })
                 .then(() => response.end())
         }
 
-        services.applicationServer = {
+        applicationServer = {
             instance: (
-                configuration.applicationServer.nodeServerOptions.cert &&
-                configuration.applicationServer.nodeServerOptions.key
+                configuration.nodeServerOptions.cert &&
+                configuration.nodeServerOptions.key
             ) ?
                 createSecureServer(
-                    configuration.applicationServer.nodeServerOptions,
-                    onIncomingMessage
+                    configuration.nodeServerOptions, onIncomingMessage
                 ) :
                 // NOTE: See import notice.
                 (createHTTP1Server as unknown as typeof createServer)(
@@ -136,42 +127,40 @@ export class ApplicationServer implements PluginHandler {
             sockets: []
         }
 
-        services.applicationServer.instance.on(
+        applicationServer.instance.on(
             'connection',
             (socket:Socket):void => {
-                services.applicationServer.sockets.push(socket)
+                applicationServer.sockets.push(socket)
 
                 socket.on('close', ():Array<Socket> =>
-                    services.applicationServer.sockets.splice(
-                        services.applicationServer.sockets.indexOf(socket), 1
+                    applicationServer.sockets.splice(
+                        applicationServer.sockets.indexOf(socket), 1
                     )
                 )
             }
         )
 
-        services.applicationServer.instance.on(
+        applicationServer.instance.on(
             'stream',
             (stream:HTTPStream, headers:OutgoingHTTPHeaders):void => {
-                services.applicationServer.streams.push(stream)
+                applicationServer.streams.push(stream)
 
-                void pluginAPI.callStack(
-                    'applicationServerStream',
-                    plugins,
-                    configuration,
-                    stream,
-                    headers,
-                    services
-                )
+                void pluginAPI.callStack<ServicesState<{
+                    headers:OutgoingHTTPHeaders
+                    stream:HTTPStream
+                }>>({
+                    ...state,
+                    data: {headers, stream},
+                    hook: 'applicationServerStream'
+                })
 
                 stream.on('close', ():Array<HTTPStream> =>
-                    services.applicationServer.streams.splice(
-                        services.applicationServer.streams.indexOf(stream), 1
+                    applicationServer.streams.splice(
+                        applicationServer.streams.indexOf(stream), 1
                     )
                 )
             }
         )
-
-        return Promise.resolve(services)
     }
     /**
      * Application will be closed soon.
