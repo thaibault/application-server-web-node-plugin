@@ -46,20 +46,17 @@ describe('application-server', ():void => {
             configuration as Configuration
         )).toStrictEqual({name: 'applicationServer', promise})
     })
-    test('preLoadService', async ():Promise<void> =>
-        expect(
-            (
-                await Index.preLoadService(
-                    {applicationServer: {
-                        instance: {} as HTTPServer, sockets: [], streams: []
-                    }},
-                    configuration as Configuration,
-                    [],
-                    PluginAPI
-                )
-            ).applicationServer.instance
-        ).toHaveProperty('listen')
-    )
+    test('preLoadService', async ():Promise<void> => {
+        await Index.preLoadService({
+            configuration,
+            PluginAPI,
+            services: {applicationServer: {
+                instance: {} as HTTPServer, sockets: [], streams: []
+            }}
+        })
+
+        expect(services.applicationServer.instance).toHaveProperty('listen')
+    })
     test('shouldExit', async ():Promise<void> => {
         let testValue = false
         const services:Services = {applicationServer: {
@@ -75,7 +72,7 @@ describe('application-server', ():void => {
         }}
 
         try {
-            expect(await Index.shouldExit(services)).toStrictEqual(services)
+            expect(Index.shouldExit({services})).resolves.toBeUndefined()
         } catch (error) {
             console.error(error)
         }

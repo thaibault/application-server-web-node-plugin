@@ -31,7 +31,9 @@ import {
     PluginHandler as BasePluginHandler,
     Service as BaseService,
     Services as BaseServices,
-    ServicePromises as BaseServicePromises
+    ServicePromises as BaseServicePromises,
+    ServicePromisesState as BaseServicePromisesState,
+    ServicesState as BaseServicesState
 } from 'web-node/type'
 // endregion
 // region exports
@@ -62,58 +64,56 @@ export interface Service extends BaseService {
     name:'applicationServer'
     promise:Promise<HTTPServer>
 }
+export interface ApplicationServerService {
+    instance:HTTPServer
+    streams:Array<HTTPStream>
+    sockets:Array<Socket>
+}
 export type Services<PluginServiceType = Mapping<unknown>> =
-    BaseServices<{
-        applicationServer:{
-            instance:HTTPServer
-            streams:Array<HTTPStream>
-            sockets:Array<Socket>
-        }
-    }> &
+    BaseServices<{applicationServer:ApplicationServerService}> &
     PluginServiceType
 export type ServicePromises<PluginServicePromiseType = Mapping<unknown>> =
     BaseServicePromises<{applicationServer:Promise<HTTPServer>}> &
     PluginServicePromiseType
 
+export type ServicesState = BaseServicesState<
+    {
+        request:HTTPServerRequest
+        response:HTTPServerResponse
+    },
+    Configuration,
+    Services
+>
+export type ServicePromisesState = BaseServicePromisesState<
+    {
+        request:HTTPServerRequest
+        response:HTTPServerResponse
+    },
+    Configuration,
+    Services,
+    ServicePromises
+>
+
+// TODO make ServicePromises State generic to support both hooks!
+_stream:HTTPStream,
+        _headers:OutgoingHTTPHeaders,
+
 export interface PluginHandler extends BasePluginHandler {
     /**
      * Hook to run on each request. After running this hook returned request
      * will be finished.
-     * @param _request - Request which comes from client.
-     * @param _response - Response object to use to perform a response to
-     * client.
-     * @param _configuration - Configuration object extended by each plugin
-     * specific configuration.
-     * @param _plugins - Topological sorted list of plugins.
-     * @param _pluginAPI - Plugin api reference.
+     * @param state - Application state.
      *
-     * @returns Request object to finish.
+     * @returns Promise resolving to nothing.
      */
-    applicationServerRequest?(
-        _request:HTTPServerRequest,
-        _response:HTTPServerResponse,
-        _configuration:Configuration,
-        _plugins:Array<Plugin>,
-        _pluginAPI:typeof PluginAPI
-    ):Promise<HTTPServerRequest>
+    applicationServerRequest?(state:ServicePromisesState):Promise<void>
     /**
      * Hook to run on stream.
-     * @param _stream - Current stream object.
-     * @param _headers - Current headers.
-     * @param _configuration - Configuration object extended by each plugin
-     * specific configuration.
-     * @param _plugins - Topological sorted list of plugins.
-     * @param _pluginAPI - Plugin api reference.
+     * @param state - Application state.
      *
-     * @returns Current Stream.
+     * @returns Promise resolving to nothing.
      */
-    applicationServerStream?(
-        _stream:HTTPStream,
-        _headers:OutgoingHTTPHeaders,
-        _configuration:Configuration,
-        _plugins:Array<Plugin>,
-        _pluginAPI:typeof PluginAPI
-    ):Promise<HTTPStream>
+    applicationServerStream?(state:ServicePromisesState):Promise<void>
 }
 // endregion
 // region vim modline

@@ -31,7 +31,13 @@ import {Socket} from 'net'
 import {PluginAPI} from 'web-node'
 import {Plugin, PluginHandler} from 'web-node/type'
 
-import {Configuration, Service, ServicePromises, Services} from './type'
+import {
+    ApplicationServerService,
+    Service,
+    ServicePromisesState,
+    Services,
+    ServicesState
+} from './type'
 // endregion
 // region plugins/classes
 /**
@@ -42,24 +48,30 @@ export class ApplicationServer implements PluginHandler {
     /**
      * Start database's child process and return a Promise which observes this
      * service.
+     * @param state - Application state.
      *
      * @returns A promise which correspond to the plugin specific continues
      * service.
      */
-    static async loadService({configuration, services}):Promise<null|Service> {
+    static async loadService({
+        configuration: {
+            applicationServer: configuration
+        },
+        services
+    }:ServicePromisesState):Promise<null|Service> {
         if (Object.prototype.hasOwnProperty.call(
             services, 'applicationServer'
         ))
             return await new Promise<Service>((
-                resolve:(value:Service) => void, reject:(_reason:Error) => void
+                resolve:(value:Service) => void, reject:(reason:Error) => void
             ):void => {
                 const parameters:Array<unknown> = []
-                if (configuration.applicationServer.hostName)
-                    parameters.push(configuration.applicationServer.hostName)
+                if (configuration.hostName)
+                    parameters.push(configuration.hostName)
                 parameters.push(():void => {
                     console.info(
                         'Starting application server to listen on port "' +
-                        `${configuration.applicationServer.port}".`
+                        `${configuration.port}".`
                     )
                     resolve({
                         name: 'applicationServer',
@@ -71,8 +83,7 @@ export class ApplicationServer implements PluginHandler {
 
                 try {
                     services.applicationServer.instance.listen(
-                        configuration.applicationServer.port,
-                        ...parameters as [() => void]
+                        configuration.port, ...parameters as [() => void]
                     )
                 } catch (error) {
                     // eslint-disable-next-line prefer-promise-reject-errors
@@ -84,26 +95,21 @@ export class ApplicationServer implements PluginHandler {
     }
     /**
      * Appends an application server to the web node services.
-     * @param services - An object with stored service instances.
-     * @param configuration - Mutable by plugins extended configuration object.
-     * @param plugins - Topological sorted list of plugins.
-     * @param pluginAPI - Plugin api reference.
+     * @param state - Application state.
      *
-     * @returns Given and extended object of services.
+     * @returns Promise resolving to nothing.
      */
     static preLoadService(state:ServicesState):Promise<void> {
         const {
             configuration: {applicationServer: configuration},
-            services: {applicationServer}
+            pluginAPI,
+            services
         } = state
 
         const onIncomingMessage = (
             request:HTTPServerRequest, response:HTTPServerResponse
         ):void => {
-            void pluginAPI.callStack<ServicesState<{
-                request:HTTPServerRequest
-                response:HTTPServerResponse
-            }>>({
+            void pluginAPI.callStack<ServicesState>({
                 ...state,
                 data: {response, request},
                 hook: 'applicationServerRequest'
@@ -111,7 +117,7 @@ export class ApplicationServer implements PluginHandler {
                 .then(() => response.end())
         }
 
-        applicationServer = {
+        const server:ApplicationServerService = {
             instance: (
                 configuration.nodeServerOptions.cert &&
                 configuration.nodeServerOptions.key
@@ -126,63 +132,59 @@ export class ApplicationServer implements PluginHandler {
             streams: [],
             sockets: []
         }
+        services.applicationServer = server
 
-        applicationServer.instance.on(
+        server.instance.on(
             'connection',
             (socket:Socket):void => {
-                applicationServer.sockets.push(socket)
+                server.sockets.push(socket)
 
                 socket.on('close', ():Array<Socket> =>
-                    applicationServer.sockets.splice(
-                        applicationServer.sockets.indexOf(socket), 1
-                    )
+                    server.sockets.splice(server.sockets.indexOf(socket), 1)
                 )
             }
         )
 
-        applicationServer.instance.on(
+        server.instance.on(
             'stream',
             (stream:HTTPStream, headers:OutgoingHTTPHeaders):void => {
-                applicationServer.streams.push(stream)
+                server.streams.push(stream)
 
-                void pluginAPI.callStack<ServicesState<{
-                    headers:OutgoingHTTPHeaders
-                    stream:HTTPStream
-                }>>({
+                void pluginAPI.callStack<ServicesState>({
                     ...state,
                     data: {headers, stream},
                     hook: 'applicationServerStream'
                 })
 
                 stream.on('close', ():Array<HTTPStream> =>
-                    applicationServer.streams.splice(
-                        applicationServer.streams.indexOf(stream), 1
+                    server.streams.splice(
+                        server.streams.indexOf(stream), 1
                     )
                 )
             }
         )
+
+        return Promise.resolve()
     }
     /**
      * Application will be closed soon.
-     * @param services - An object with stored service instances.
+     * @param state - Application state.
      *
-     * @returns Given object of services.
+     * @returns Promise resolving to nothing.
      */
-    static async shouldExit(services:Services):Promise<Services> {
-        return new Promise<Services>((
-            resolve:(services:Services) => void
-        ):void => {
-            services.applicationServer.instance.close(():void => {
+    static async shouldExit({services}:ServicePromisesState):Promise<void> {
+        const {applicationServer: server} = services
+
+        return new Promise<void>((resolve:() => void):void => {
+            server.instance.close(():void => {
                 delete (services as {
                     applicationServer?:Services['applicationServer']
                 }).applicationServer
-                resolve(services)
+
+                resolve()
             })
 
-            for (const connections of [
-                services.applicationServer.sockets,
-                services.applicationServer.streams
-            ])
+            for (const connections of [server.sockets, server.streams])
                 if (Array.isArray(connections))
                     for (const connection of connections)
                         connection.destroy()
