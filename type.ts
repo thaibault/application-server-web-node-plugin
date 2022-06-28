@@ -63,12 +63,13 @@ export interface Server {
     streams:Array<HTTPStream>
     sockets:Array<Socket>
 }
-export type Services<PluginServiceType = Mapping<unknown>> =
-    BaseServices<{applicationServer:Server}> &
-    PluginServiceType
-export type ServicePromises<PluginServicePromiseType = Mapping<unknown>> =
+
+export type ServicePromises<Type = Mapping<unknown>> =
     BaseServicePromises<{applicationServer:Promise<void>}> &
-    PluginServicePromiseType
+    Type
+export type Services<Type = Mapping<unknown>> =
+    BaseServices<{applicationServer:Server}> &
+    Type
 
 export type ServicesState<Type = undefined> = BaseServicesState<
     Type,
