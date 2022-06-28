@@ -17,6 +17,7 @@
     endregion
 */
 // region imports
+import Tools from 'clientnode'
 // NOTE: http2 compatibility mode does work for unencrypted connections yet.
 import {createServer as createHTTP1Server} from 'http'
 import {
@@ -28,16 +29,9 @@ import {
     OutgoingHttpHeaders as OutgoingHTTPHeaders
 } from 'http2'
 import {Socket} from 'net'
-import {PluginAPI} from 'web-node'
-import {Plugin, PluginHandler} from 'web-node/type'
+import {PluginHandler, PluginPromises} from 'web-node/type'
 
-import {
-    ApplicationServerService,
-    Service,
-    ServicePromisesState,
-    Services,
-    ServicesState
-} from './type'
+import {Server, ServicePromisesState, Services, ServicesState} from './type'
 // endregion
 // region plugins/classes
 /**
@@ -49,36 +43,35 @@ export class ApplicationServer implements PluginHandler {
      * Start database's child process and return a Promise which observes this
      * service.
      * @param state - Application state.
+     * @param state.configuration - Applications configuration.
+     * @param state.configuration.applicationServer - Server configuration.
+     * @param state.services - Application services.
      *
      * @returns A promise which correspond to the plugin specific continues
      * service.
      */
-    static async loadService({
-        configuration: {
-            applicationServer: configuration
-        },
-        services
-    }:ServicePromisesState):Promise<null|Service> {
+    static loadService({
+        configuration: {applicationServer: configuration}, services
+    }:ServicePromisesState):Promise<null|PluginPromises> {
         if (Object.prototype.hasOwnProperty.call(
             services, 'applicationServer'
         ))
-            return await new Promise<Service>((
-                resolve:(value:Service) => void, reject:(reason:Error) => void
+            return new Promise<PluginPromises>((
+                resolve:(value:PluginPromises) => void,
+                reject:(reason:Error) => void
             ):void => {
                 const parameters:Array<unknown> = []
+
                 if (configuration.hostName)
                     parameters.push(configuration.hostName)
+
                 parameters.push(():void => {
                     console.info(
                         'Starting application server to listen on port "' +
                         `${configuration.port}".`
                     )
-                    resolve({
-                        name: 'applicationServer',
-                        promise: new Promise(():Services['server'] =>
-                            services.applicationServer
-                        )
-                    })
+
+                    resolve({applicationServer: new Promise<void>(Tools.noop)})
                 })
 
                 try {
@@ -91,7 +84,7 @@ export class ApplicationServer implements PluginHandler {
                 }
             })
 
-        return null
+        return Promise.resolve(null)
     }
     /**
      * Appends an application server to the web node services.
@@ -109,7 +102,10 @@ export class ApplicationServer implements PluginHandler {
         const onIncomingMessage = (
             request:HTTPServerRequest, response:HTTPServerResponse
         ):void => {
-            void pluginAPI.callStack<ServicesState>({
+            void pluginAPI.callStack<ServicesState<{
+                request:HTTPServerRequest
+                response:HTTPServerResponse
+            }>>({
                 ...state,
                 data: {response, request},
                 hook: 'applicationServerRequest'
@@ -117,7 +113,7 @@ export class ApplicationServer implements PluginHandler {
                 .then(() => response.end())
         }
 
-        const server:ApplicationServerService = {
+        const server:Server = {
             instance: (
                 configuration.nodeServerOptions.cert &&
                 configuration.nodeServerOptions.key
@@ -150,7 +146,10 @@ export class ApplicationServer implements PluginHandler {
             (stream:HTTPStream, headers:OutgoingHTTPHeaders):void => {
                 server.streams.push(stream)
 
-                void pluginAPI.callStack<ServicesState>({
+                void pluginAPI.callStack<ServicesState<{
+                    stream:HTTPStream,
+                    headers:OutgoingHTTPHeaders
+                }>>({
                     ...state,
                     data: {headers, stream},
                     hook: 'applicationServerStream'
@@ -169,6 +168,7 @@ export class ApplicationServer implements PluginHandler {
     /**
      * Application will be closed soon.
      * @param state - Application state.
+     * @param state.services - Application services.
      *
      * @returns Promise resolving to nothing.
      */

@@ -25,11 +25,9 @@ import {
     SecureServerOptions
 } from 'http2'
 import {Socket} from 'net'
-import {PluginAPI} from 'web-node'
 import {
     Configuration as BaseConfiguration,
     PluginHandler as BasePluginHandler,
-    Service as BaseService,
     Services as BaseServices,
     ServicePromises as BaseServicePromises,
     ServicePromisesState as BaseServicePromisesState,
@@ -60,43 +58,29 @@ export type Configuration<PluginConfigurationType = Mapping<unknown>> =
 
 export type HTTPServer = HttpServer|HTTPSecureServer
 
-export interface Service extends BaseService {
-    name:'applicationServer'
-    promise:Promise<HTTPServer>
-}
-export interface ApplicationServerService {
+export interface Server {
     instance:HTTPServer
     streams:Array<HTTPStream>
     sockets:Array<Socket>
 }
 export type Services<PluginServiceType = Mapping<unknown>> =
-    BaseServices<{applicationServer:ApplicationServerService}> &
+    BaseServices<{applicationServer:Server}> &
     PluginServiceType
 export type ServicePromises<PluginServicePromiseType = Mapping<unknown>> =
-    BaseServicePromises<{applicationServer:Promise<HTTPServer>}> &
+    BaseServicePromises<{applicationServer:Promise<void>}> &
     PluginServicePromiseType
 
-export type ServicesState = BaseServicesState<
-    {
-        request:HTTPServerRequest
-        response:HTTPServerResponse
-    },
+export type ServicesState<Type = undefined> = BaseServicesState<
+    Type,
     Configuration,
     Services
 >
-export type ServicePromisesState = BaseServicePromisesState<
-    {
-        request:HTTPServerRequest
-        response:HTTPServerResponse
-    },
+export type ServicePromisesState<Type = undefined> = BaseServicePromisesState<
+    Type,
     Configuration,
     Services,
     ServicePromises
 >
-
-// TODO make ServicePromises State generic to support both hooks!
-_stream:HTTPStream,
-        _headers:OutgoingHTTPHeaders,
 
 export interface PluginHandler extends BasePluginHandler {
     /**
@@ -106,14 +90,20 @@ export interface PluginHandler extends BasePluginHandler {
      *
      * @returns Promise resolving to nothing.
      */
-    applicationServerRequest?(state:ServicePromisesState):Promise<void>
+    applicationServerRequest?(state:ServicePromisesState<{
+        request:HTTPServerRequest
+        response:HTTPServerResponse
+    }>):Promise<void>
     /**
      * Hook to run on stream.
      * @param state - Application state.
      *
      * @returns Promise resolving to nothing.
      */
-    applicationServerStream?(state:ServicePromisesState):Promise<void>
+    applicationServerStream?(state:ServicePromisesState<{
+        stream:HTTPStream,
+        headers:OutgoingHTTPHeaders
+    }>):Promise<void>
 }
 // endregion
 // region vim modline

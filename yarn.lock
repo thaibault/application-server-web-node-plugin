@@ -2892,9 +2892,9 @@ cli-table3@^0.5.0:
     colors "^1.1.2"
 
 clientnode@*:
-  version "3.0.924"
-  resolved "https://registry.yarnpkg.com/clientnode/-/clientnode-3.0.924.tgz#d645a83a5cb4026a43e057029468baf818979f91"
-  integrity sha512-3mQ6ar4xEJRHL9nPUcpN39P/mEmDD2t/2BQwBcqR9fBry6CM+MZOiSCsyipEt8sO13O1ukLFjeZOF7GijY19fA==
+  version "3.0.925"
+  resolved "https://registry.yarnpkg.com/clientnode/-/clientnode-3.0.925.tgz#c02710163fcc3de06d9a658ff8d0565b8d037a66"
+  integrity sha512-Cx8EQoyH4ynaMFO1C23CLnfgCTFWlTZpOUxLG+bgmcsf70ilu/X9pvey6C2KMn5u7in6npjZTrqPPBhb7VmvTQ==
 
 cliui@^4.0.0:
   version "4.1.0"
@@ -6051,9 +6051,9 @@ watchpack@^2.3.1:
     graceful-fs "^4.1.2"
 
 web-node@*:
-  version "1.0.448"
-  resolved "https://registry.yarnpkg.com/web-node/-/web-node-1.0.448.tgz#a102f5f9e833389fdbdea1d97abcbb5efd2c5606"
-  integrity sha512-JSVDPk5R31uK8wdqIMw/SElMYWUui0gGlhl9ItlHkeuS4ufluzv6D3nZl4cFAse/BfU2RLeLTQAMzxVWy+TjWA==
+  version "1.0.449"
+  resolved "https://registry.yarnpkg.com/web-node/-/web-node-1.0.449.tgz#28ba5ea0ab307b1e6dafcf1ec787948f71706ef8"
+  integrity sha512-sbrxaXKEML+YUEiyr1RkuqdRXDrL4vNPlJMww/PRtfslSIAdYLsS2oAUB3cp0ghr/0pKoO6IGEYCJNG1OUK4GQ==
   dependencies:
     "@types/webpack" "https://registry.yarnpkg.com/@favware/skip-dependency/-/skip-dependency-1.1.1.tgz"
 
@@ -6063,9 +6063,9 @@ webidl-conversions@^7.0.0:
   integrity sha512-VwddBukDzu71offAQR975unBIGqfKZpM+8ZX6ySk8nYhVoo5CYaZyzt3YBvYtRtO+aoGlqxPg/B87NGVZ/fu6g==
 
 weboptimizer@*:
-  version "2.0.1187"
-  resolved "https://registry.yarnpkg.com/weboptimizer/-/weboptimizer-2.0.1187.tgz#c5efe23e315188f327ab664559626568bf534ca2"
-  integrity sha512-XwMeatJ9kEwmkWqOJsp6hLAoGNggtbozhs61STNAZQuyxNRGpjAuaDCvdYd9AsKw/THLGhelcL82iYi68ftCzA==
+  version "2.0.1188"
+  resolved "https://registry.yarnpkg.com/weboptimizer/-/weboptimizer-2.0.1188.tgz#bd0d67927d3fda22a2eac60f2a7d8f0403da8493"
+  integrity sha512-08grARq6loXa+dpF4+GDvCBSuLVyp8qAL1CN7p7a4zjp9mcxxp4eJ03zomvC7Z00wvgLjSgINcnhVGJ0xvpu2w==
   dependencies:
     "@babel/core" "*"
     "@babel/plugin-proposal-decorators" "*"
