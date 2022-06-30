@@ -65,11 +65,9 @@ export interface Server {
 }
 
 export type ServicePromises<Type = Mapping<unknown>> =
-    BaseServicePromises<{applicationServer:Promise<void>}> &
-    Type
+    BaseServicePromises<{applicationServer:Promise<void>}> & Type
 export type Services<Type = Mapping<unknown>> =
-    BaseServices<{applicationServer:Server}> &
-    Type
+    BaseServices<{applicationServer:Server}> & Type
 
 export type ServicesState<Type = undefined> = BaseServicesState<
     Type,

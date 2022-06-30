@@ -40,53 +40,6 @@ import {Server, ServicePromisesState, Services, ServicesState} from './type'
  */
 export class ApplicationServer implements PluginHandler {
     /**
-     * Start database's child process and return a Promise which observes this
-     * service.
-     * @param state - Application state.
-     * @param state.configuration - Applications configuration.
-     * @param state.configuration.applicationServer - Server configuration.
-     * @param state.services - Application services.
-     *
-     * @returns A promise which correspond to the plugin specific continues
-     * service.
-     */
-    static loadService({
-        configuration: {applicationServer: configuration}, services
-    }:ServicePromisesState):Promise<null|PluginPromises> {
-        if (Object.prototype.hasOwnProperty.call(
-            services, 'applicationServer'
-        ))
-            return new Promise<PluginPromises>((
-                resolve:(value:PluginPromises) => void,
-                reject:(reason:Error) => void
-            ):void => {
-                const parameters:Array<unknown> = []
-
-                if (configuration.hostName)
-                    parameters.push(configuration.hostName)
-
-                parameters.push(():void => {
-                    console.info(
-                        'Starting application server to listen on port "' +
-                        `${configuration.port}".`
-                    )
-
-                    resolve({applicationServer: new Promise<void>(Tools.noop)})
-                })
-
-                try {
-                    services.applicationServer.instance.listen(
-                        configuration.port, ...parameters as [() => void]
-                    )
-                } catch (error) {
-                    // eslint-disable-next-line prefer-promise-reject-errors
-                    reject(error as Error)
-                }
-            })
-
-        return Promise.resolve(null)
-    }
-    /**
      * Appends an application server to the web node services.
      * @param state - Application state.
      *
@@ -164,6 +117,53 @@ export class ApplicationServer implements PluginHandler {
         )
 
         return Promise.resolve()
+    }
+    /**
+     * Start database's child process and return a Promise which observes this
+     * service.
+     * @param state - Application state.
+     * @param state.configuration - Applications configuration.
+     * @param state.configuration.applicationServer - Server configuration.
+     * @param state.services - Application services.
+     *
+     * @returns A promise which correspond to the plugin specific continues
+     * service.
+     */
+    static loadService({
+        configuration: {applicationServer: configuration}, services
+    }:ServicePromisesState):Promise<null|PluginPromises> {
+        if (Object.prototype.hasOwnProperty.call(
+            services, 'applicationServer'
+        ))
+            return new Promise<PluginPromises>((
+                resolve:(value:PluginPromises) => void,
+                reject:(reason:Error) => void
+            ):void => {
+                const parameters:Array<unknown> = []
+
+                if (configuration.hostName)
+                    parameters.push(configuration.hostName)
+
+                parameters.push(():void => {
+                    console.info(
+                        'Starting application server to listen on port "' +
+                        `${configuration.port}".`
+                    )
+
+                    resolve({applicationServer: new Promise<void>(Tools.noop)})
+                })
+
+                try {
+                    services.applicationServer.instance.listen(
+                        configuration.port, ...parameters as [() => void]
+                    )
+                } catch (error) {
+                    // eslint-disable-next-line prefer-promise-reject-errors
+                    reject(error as Error)
+                }
+            })
+
+        return Promise.resolve(null)
     }
     /**
      * Application will be closed soon.
