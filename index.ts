@@ -126,8 +126,8 @@ export class ApplicationServer implements PluginHandler {
      * @param state.configuration.applicationServer - Server configuration.
      * @param state.services - Application services.
      *
-     * @returns A promise which correspond to the plugin specific continues
-     * service.
+     * @returns A mapping to promises which correspond to the plugin specific
+     * continues services.
      */
     static loadService({
         configuration: {applicationServer: configuration}, services
