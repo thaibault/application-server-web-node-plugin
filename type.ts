@@ -69,6 +69,15 @@ export type ServicePromises<Type = Mapping<unknown>> =
 export type Services<Type = Mapping<unknown>> =
     BaseServices<{applicationServer:Server}> & Type
 
+export interface RequestData {
+    request:HTTPServerRequest
+    response:HTTPServerResponse
+}
+export interface StreamData {
+    stream:HTTPStream,
+    headers:OutgoingHTTPHeaders
+}
+
 export type ServicesState<Type = undefined> = BaseServicesState<
     Type,
     Configuration,
@@ -89,20 +98,18 @@ export interface PluginHandler extends BasePluginHandler {
      *
      * @returns Promise resolving to nothing.
      */
-    applicationServerRequest?(state:ServicePromisesState<{
-        request:HTTPServerRequest
-        response:HTTPServerResponse
-    }>):Promise<void>
+    applicationServerRequest?(
+        state:ServicePromisesState<RequestData>
+    ):Promise<void>
     /**
      * Hook to run on stream.
      * @param state - Application state.
      *
      * @returns Promise resolving to nothing.
      */
-    applicationServerStream?(state:ServicePromisesState<{
-        stream:HTTPStream,
-        headers:OutgoingHTTPHeaders
-    }>):Promise<void>
+    applicationServerStream?(
+        state:ServicePromisesState<StreamData>
+    ):Promise<void>
 }
 // endregion
 // region vim modline
