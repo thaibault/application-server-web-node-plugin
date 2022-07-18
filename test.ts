@@ -24,17 +24,24 @@ import {Configuration, HTTPServer, ServicePromises, Services} from './type'
 describe('application-server', ():void => {
     // region tests
     test('loadService', async ():Promise<void> => {
-        expect(await Index.loadService(
-            {} as ServicePromises,
-            {} as Services,
-            configuration as Configuration
-        )).toBeNull()
+        await expect(Index.loadService({
+            configuration: configuration as Configuration,
+            hook: 'load',
+            plugins: [],
+            pluginAPI: PluginAPI,
+            servicePromises: {} as ServicePromises,
+            services: {} as Services
+        })).resolves.toBeNull()
 
-        const promise:Promise<HTTPServer> = new Promise(Tools.noop)
+        const promise:Promise<void> = new Promise(Tools.noop)
 
-        expect(await Index.loadService(
-            {applicationServer: promise},
-            {applicationServer: {
+        await expect(Index.loadService({
+            configuration: configuration as Configuration,
+            hook: 'load',
+            pluginAPI: PluginAPI,
+            plugins: [],
+            servicePromises: {applicationServer: promise},
+            services: {applicationServer: {
                 instance: {
                     listen: (
                         port:number, host:string, started:() => void
@@ -42,24 +49,24 @@ describe('application-server', ():void => {
                 } as unknown as HTTPServer,
                 sockets: [],
                 streams: []
-            }},
-            configuration as Configuration
-        )).toStrictEqual({name: 'applicationServer', promise})
+            }}
+        })).resolves.toStrictEqual({applicationServer: promise})
     })
-    test('preLoadService', async ():Promise<void> =>
-        expect(
-            (
-                await Index.preLoadService(
-                    {applicationServer: {
-                        instance: {} as HTTPServer, sockets: [], streams: []
-                    }},
-                    configuration as Configuration,
-                    [],
-                    PluginAPI
-                )
-            ).applicationServer.instance
-        ).toHaveProperty('listen')
-    )
+    test('preLoadService', async ():Promise<void> => {
+        const services:Services = {applicationServer: {
+            instance: {} as HTTPServer, sockets: [], streams: []
+        }}
+
+        await Index.preLoadService({
+            configuration: configuration as Configuration,
+            hook: 'preLoad',
+            pluginAPI: PluginAPI,
+            plugins: [],
+            services
+        })
+
+        expect(services).toHaveProperty('applicationServer.instance.listen')
+    })
     test('shouldExit', async ():Promise<void> => {
         let testValue = false
         const services:Services = {applicationServer: {
@@ -75,7 +82,14 @@ describe('application-server', ():void => {
         }}
 
         try {
-            expect(await Index.shouldExit(services)).toStrictEqual(services)
+            await expect(Index.shouldExit({
+                configuration: configuration as Configuration,
+                hook: 'shouldExit',
+                pluginAPI: PluginAPI,
+                plugins: [],
+                servicePromises: {} as ServicePromises,
+                services: services
+            })).resolves.toBeUndefined()
         } catch (error) {
             console.error(error)
         }
