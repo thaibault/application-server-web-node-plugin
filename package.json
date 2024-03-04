@@ -36,7 +36,6 @@
     "document": "weboptimizer document",
     "lint": "weboptimizer lint",
     "prepare": "yarn build",
-    "postversion": "yarn publish --non-interactive; git push --tags && git push",
     "serve": "yarn build && yarn start",
     "start": "web-node '{plugin: {hotReloading: true}}'",
     "test": "weboptimizer test",
