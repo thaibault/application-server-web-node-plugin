@@ -17,7 +17,7 @@
     endregion
 */
 // region imports
-import Tools from 'clientnode'
+import {NOOP} from 'clientnode'
 // NOTE: http2 compatibility mode does work for unencrypted connections yet.
 import {createServer as createHTTP1Server} from 'http'
 import {
@@ -42,7 +42,6 @@ export class ApplicationServer implements PluginHandler {
     /**
      * Appends an application server to the web node services.
      * @param state - Application state.
-     *
      * @returns Promise resolving to nothing.
      */
     static preLoadService(state:ServicesState):Promise<void> {
@@ -125,7 +124,6 @@ export class ApplicationServer implements PluginHandler {
      * @param state.configuration - Applications configuration.
      * @param state.configuration.applicationServer - Server configuration.
      * @param state.services - Application services.
-     *
      * @returns A mapping to promises which correspond to the plugin specific
      * continues services.
      */
@@ -150,7 +148,7 @@ export class ApplicationServer implements PluginHandler {
                         `${configuration.port}".`
                     )
 
-                    resolve({applicationServer: new Promise<void>(Tools.noop)})
+                    resolve({applicationServer: new Promise<void>(NOOP)})
                 })
 
                 try {
@@ -169,7 +167,6 @@ export class ApplicationServer implements PluginHandler {
      * Application will be closed soon.
      * @param state - Application state.
      * @param state.services - Application services.
-     *
      * @returns Promise resolving to nothing.
      */
     static async shouldExit({services}:ServicePromisesState):Promise<void> {
@@ -192,8 +189,4 @@ export class ApplicationServer implements PluginHandler {
     }
 }
 export default ApplicationServer
-// endregion
-// region vim modline
-// vim: set tabstop=4 shiftwidth=4 expandtab:
-// vim: foldmethod=marker foldmarker=region,endregion:
 // endregion

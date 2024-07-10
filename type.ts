@@ -14,7 +14,7 @@
     endregion
 */
 // region imports
-import {Mapping} from 'clientnode/type'
+import {Mapping} from 'clientnode'
 import {
     Http2SecureServer as HTTPSecureServer,
     Http2Server as HttpServer,
@@ -95,7 +95,6 @@ export interface PluginHandler extends BasePluginHandler {
      * Hook to run on each request. After running this hook returned request
      * will be finished.
      * @param state - Application state.
-     *
      * @returns Promise resolving to nothing.
      */
     applicationServerRequest?(
@@ -104,15 +103,10 @@ export interface PluginHandler extends BasePluginHandler {
     /**
      * Hook to run on stream.
      * @param state - Application state.
-     *
      * @returns Promise resolving to nothing.
      */
     applicationServerStream?(
         state:ServicePromisesState<StreamData>
     ):Promise<void>
 }
-// endregion
-// region vim modline
-// vim: set tabstop=4 shiftwidth=4 expandtab:
-// vim: foldmethod=marker foldmarker=region,endregion:
 // endregion

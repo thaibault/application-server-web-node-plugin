@@ -15,7 +15,7 @@
 */
 // region imports
 import {describe, expect, test} from '@jest/globals'
-import Tools from 'clientnode'
+import {NOOP} from 'clientnode'
 import {configuration, PluginAPI} from 'web-node'
 
 import Index from './index'
@@ -33,7 +33,7 @@ describe('application-server', ():void => {
             services: {} as Services
         })).resolves.toBeNull()
 
-        const promise:Promise<void> = new Promise(Tools.noop)
+        const promise:Promise<void> = new Promise(NOOP)
 
         await expect(Index.loadService({
             configuration: configuration as Configuration,
@@ -99,7 +99,3 @@ describe('application-server', ():void => {
     })
     // endregion
 })
-// region vim modline
-// vim: set tabstop=4 shiftwidth=4 expandtab:
-// vim: foldmethod=marker foldmarker=region,endregion:
-// endregion
