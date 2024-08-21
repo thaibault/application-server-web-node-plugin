@@ -185,6 +185,6 @@ export const shouldExit = ({services}:ServicePromisesState):Promise<void> => {
     })
 }
 
-export const applicationServer:PluginHandler = module.exports
+export const applicationServer = module.exports
 export default applicationServer
 // endregion
