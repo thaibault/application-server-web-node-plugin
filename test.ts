@@ -16,36 +16,36 @@
 // region imports
 import {describe, expect, test} from '@jest/globals'
 import {NOOP} from 'clientnode'
-import {configuration, PluginAPI} from 'web-node'
+import {configuration, pluginAPI} from 'web-node'
 
-import Index from './index'
+import {loadService, preLoadService, shouldExit} from './index'
 import {Configuration, HTTPServer, ServicePromises, Services} from './type'
 // endregion
 describe('application-server', ():void => {
     // region tests
     test('loadService', async ():Promise<void> => {
-        await expect(Index.loadService({
+        await expect(loadService({
             configuration: configuration as Configuration,
             hook: 'load',
             plugins: [],
-            pluginAPI: PluginAPI,
+            pluginAPI,
             servicePromises: {} as ServicePromises,
             services: {} as Services
         })).resolves.toBeNull()
 
-        const promise:Promise<void> = new Promise(NOOP)
+        const promise = new Promise<void>(NOOP)
 
-        await expect(Index.loadService({
+        await expect(loadService({
             configuration: configuration as Configuration,
             hook: 'load',
-            pluginAPI: PluginAPI,
+            pluginAPI,
             plugins: [],
             servicePromises: {applicationServer: promise},
             services: {applicationServer: {
                 instance: {
-                    listen: (
-                        port:number, host:string, started:() => void
-                    ):void => started()
+                    listen: (port:number, host:string, started:() => void) => {
+                        started()
+                    }
                 } as unknown as HTTPServer,
                 sockets: [],
                 streams: []
@@ -57,10 +57,10 @@ describe('application-server', ():void => {
             instance: {} as HTTPServer, sockets: [], streams: []
         }}
 
-        await Index.preLoadService({
+        await preLoadService({
             configuration: configuration as Configuration,
             hook: 'preLoad',
-            pluginAPI: PluginAPI,
+            pluginAPI,
             plugins: [],
             services
         })
@@ -82,10 +82,10 @@ describe('application-server', ():void => {
         }}
 
         try {
-            await expect(Index.shouldExit({
+            await expect(shouldExit({
                 configuration: configuration as Configuration,
                 hook: 'shouldExit',
-                pluginAPI: PluginAPI,
+                pluginAPI,
                 plugins: [],
                 servicePromises: {} as ServicePromises,
                 services: services
