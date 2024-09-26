@@ -21,9 +21,9 @@ import {configuration, pluginAPI} from 'web-node'
 import {loadService, preLoadService, shouldExit} from './index'
 import {Configuration, HTTPServer, ServicePromises, Services} from './type'
 // endregion
-describe('application-server', ():void => {
+describe('application-server', (): void => {
     // region tests
-    test('loadService', async ():Promise<void> => {
+    test('loadService', async (): Promise<void> => {
         await expect(loadService({
             configuration: configuration as Configuration,
             hook: 'load',
@@ -43,7 +43,9 @@ describe('application-server', ():void => {
             servicePromises: {applicationServer: promise},
             services: {applicationServer: {
                 instance: {
-                    listen: (port:number, host:string, started:() => void) => {
+                    listen: (
+                        port: number, host: string, started: () => void
+                    ) => {
                         started()
                     }
                 } as unknown as HTTPServer,
@@ -52,8 +54,8 @@ describe('application-server', ():void => {
             }}
         })).resolves.toStrictEqual({applicationServer: promise})
     })
-    test('preLoadService', async ():Promise<void> => {
-        const services:Services = {applicationServer: {
+    test('preLoadService', async (): Promise<void> => {
+        const services: Services = {applicationServer: {
             instance: {} as HTTPServer, sockets: [], streams: []
         }}
 
@@ -67,16 +69,18 @@ describe('application-server', ():void => {
 
         expect(services).toHaveProperty('applicationServer.instance.listen')
     })
-    test('shouldExit', async ():Promise<void> => {
+    test('shouldExit', async (): Promise<void> => {
         let testValue = false
-        const services:Services = {applicationServer: {
-            instance: {close: (callback:(() => void)|undefined):HTTPServer => {
-                testValue = true
-                if (callback)
-                    callback()
+        const services: Services = {applicationServer: {
+            instance: {
+                close: (callback: (() => void)|undefined): HTTPServer => {
+                    testValue = true
+                    if (callback)
+                        callback()
 
-                return {} as HTTPServer
-            }} as HTTPServer,
+                    return {} as HTTPServer
+                }
+            } as HTTPServer,
             sockets: [],
             streams: []
         }}
