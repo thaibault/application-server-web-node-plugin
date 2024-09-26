@@ -43,7 +43,7 @@ import {Server, ServicePromisesState, Services, ServicesState} from './type'
  * @param state - Application state.
  * @returns Promise resolving to nothing.
  */
-export const preLoadService = (state:ServicesState):Promise<void> => {
+export const preLoadService = (state: ServicesState): Promise<void> => {
     const {
         configuration: {applicationServer: configuration},
         pluginAPI,
@@ -51,11 +51,11 @@ export const preLoadService = (state:ServicesState):Promise<void> => {
     } = state
 
     const onIncomingMessage = (
-        request:HTTPServerRequest, response:HTTPServerResponse
+        request: HTTPServerRequest, response: HTTPServerResponse
     ) => {
         void pluginAPI.callStack<ServicesState<{
-            request:HTTPServerRequest
-            response:HTTPServerResponse
+            request: HTTPServerRequest
+            response: HTTPServerResponse
         }>>({
             ...state,
             data: {response, request},
@@ -64,7 +64,7 @@ export const preLoadService = (state:ServicesState):Promise<void> => {
             .then(() => response.end())
     }
 
-    const server:Server = {
+    const server: Server = {
         instance: (
             configuration.nodeServerOptions.cert &&
             configuration.nodeServerOptions.key
@@ -83,10 +83,10 @@ export const preLoadService = (state:ServicesState):Promise<void> => {
 
     server.instance.on(
         'connection',
-        (socket:Socket):void => {
+        (socket: Socket): void => {
             server.sockets.push(socket)
 
-            socket.on('close', ():Array<Socket> =>
+            socket.on('close', (): Array<Socket> =>
                 server.sockets.splice(server.sockets.indexOf(socket), 1)
             )
         }
@@ -94,19 +94,19 @@ export const preLoadService = (state:ServicesState):Promise<void> => {
 
     server.instance.on(
         'stream',
-        (stream:HTTPStream, headers:OutgoingHTTPHeaders):void => {
+        (stream: HTTPStream, headers: OutgoingHTTPHeaders): void => {
             server.streams.push(stream)
 
             void pluginAPI.callStack<ServicesState<{
-                stream:HTTPStream,
-                headers:OutgoingHTTPHeaders
+                stream: HTTPStream,
+                headers: OutgoingHTTPHeaders
             }>>({
                 ...state,
                 data: {headers, stream},
                 hook: 'applicationServerStream'
             })
 
-            stream.on('close', ():Array<HTTPStream> =>
+            stream.on('close', (): Array<HTTPStream> =>
                 server.streams.splice(server.streams.indexOf(stream), 1)
             )
         }
@@ -126,20 +126,20 @@ export const preLoadService = (state:ServicesState):Promise<void> => {
  */
 export const loadService = ({
     configuration: {applicationServer: configuration}, services
-}:ServicePromisesState):Promise<null|PluginPromises> => {
+}: ServicePromisesState): Promise<null|PluginPromises> => {
     if (Object.prototype.hasOwnProperty.call(
         services, 'applicationServer'
     ))
         return new Promise<PluginPromises>((
-            resolve:(value:PluginPromises) => void,
-            reject:(reason:Error) => void
-        ):void => {
-            const parameters:Array<unknown> = []
+            resolve: (value: PluginPromises) => void,
+            reject: (reason: Error) => void
+        ): void => {
+            const parameters: Array<unknown> = []
 
             if (configuration.hostName)
                 parameters.push(configuration.hostName)
 
-            parameters.push(():void => {
+            parameters.push((): void => {
                 console.info(
                     'Starting application server to listen on port "' +
                     `${String(configuration.port)}".`
@@ -166,13 +166,13 @@ export const loadService = ({
  * @param state.services - Application services.
  * @returns Promise resolving to nothing.
  */
-export const shouldExit = ({services}:ServicePromisesState):Promise<void> => {
+export const shouldExit = ({services}: ServicePromisesState): Promise<void> => {
     const {applicationServer: server} = services
 
-    return new Promise<void>((resolve:() => void) => {
+    return new Promise<void>((resolve: () => void) => {
         server.instance.close(() => {
             delete (services as {
-                applicationServer?:Services['applicationServer']
+                applicationServer?: Services['applicationServer']
             }).applicationServer
 
             resolve()

@@ -37,21 +37,21 @@ import {
 // region exports
 export type Configuration<PluginConfigurationType = Mapping<unknown>> =
     BaseConfiguration<{
-        applicationServer:{
-            authentication:{
-                login:string
-                password:string
-                salt:string
-                staticAssets:boolean
+        applicationServer: {
+            authentication: {
+                login: string
+                password: string
+                salt: string
+                staticAssets: boolean
             }
-            dynamicPathPrefix:string
-            hostName:string
-            hostNamePrefix:string
-            hostNamePattern:string
-            httpBasicAuthenticationCancelRedirectHTMLContent:string
-            nodeServerOptions:SecureServerOptions
-            port:number
-            rootPath:string
+            dynamicPathPrefix: string
+            hostName: string
+            hostNamePrefix: string
+            hostNamePattern: string
+            httpBasicAuthenticationCancelRedirectHTMLContent: string
+            nodeServerOptions: SecureServerOptions
+            port: number
+            rootPath: string
         }
     }> &
     PluginConfigurationType
@@ -59,23 +59,23 @@ export type Configuration<PluginConfigurationType = Mapping<unknown>> =
 export type HTTPServer = HttpServer|HTTPSecureServer
 
 export interface Server {
-    instance:HTTPServer
-    streams:Array<HTTPStream>
-    sockets:Array<Socket>
+    instance: HTTPServer
+    streams: Array<HTTPStream>
+    sockets: Array<Socket>
 }
 
 export type ServicePromises<Type = Mapping<unknown>> =
-    BaseServicePromises<{applicationServer:Promise<void>}> & Type
+    BaseServicePromises<{applicationServer: Promise<void>}> & Type
 export type Services<Type = Mapping<unknown>> =
-    BaseServices<{applicationServer:Server}> & Type
+    BaseServices<{applicationServer: Server}> & Type
 
 export interface RequestData {
-    request:HTTPServerRequest
-    response:HTTPServerResponse
+    request: HTTPServerRequest
+    response: HTTPServerResponse
 }
 export interface StreamData {
-    stream:HTTPStream,
-    headers:OutgoingHTTPHeaders
+    stream: HTTPStream,
+    headers: OutgoingHTTPHeaders
 }
 
 export type ServicesState<Type = undefined> = BaseServicesState<
@@ -98,15 +98,15 @@ export interface PluginHandler extends BasePluginHandler {
      * @returns Promise resolving to nothing.
      */
     applicationServerRequest?(
-        state:ServicePromisesState<RequestData>
-    ):Promise<void>
+        state: ServicePromisesState<RequestData>
+    ): Promise<void>
     /**
      * Hook to run on stream.
      * @param state - Application state.
      * @returns Promise resolving to nothing.
      */
     applicationServerStream?(
-        state:ServicePromisesState<StreamData>
-    ):Promise<void>
+        state: ServicePromisesState<StreamData>
+    ): Promise<void>
 }
 // endregion
