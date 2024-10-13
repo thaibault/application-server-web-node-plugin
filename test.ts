@@ -26,6 +26,7 @@ describe('application-server', (): void => {
     test('loadService', async (): Promise<void> => {
         await expect(loadService({
             configuration: configuration as Configuration,
+            data: undefined,
             hook: 'load',
             plugins: [],
             pluginAPI,
@@ -37,6 +38,7 @@ describe('application-server', (): void => {
 
         await expect(loadService({
             configuration: configuration as Configuration,
+            data: undefined,
             hook: 'load',
             pluginAPI,
             plugins: [],
@@ -61,6 +63,7 @@ describe('application-server', (): void => {
 
         await preLoadService({
             configuration: configuration as Configuration,
+            data: undefined,
             hook: 'preLoad',
             pluginAPI,
             plugins: [],
@@ -88,6 +91,7 @@ describe('application-server', (): void => {
         try {
             await expect(shouldExit({
                 configuration: configuration as Configuration,
+                data: undefined,
                 hook: 'shouldExit',
                 pluginAPI,
                 plugins: [],
