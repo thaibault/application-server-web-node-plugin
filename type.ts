@@ -56,7 +56,7 @@ export type Configuration<PluginConfigurationType = Mapping<unknown>> =
     }> &
     PluginConfigurationType
 
-export type HTTPServer = HttpServer|HTTPSecureServer
+export type HTTPServer = HttpServer | HTTPSecureServer
 
 export interface Server {
     instance: HTTPServer

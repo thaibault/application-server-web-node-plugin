@@ -126,7 +126,7 @@ export const preLoadService = (state: ServicesState): Promise<void> => {
  */
 export const loadService = ({
     configuration: {applicationServer: configuration}, services
-}: ServicePromisesState): Promise<null|PluginPromises> => {
+}: ServicePromisesState): Promise<null | PluginPromises> => {
     if (Object.prototype.hasOwnProperty.call(
         services, 'applicationServer'
     ))
