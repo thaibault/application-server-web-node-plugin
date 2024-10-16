@@ -76,7 +76,7 @@ describe('application-server', (): void => {
         let testValue = false
         const services: Services = {applicationServer: {
             instance: {
-                close: (callback: (() => void)|undefined): HTTPServer => {
+                close: (callback: (() => void) | undefined): HTTPServer => {
                     testValue = true
                     if (callback)
                         callback()
