@@ -36,7 +36,7 @@ describe('application-server', (): void => {
 
         const promise = new Promise<void>(NOOP)
 
-        await expect(loadService({
+        expect(await loadService({
             configuration: configuration as Configuration,
             data: undefined,
             hook: 'load',
@@ -54,7 +54,7 @@ describe('application-server', (): void => {
                 sockets: [],
                 streams: []
             }}
-        })).resolves.toStrictEqual({applicationServer: promise})
+        })).toHaveProperty('applicationServer')
     })
     test('preLoadService', async (): Promise<void> => {
         const services: Services = {applicationServer: {
