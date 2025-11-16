@@ -29,6 +29,7 @@ import {
     OutgoingHttpHeaders as OutgoingHTTPHeaders
 } from 'http2'
 import {Socket} from 'net'
+import {log} from 'web-node'
 import {PluginHandler, PluginPromises} from 'web-node/type'
 
 import {Server, ServicePromisesState, Services, ServicesState} from './type'
@@ -140,9 +141,9 @@ export const loadService = ({
                 parameters.push(configuration.hostName)
 
             parameters.push((): void => {
-                console.info(
-                    'Starting application server to listen on port "' +
-                    `${String(configuration.port)}".`
+                log.info(
+                    'Starting application server to listen on port',
+                    `"${String(configuration.port)}".`
                 )
 
                 resolve({applicationServer: new Promise<void>(NOOP)})
