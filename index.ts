@@ -17,7 +17,7 @@
     endregion
 */
 // region imports
-import {NOOP} from 'clientnode'
+import {NOOP, Logger} from 'clientnode'
 // NOTE: http2 compatibility mode does work for unencrypted connections yet.
 import {createServer as createHTTP1Server} from 'http'
 import {
@@ -29,11 +29,11 @@ import {
     OutgoingHttpHeaders as OutgoingHTTPHeaders
 } from 'http2'
 import {Socket} from 'net'
-import {log} from 'web-node'
 import {PluginHandler, PluginPromises} from 'web-node/type'
 
 import {Server, ServicePromisesState, Services, ServicesState} from './type'
 // endregion
+export const log = new Logger({name: 'web-node.application-server'})
 // region plugins/classes
 /**
  * Launches an application server und triggers all some pluginable hooks on an
