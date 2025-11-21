@@ -47,20 +47,20 @@
   "devDependencies": {
     "@babel/eslint-parser": "^7.28.5",
     "@babel/runtime": "^7.28.4",
-    "@stylistic/eslint-plugin": "^5.5.0",
+    "@stylistic/eslint-plugin": "^5.6.1",
     "@types/node": "^24.10.1",
-    "@typescript-eslint/eslint-plugin": "^8.46.4",
-    "@typescript-eslint/parser": "^8.46.4",
-    "clientnode": "^3.0.1323",
+    "@typescript-eslint/eslint-plugin": "^8.47.0",
+    "@typescript-eslint/parser": "^8.47.0",
+    "clientnode": "^3.0.1329",
     "documentation-website": "^1.0.395",
     "eslint": "^9.39.1",
     "eslint-config-google": "^0.14.0",
-    "eslint-plugin-jsdoc": "^61.2.1",
+    "eslint-plugin-jsdoc": "^61.4.0",
     "jest": "^30.2.0",
     "jsdoc": "^4.0.5",
-    "typescript-eslint": "^8.46.4",
-    "web-node": "^1.0.559",
-    "weboptimizer": "^2.0.1622"
+    "typescript-eslint": "^8.47.0",
+    "web-node": "^1.0.562",
+    "weboptimizer": "^2.0.1624"
   },
   "peerDependencies": {
     "@babel/runtime": "*",
