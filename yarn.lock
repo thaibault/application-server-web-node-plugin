@@ -3851,7 +3851,7 @@ __metadata:
     jest: "npm:^30.2.0"
     jsdoc: "npm:^4.0.5"
     typescript-eslint: "npm:^8.51.0"
-    web-node: "npm:^1.0.566"
+    web-node: "npm:^1.0.567"
     weboptimizer: "npm:^2.0.1637"
   peerDependencies:
     "@babel/runtime": "*"
@@ -10353,9 +10353,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"web-node@npm:^1.0.566":
-  version: 1.0.566
-  resolution: "web-node@npm:1.0.566"
+"web-node@npm:^1.0.567":
+  version: 1.0.567
+  resolution: "web-node@npm:1.0.567"
   peerDependencies:
     "@babel/runtime": "*"
     clientnode: "*"
@@ -10364,7 +10364,7 @@ __metadata:
       optional: true
   bin:
     web-node: index.js
-  checksum: 10c0/afc3b774c2011d563f74a231274576a20dee4f0fb896af886ad7931a93547517aa591496746e6a41e15ef70b2cd1c3e7f2b4a53468ab6b86c0d257821dc9b644
+  checksum: 10c0/c03f1ca7ef68288af562a94629ac4b2817281f079fa1b1433c35e2afb2459efa47f74245b08db0cf35bd518761be5c9709fcd904809e78dbfe68d25a7dcce8a2
   languageName: node
   linkType: hard
 
