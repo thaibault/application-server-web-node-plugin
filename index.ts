@@ -54,6 +54,7 @@ export const preLoadService = (state: ServicesState): Promise<void> => {
     const onIncomingMessage = (
         request: HTTPServerRequest, response: HTTPServerResponse
     ) => {
+        /* eslint-disable @typescript-eslint/no-unnecessary-type-arguments */
         void pluginAPI.callStack<ServicesState<{
             request: HTTPServerRequest
             response: HTTPServerResponse
@@ -63,6 +64,7 @@ export const preLoadService = (state: ServicesState): Promise<void> => {
             hook: 'applicationServerRequest'
         })
             .then(() => response.end())
+        /* eslint-enable @typescript-eslint/no-unnecessary-type-arguments */
     }
 
     const server: Server = {
@@ -98,14 +100,18 @@ export const preLoadService = (state: ServicesState): Promise<void> => {
         (stream: HTTPStream, headers: OutgoingHTTPHeaders): void => {
             server.streams.push(stream)
 
+            /*
+                eslint-disable @typescript-eslint/no-unnecessary-type-arguments
+            */
             void pluginAPI.callStack<ServicesState<{
-                stream: HTTPStream,
                 headers: OutgoingHTTPHeaders
+                stream: HTTPStream
             }>>({
                 ...state,
                 data: {headers, stream},
                 hook: 'applicationServerStream'
             })
+            /* eslint-enable @typescript-eslint/no-unnecessary-type-arguments */
 
             stream.on('close', (): Array<HTTPStream> =>
                 server.streams.splice(server.streams.indexOf(stream), 1)
