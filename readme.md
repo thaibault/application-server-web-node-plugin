@@ -26,7 +26,7 @@ Project status
 [![code coverage](https://img.shields.io/coverallsCoverage/github/thaibault/application-server-web-node-plugin?label=code%20coverage&style=for-the-badge)](https://coveralls.io/github/thaibault/application-server-web-node-plugin)
 
 [![deploy web documentation](https://img.shields.io/github/actions/workflow/status/thaibault/application-server-web-node-plugin/deploy-web-documentation.yaml?label=deploy%20web%20documentation&style=for-the-badge)](https://github.com/thaibault/application-server-web-node-plugin/actions/workflows/deploy-web-documentation.yaml)
-[![documentation website](https://img.shields.io/website-up-down-green-red/https/torben.website/application-server-web-node-plugin.svg?label=web-documentation&style=for-the-badge)](https://torben.website/application-server-web-node-plugin)
+[![web documentation](https://img.shields.io/website-up-down-green-red/https/torben.website/application-server-web-node-plugin.svg?label=web-documentation&style=for-the-badge)](https://torben.website/application-server-web-node-plugin)
 
 [![Open in CodeSandbox](https://img.shields.io/badge/Open%20in-CodeSandbox-blue?style=for-the-badge&logo=codesandbox)](https://githubbox.com/thaibault/application-server-web-node-plugin)
 
