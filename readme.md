@@ -6,7 +6,7 @@ Copyright Torben Sickert (info["~at~"]torben.website) 16.12.2012
 License
 -------
 
-This library written by Torben Sickert stand under a creative commons naming
+This library written by Torben Sickert stands under a creative commons naming
 3.0 unported license. See https://creativecommons.org/licenses/by/3.0/deed.de
 endregion -->
 
@@ -33,4 +33,4 @@ Project status
 Use case
 --------
 
-Node application server as web-node plugin.
+Node application server as WebNode plugin.
