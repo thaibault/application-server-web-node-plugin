@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="b486f381-38ed-4658-8a18-330d1630db3d" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/readme.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/test.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/type.ts" beforeDir="false" afterPath="$PROJECT_DIR$/type.ts" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CopilotChats">
+    <option name="panelChat">
+      <chat>
+        <option name="activeSessionId" value="0925be3e-9379-46a6-abae-c0de6b49cea4" />
+        <option name="sessions">
+          <session>
+            <option name="chatType" value="PANEL" />
+            <option name="id" value="0925be3e-9379-46a6-abae-c0de6b49cea4" />
+            <option name="modeId" value="Ask" />
+            <option name="modelType" value="builtin_family" />
+            <option name="modelValue" value="auto" />
+            <option name="targetType" value="LOCAL" />
+          </session>
+        </option>
+        <option name="type" value="PANEL" />
+      </chat>
+    </option>
+  </component>
+  <component name="CopilotPersistence">
+    <persistenceIdMap>
+      <entry key="_/Users/torben.sickert/local/public/project/repository/application-server-web-node-plugin" value="3DzZsSE2eHBr7y6XGjg6B8ZjM0w" />
+    </persistenceIdMap>
+  </component>
+  <component name="EmbeddingIndexingInfo">
+    <option name="fileBasedEmbeddingIndicesEnabled" value="true" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="McpProjectServerCommands">
+    <commands />
+    <urls />
+  </component>
+  <component name="NextEditCompletionFeaturesState">
+    <decayedCancelled>
+      <entry key="MS100" value="1.0000315937781934" />
+      <entry key="MS500" value="1.1258694437570897" />
+      <entry key="S2" value="1.5956348202129351" />
+      <entry key="S5" value="1.81281560198432" />
+      <entry key="S10" value="1.9015628663517148" />
+      <entry key="S30" value="1.966047924711246" />
+      <entry key="S60" value="1.9828773701287694" />
+      <entry key="M2" value="1.9914017198536471" />
+      <entry key="M5" value="1.996551775378925" />
+      <entry key="M10" value="1.9982743988397804" />
+      <entry key="M15" value="1.9988492681170356" />
+      <entry key="M30" value="1.9994244684402296" />
+      <entry key="H1" value="1.9997121928036237" />
+      <entry key="H2" value="1.999856086046199" />
+      <entry key="H4" value="1.9999280404340096" />
+      <entry key="D1" value="1.99998800637939" />
+      <entry key="W1" value="1.9999982866168202" />
+    </decayedCancelled>
+    <decayedSelected>
+      <entry key="MS100" value="0.0" />
+      <entry key="MS500" value="0.0" />
+      <entry key="S2" value="0.0" />
+      <entry key="S5" value="0.0" />
+      <entry key="S10" value="0.0" />
+      <entry key="S30" value="0.0" />
+      <entry key="S60" value="0.0" />
+      <entry key="M2" value="0.0" />
+      <entry key="M5" value="0.0" />
+      <entry key="M10" value="0.0" />
+      <entry key="M15" value="0.0" />
+      <entry key="M30" value="0.0" />
+      <entry key="H1" value="0.0" />
+      <entry key="H2" value="0.0" />
+      <entry key="H4" value="0.0" />
+      <entry key="D1" value="0.0" />
+      <entry key="W1" value="0.0" />
+    </decayedSelected>
+    <decayedShown>
+      <entry key="MS100" value="0.9659664263584542" />
+      <entry key="MS500" value="1.1177464018560446" />
+      <entry key="S2" value="1.5924601851258582" />
+      <entry key="S5" value="1.811334316380357" />
+      <entry key="S10" value="1.900779017886582" />
+      <entry key="S30" value="1.965776176362543" />
+      <entry key="S60" value="1.9827401302331802" />
+      <entry key="M2" value="1.9913327540223407" />
+      <entry key="M5" value="1.9965241054584042" />
+      <entry key="M10" value="1.9982605498999408" />
+      <entry key="M15" value="1.99884003238032" />
+      <entry key="M30" value="1.9994198490158972" />
+      <entry key="H1" value="1.999709882702296" />
+      <entry key="H2" value="1.9998549308982232" />
+      <entry key="H4" value="1.9999274628356916" />
+      <entry key="D1" value="1.9999879101096243" />
+      <entry key="W1" value="1.9999982728639136" />
+    </decayedShown>
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 2,
+  "fromUser": false
+}]]></component>
+  <component name="ProjectId" id="3DzZsSE2eHBr7y6XGjg6B8ZjM0w" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.MCP Project settings loaded": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
+    "git-widget-placeholder": "main",
+    "junie.onboarding.icon.badge.shown": "true",
+    "last_opened_file_path": "/Users/torben.sickert/local/public/project/repository/application-server-web-node-plugin",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "to.speed.mode.migration.done": "true"
+  }
+}]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-31caf2ab9e3c-JavaScript-WS-261.24374.125" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="b486f381-38ed-4658-8a18-330d1630db3d" name="Changes" comment="" />
+      <created>1779287064204</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1779287064204</updated>
+      <workItem from="1779287065215" duration="22000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="github-copilot-workspace">
+    <instructionFileLocations>
+      <option value=".github/instructions" />
+    </instructionFileLocations>
+    <promptFileLocations>
+      <option value=".github/prompts" />
+    </promptFileLocations>
+  </component>
+</project>
