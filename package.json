@@ -86,8 +86,7 @@
     "globals@npm:^14.0.0": "patch:globals@npm%3A11.12.0#~/.yarn/patches/globals-npm-11.12.0-1fa7f41a6c.patch"
   },
   "sideEffects": false,
-  "documentationWebsite": {
-    "name": "application-server-web-node-plugin",
+  "webDocumentation": {
     "trackingCode": "UA-40192634-24"
   },
   "webNode": {
