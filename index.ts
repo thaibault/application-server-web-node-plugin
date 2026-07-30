@@ -17,26 +17,28 @@
     endregion
 */
 // region imports
-import {NOOP, Logger} from 'clientnode'
-// NOTE: http2 compatibility mode does work for unencrypted connections yet.
-import {createServer as createHTTP1Server} from 'http'
-import {
-    createServer,
-    createSecureServer,
+import type {
     Http2ServerResponse as HTTPServerResponse,
     Http2ServerRequest as HTTPServerRequest,
     Http2Stream as HTTPStream,
     OutgoingHttpHeaders as OutgoingHTTPHeaders
 } from 'http2'
-import {Socket} from 'net'
-import {PluginHandler, PluginPromises} from 'web-node/type'
+import type {Socket} from 'net'
+import type {PluginPromises} from 'web-node/type'
 
-import {Server, ServicePromisesState, Services, ServicesState} from './type'
+import type {
+    PluginHandler, Server, ServicePromisesState, Services, ServicesState
+} from './type'
+
+import {NOOP, Logger} from 'clientnode'
+// NOTE: http2 compatibility mode does work for unencrypted connections yet.
+import {createServer as createHTTP1Server} from 'http'
+import {createServer, createSecureServer} from 'http2'
 // endregion
 export const log = new Logger({name: 'web-node.application-server'})
 // region plugins/classes
 /**
- * Launches an application server und triggers all some pluginable hooks on an
+ * Launches an application server und triggers all some pluggable hooks on an
  * event.
  */
 /**
@@ -54,7 +56,6 @@ export const preLoadService = (state: ServicesState): Promise<void> => {
     const onIncomingMessage = (
         request: HTTPServerRequest, response: HTTPServerResponse
     ) => {
-        /* eslint-disable @typescript-eslint/no-unnecessary-type-arguments */
         void pluginAPI.callStack<ServicesState<{
             request: HTTPServerRequest
             response: HTTPServerResponse
@@ -64,7 +65,6 @@ export const preLoadService = (state: ServicesState): Promise<void> => {
             hook: 'applicationServerRequest'
         })
             .then(() => response.end())
-        /* eslint-enable @typescript-eslint/no-unnecessary-type-arguments */
     }
 
     const server: Server = {
@@ -100,9 +100,6 @@ export const preLoadService = (state: ServicesState): Promise<void> => {
         (stream: HTTPStream, headers: OutgoingHTTPHeaders): void => {
             server.streams.push(stream)
 
-            /*
-                eslint-disable @typescript-eslint/no-unnecessary-type-arguments
-            */
             void pluginAPI.callStack<ServicesState<{
                 headers: OutgoingHTTPHeaders
                 stream: HTTPStream
@@ -111,7 +108,6 @@ export const preLoadService = (state: ServicesState): Promise<void> => {
                 data: {headers, stream},
                 hook: 'applicationServerStream'
             })
-            /* eslint-enable @typescript-eslint/no-unnecessary-type-arguments */
 
             stream.on('close', (): Array<HTTPStream> =>
                 server.streams.splice(server.streams.indexOf(stream), 1)
@@ -192,6 +188,9 @@ export const shouldExit = ({services}: ServicePromisesState): Promise<void> => {
     })
 }
 
-export const applicationServer = module.exports satisfies PluginHandler
-export default applicationServer
+export default {
+    preLoadService,
+    loadService,
+    shouldExit
+} as PluginHandler
 // endregion
