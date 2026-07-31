@@ -189,8 +189,9 @@ export const shouldExit = ({services}: ServicePromisesState): Promise<void> => {
 }
 // endregion
 
-export default {
+export const applicationServer = {
     preLoadService,
     loadService,
     shouldExit
 } as PluginHandler
+export default applicationServer
