@@ -8,14 +8,14 @@
     License
     -------
 
-    This library written by Torben Sickert stand under a creative commons
+    This library written by Torben Sickert stands under a creative commons
     naming 3.0 unported license.
     See https://creativecommons.org/licenses/by/3.0/deed.de
     endregion
 */
 // region imports
-import {Mapping} from 'clientnode'
-import {
+import type {Mapping} from 'clientnode'
+import type {
     Http2SecureServer as HTTPSecureServer,
     Http2Server as HttpServer,
     Http2ServerResponse as HTTPServerResponse,
@@ -24,8 +24,8 @@ import {
     OutgoingHttpHeaders as OutgoingHTTPHeaders,
     SecureServerOptions
 } from 'http2'
-import {Socket} from 'net'
-import {
+import type {Socket} from 'net'
+import type {
     Configuration as BaseConfiguration,
     PluginHandler as BasePluginHandler,
     Services as BaseServices,
