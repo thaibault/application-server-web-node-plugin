@@ -61,7 +61,7 @@
     "jsdoc": "^4.0.5",
     "typescript-eslint": "^8.65.0",
     "web-documentation": "^1.0.45",
-    "web-node": "^1.0.583",
+    "web-node": "^1.0.584",
     "weboptimizer": "^4.0.48"
   },
   "peerDependencies": {

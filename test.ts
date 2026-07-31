@@ -18,9 +18,10 @@ import type {
     Configuration, HTTPServer, ServicePromises, Services
 } from './type'
 
-import {expect, test} from '@jest/globals'
 import {NOOP} from 'clientnode'
 import {configuration, pluginAPI} from 'web-node'
+
+import {expect, test} from '@jest/globals'
 
 import {loadService, preLoadService, shouldExit} from './index'
 // endregion

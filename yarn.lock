@@ -3573,7 +3573,7 @@ __metadata:
     jsdoc: "npm:^4.0.5"
     typescript-eslint: "npm:^8.65.0"
     web-documentation: "npm:^1.0.45"
-    web-node: "npm:^1.0.583"
+    web-node: "npm:^1.0.584"
     weboptimizer: "npm:^4.0.48"
   peerDependencies:
     "@babel/runtime": "*"
@@ -9330,9 +9330,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"web-node@npm:^1.0.583":
-  version: 1.0.583
-  resolution: "web-node@npm:1.0.583"
+"web-node@npm:^1.0.584":
+  version: 1.0.584
+  resolution: "web-node@npm:1.0.584"
   peerDependencies:
     "@babel/runtime": "*"
     clientnode: "*"
@@ -9341,7 +9341,7 @@ __metadata:
       optional: true
   bin:
     web-node: index.js
-  checksum: 10c0/22f61ba8808d67118b279953d488941b7ff3ab7eb052a8d52d4891fc8017ddae1000b438091832aca40f5aaf14ef7d542174828780969a8ee46a3c36d4d5db93
+  checksum: 10c0/cc43ddf81930e03ac5782930f6dca109e739574b239afbfc91f2e77ddd41c6f6efb249b3b83bf9cf9e8222c9c65e100b4d915cd14aff246c86f2994f1c238ed7
   languageName: node
   linkType: hard
 
