@@ -15,19 +15,21 @@
   },
   "license": "CC-BY-3.0",
   "author": {
-    "name": "Torben Sickert",
     "email": "info@torben.website",
+    "name": "Torben Sickert",
     "url": "https://torben.website"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/thaibault/application-server-web-node-plugin.git"
+  },
+  "type": "module",
   "files": [
     "index.d.ts",
     "index.js",
     "type.d.ts"
   ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/thaibault/application-server-web-node-plugin.git"
-  },
+  "sideEffects": false,
   "scripts": {
     "build": "weboptimizer build:types && weboptimizer build",
     "check": "yarn check:types; yarn lint",
@@ -67,19 +69,17 @@
     "clientnode": "*",
     "web-node": "*"
   },
+  "resolutions": {
+    "colors": "1.4.0",
+    "globals@npm:^11.1.0": "patch:globals@npm%3A11.12.0#~/.yarn/patches/globals-npm-11.12.0-1fa7f41a6c.patch",
+    "globals@npm:^14.0.0": "patch:globals@npm%3A11.12.0#~/.yarn/patches/globals-npm-11.12.0-1fa7f41a6c.patch",
+    "globals@npm:^9.18.0": "patch:globals@npm%3A11.12.0#~/.yarn/patches/globals-npm-11.12.0-1fa7f41a6c.patch"
+  },
   "engines": {
     "node": ">=24",
     "npm": ">=11",
     "yarn": ">=4"
   },
-  "resolutions": {
-    "colors": "1.4.0",
-    "globals@npm:^9.18.0": "patch:globals@npm%3A11.12.0#~/.yarn/patches/globals-npm-11.12.0-1fa7f41a6c.patch",
-    "globals@npm:^11.1.0": "patch:globals@npm%3A11.12.0#~/.yarn/patches/globals-npm-11.12.0-1fa7f41a6c.patch",
-    "globals@npm:^14.0.0": "patch:globals@npm%3A11.12.0#~/.yarn/patches/globals-npm-11.12.0-1fa7f41a6c.patch"
-  },
-  "sideEffects": false,
-  "type": "module",
   "webDocumentation": {
     "trackingCode": "UA-40192634-24"
   },
@@ -93,8 +93,8 @@
       },
       "dynamicPathPrefix": "api",
       "hostName": "127.0.0.1",
-      "hostNamePrefix": "",
       "hostNamePattern": ".+",
+      "hostNamePrefix": "",
       "httpBasicAuthenticationCancelRedirectHTMLContent": "<html><head><meta charset=\"utf-8\" /><title>authenticationRedirect</title><meta http-equiv=\"refresh\" content=\"0; URL={1}\" /><script type=\"text/javascript\">window.location.href = '{1}';</script></head><body></body></html>",
       "nodeServerOptions": {
         "allowHTTP1": true
