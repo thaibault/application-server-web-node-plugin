@@ -187,10 +187,11 @@ export const shouldExit = ({services}: ServicePromisesState): Promise<void> => {
                     connection.destroy()
     })
 }
+// endregion
 
-export default {
+export const applicationServer = {
     preLoadService,
     loadService,
     shouldExit
 } as PluginHandler
-// endregion
+export default applicationServer
