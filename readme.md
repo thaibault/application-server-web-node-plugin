@@ -33,7 +33,7 @@ Project status
 Use case
 --------
 
-Node application server as WebNode plugin.
+Node application server as web-node plugin.
 
 <div class="wd-table-of-contents">
     <h2 id="content">Content<!--deDE:Inhalt--><!--frFR:Contenu--></h2>
