@@ -143,7 +143,7 @@ export const loadService = ({
                 parameters.push(configuration.hostName)
 
             parameters.push((): void => {
-                log.info(
+                void log.info(
                     'Starting application server to listen on port',
                     `"${String(configuration.port)}".`
                 )
