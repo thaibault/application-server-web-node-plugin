@@ -14,17 +14,21 @@
     endregion
 */
 // region imports
+import type {AddressInfo} from 'net'
+
 import type {
     Configuration, HTTPServer, ServicePromises, Services
 } from './type'
 
 import {NOOP} from 'clientnode'
+import {EventEmitter, once} from 'events'
 import {configuration, pluginAPI} from 'web-node'
 
 import {expect, test} from '@jest/globals'
 
 import {loadService, preLoadService, shouldExit} from './index'
 // endregion
+const baseConfiguration = configuration as Configuration
 // region tests
 test('loadService', async (): Promise<void> => {
     await expect(loadService({
@@ -58,6 +62,59 @@ test('loadService', async (): Promise<void> => {
             streams: []
         }}
     })).toHaveProperty('applicationServer')
+})
+test('loadService without host name', async (): Promise<void> => {
+    let listenParameters: Array<unknown> = []
+
+    await expect(loadService({
+        configuration: {
+            ...baseConfiguration,
+            applicationServer: {
+                ...baseConfiguration.applicationServer, hostName: ''
+            }
+        } as Configuration,
+        data: undefined,
+        hook: 'load',
+        pluginAPI,
+        plugins: [],
+        servicePromises: {} as ServicePromises,
+        services: {applicationServer: {
+            instance: {
+                listen: (...parameters: Array<unknown>) => {
+                    listenParameters = parameters;
+
+                    (parameters[parameters.length - 1] as () => void)()
+                }
+            } as unknown as HTTPServer,
+            sockets: [],
+            streams: []
+        }}
+    })).resolves.toHaveProperty('applicationServer')
+
+    expect(listenParameters).toHaveLength(2)
+    expect(listenParameters[0])
+        .toStrictEqual(baseConfiguration.applicationServer.port)
+})
+test('loadService rejects on listen error', async (): Promise<void> => {
+    const error = new Error('Port in use.')
+
+    await expect(loadService({
+        configuration: baseConfiguration,
+        data: undefined,
+        hook: 'load',
+        pluginAPI,
+        plugins: [],
+        servicePromises: {} as ServicePromises,
+        services: {applicationServer: {
+            instance: {
+                listen: () => {
+                    throw error
+                }
+            } as unknown as HTTPServer,
+            sockets: [],
+            streams: []
+        }}
+    })).rejects.toBe(error)
 })
 test('preLoadService', async (): Promise<void> => {
     const services: Services = {applicationServer: {
@@ -107,5 +164,81 @@ test('shouldExit', async (): Promise<void> => {
 
     expect(services).toStrictEqual({})
     expect(testValue).toStrictEqual(true)
+})
+test('serve request and track connections', async (): Promise<void> => {
+    const hooks: Array<string> = []
+    const testPluginAPI = {
+        ...pluginAPI,
+        callStack: ({hook}: {hook: string}): Promise<void> => {
+            hooks.push(hook)
+
+            return Promise.resolve()
+        }
+    } as unknown as typeof pluginAPI
+    const testConfiguration = {
+        ...baseConfiguration,
+        applicationServer: {...baseConfiguration.applicationServer, port: 0}
+    } as Configuration
+    const services = {} as Services
+
+    await preLoadService({
+        configuration: testConfiguration,
+        data: undefined,
+        hook: 'preLoad',
+        pluginAPI: testPluginAPI,
+        plugins: [],
+        services
+    })
+    const server = services.applicationServer
+
+    await expect(loadService({
+        configuration: testConfiguration,
+        data: undefined,
+        hook: 'load',
+        pluginAPI: testPluginAPI,
+        plugins: [],
+        servicePromises: {} as ServicePromises,
+        services
+    })).resolves.toHaveProperty('applicationServer')
+
+    const {port} = server.instance.address() as AddressInfo
+    const response = await fetch(
+        `http://${testConfiguration.applicationServer.hostName}:` +
+        String(port)
+    )
+    await response.text()
+
+    expect(response.status).toStrictEqual(200)
+    expect(hooks).toStrictEqual(['applicationServerRequest'])
+    // NOTE: Fetch keeps the connection alive.
+    expect(server.sockets).toHaveLength(1)
+
+    const stream = new EventEmitter() as EventEmitter & {destroy: () => void}
+    stream.destroy = (): void => {
+        stream.emit('close')
+    }
+    server.instance.emit('stream', stream, {})
+
+    expect(hooks).toStrictEqual(
+        ['applicationServerRequest', 'applicationServerStream']
+    )
+    expect(server.streams).toStrictEqual([stream])
+
+    const socketClosed = once(server.sockets[0], 'close')
+    await expect(shouldExit({
+        configuration: testConfiguration,
+        data: undefined,
+        hook: 'shouldExit',
+        pluginAPI: testPluginAPI,
+        plugins: [],
+        servicePromises: {} as ServicePromises,
+        services
+    })).resolves.toBeUndefined()
+
+    expect(services).toStrictEqual({})
+
+    await socketClosed
+    expect(server.sockets).toHaveLength(0)
+    expect(server.streams).toHaveLength(0)
 })
 // endregion
