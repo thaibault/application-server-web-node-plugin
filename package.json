@@ -1,6 +1,6 @@
 {
   "name": "application-server-web-node-plugin",
-  "version": "1.0.416-2",
+  "version": "1.0.417",
   "description": "A generic extendable application and file server for webNode.",
   "keywords": [
     "web",
