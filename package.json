@@ -1,6 +1,6 @@
 {
   "name": "application-server-web-node-plugin",
-  "version": "1.0.416",
+  "version": "1.0.416-1",
   "description": "A generic extendable application and file server for webNode.",
   "keywords": [
     "web",
@@ -21,7 +21,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/thaibault/application-server-web-node-plugin.git"
+    "url": "git+https://github.com/thaibault/application-server-web-node-plugin.git"
   },
   "main": "index.js",
   "type": "module",
