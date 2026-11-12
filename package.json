@@ -83,24 +83,11 @@
   },
   "webNode": {
     "applicationServer": {
-      "authentication": {
-        "login": "admin",
-        "password": "admin",
-        "salt": "admin",
-        "staticAssets": true
-      },
-      "dynamicPathPrefix": "api",
       "hostName": "127.0.0.1",
-      "hostNamePattern": ".+",
-      "hostNamePrefix": "",
-      "httpBasicAuthenticationCancelRedirectHTMLContent": "<html><head><meta charset=\"utf-8\" /><title>authenticationRedirect</title><meta http-equiv=\"refresh\" content=\"0; URL={1}\" /><script type=\"text/javascript\">window.location.href = '{1}';</script></head><body></body></html>",
       "nodeServerOptions": {
         "allowHTTP1": true
       },
-      "port": 8080,
-      "rootPath": {
-        "__evaluate__": "currentPath"
-      }
+      "port": 8080
     }
   },
   "webDocumentation": {

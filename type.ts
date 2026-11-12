@@ -38,20 +38,9 @@ import type {
 export type Configuration<PluginConfigurationType = Mapping<unknown>> =
     BaseConfiguration<{
         applicationServer: {
-            authentication: {
-                login: string
-                password: string
-                salt: string
-                staticAssets: boolean
-            }
-            dynamicPathPrefix: string
             hostName: string
-            hostNamePrefix: string
-            hostNamePattern: string
-            httpBasicAuthenticationCancelRedirectHTMLContent: string
             nodeServerOptions: SecureServerOptions
             port: number
-            rootPath: string
         }
     }> &
     PluginConfigurationType
