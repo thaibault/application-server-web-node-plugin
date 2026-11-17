@@ -1,0 +1,48 @@
+import type { Mapping } from 'clientnode';
+import type { Http2SecureServer as HTTPSecureServer, Http2Server as HttpServer, Http2ServerResponse as HTTPServerResponse, Http2ServerRequest as HTTPServerRequest, Http2Stream as HTTPStream, OutgoingHttpHeaders as OutgoingHTTPHeaders, SecureServerOptions } from 'http2';
+import type { Socket } from 'net';
+import type { Configuration as BaseConfiguration, PluginHandler as BasePluginHandler, Services as BaseServices, ServicePromises as BaseServicePromises, ServicePromisesState as BaseServicePromisesState, ServicesState as BaseServicesState } from 'web-node/type';
+export type Configuration<PluginConfigurationType = Mapping<unknown>> = BaseConfiguration<{
+    applicationServer: {
+        hostName: string;
+        nodeServerOptions: SecureServerOptions;
+        port: number;
+    };
+}> & PluginConfigurationType;
+export type HTTPServer = HttpServer | HTTPSecureServer;
+export interface Server {
+    instance: HTTPServer;
+    streams: Array<HTTPStream>;
+    sockets: Array<Socket>;
+}
+export type ServicePromises<Type = Mapping<unknown>> = BaseServicePromises<{
+    applicationServer: Promise<void>;
+}> & Type;
+export type Services<Type = Mapping<unknown>> = BaseServices<{
+    applicationServer: Server;
+}> & Type;
+export interface RequestData {
+    request: HTTPServerRequest;
+    response: HTTPServerResponse;
+}
+export interface StreamData {
+    stream: HTTPStream;
+    headers: OutgoingHTTPHeaders;
+}
+export type ServicesState<Type = undefined> = BaseServicesState<Type, Configuration, Services>;
+export type ServicePromisesState<Type = undefined> = BaseServicePromisesState<Type, Configuration, Services, ServicePromises>;
+export interface PluginHandler extends BasePluginHandler {
+    /**
+     * Hook to run on each request. After running this hook returned request
+     * will be finished.
+     * @param state - Application state.
+     * @returns Promise resolving to nothing.
+     */
+    applicationServerRequest?(state: ServicePromisesState<RequestData>): Promise<void>;
+    /**
+     * Hook to run on stream.
+     * @param state - Application state.
+     * @returns Promise resolving to nothing.
+     */
+    applicationServerStream?(state: ServicePromisesState<StreamData>): Promise<void>;
+}
